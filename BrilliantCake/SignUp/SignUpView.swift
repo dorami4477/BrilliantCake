@@ -1,0 +1,93 @@
+//
+//  SignUpView.swift
+//  BrilliantCake
+//
+//  Created by 박다현 on 8/14/24.
+//
+
+import UIKit
+import SnapKit
+
+final class SignUpView: BaseView {
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "회원가입"
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        return label
+    }()
+    
+    let nickNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "닉네임"
+        textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
+        return textField
+    }()
+    
+    let emailTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "이메일"
+        textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
+        return textField
+    }()
+    
+    let passwordTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "비밀번호"
+        textField.borderStyle = .roundedRect
+        textField.isSecureTextEntry = true
+        return textField
+    }()
+    
+    let signUpButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("가입하기", for: .normal)
+        button.backgroundColor = .main
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 5
+        return button
+    }()
+    
+    override func configureHierarchy() {
+        addSubview(titleLabel)
+        addSubview(nickNameTextField)
+        addSubview(emailTextField)
+        addSubview(passwordTextField)
+        addSubview(signUpButton)
+    }
+
+    override func configureLayout() {
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).offset(20)
+            make.centerX.equalToSuperview()
+        }
+        
+        nickNameTextField.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(44)
+        }
+        
+        emailTextField.snp.makeConstraints { make in
+            make.top.equalTo(nickNameTextField.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(44)
+        }
+        
+        passwordTextField.snp.makeConstraints { make in
+            make.top.equalTo(emailTextField.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(emailTextField)
+            make.height.equalTo(44)
+        }
+        
+        signUpButton.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(40)
+            make.horizontalEdges.equalTo(emailTextField)
+            make.height.equalTo(44)
+        }
+    }
+}
+

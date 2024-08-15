@@ -9,23 +9,66 @@
 /* Begin PBXBuildFile section */
 		48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15862C6CA23900A7708B /* AppDelegate.swift */; };
 		48CD15892C6CA23900A7708B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15882C6CA23900A7708B /* SceneDelegate.swift */; };
-		48CD158B2C6CA23900A7708B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD158A2C6CA23900A7708B /* ViewController.swift */; };
+		48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD158A2C6CA23900A7708B /* BrowseViewController.swift */; };
 		48CD15902C6CA23B00A7708B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48CD158F2C6CA23B00A7708B /* Assets.xcassets */; };
 		48CD15932C6CA23B00A7708B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 48CD15922C6CA23B00A7708B /* Base */; };
 		48CD159B2C6CA34900A7708B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 48CD159A2C6CA34900A7708B /* .gitignore */; };
 		48CD159D2C6CA4B200A7708B /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD159C2C6CA4B200A7708B /* APIKey.swift */; };
+		48CD15AB2C6CAAA000A7708B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15AA2C6CAAA000A7708B /* BaseViewController.swift */; };
+		48CD15AD2C6CAB0200A7708B /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15AC2C6CAB0200A7708B /* BaseView.swift */; };
+		48CD15AF2C6CAB2400A7708B /* BaseCollectionVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15AE2C6CAB2400A7708B /* BaseCollectionVIewCell.swift */; };
+		48CD15B22C6CADC700A7708B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15B12C6CADC700A7708B /* SignUpViewController.swift */; };
+		48CD15B82C6CAEAB00A7708B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15B72C6CAEAB00A7708B /* LoginViewController.swift */; };
+		48CD15BA2C6CAEDC00A7708B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15B92C6CAEDC00A7708B /* LoginView.swift */; };
+		48CD15BD2C6CAEF200A7708B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15BC2C6CAEF200A7708B /* SnapKit */; };
+		48CD15C02C6CAEFC00A7708B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15BF2C6CAEFC00A7708B /* Alamofire */; };
+		48CD15C32C6CAF1300A7708B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15C22C6CAF1300A7708B /* Kingfisher */; };
+		48CD15C62C6CAF2700A7708B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15C52C6CAF2700A7708B /* IQKeyboardManagerSwift */; };
+		48CD15C92C6CAF3900A7708B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15C82C6CAF3900A7708B /* RxCocoa */; };
+		48CD15CB2C6CAF3900A7708B /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15CA2C6CAF3900A7708B /* RxSwift */; };
+		48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15CC2C6CB00000A7708B /* SignUpView.swift */; };
+		48CD15D02C6CB0CF00A7708B /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15CF2C6CB0CF00A7708B /* Header.swift */; };
+		48CD15D22C6CB2A900A7708B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15D12C6CB2A900A7708B /* Router.swift */; };
+		48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15D32C6CB32F00A7708B /* LoginQuery.swift */; };
+		48CD15D62C6CB36E00A7708B /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15D52C6CB36E00A7708B /* TargetType.swift */; };
+		48CD15D82C6CB3B900A7708B /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15D72C6CB3B900A7708B /* UserDefaultsManager.swift */; };
+		48CD15DA2C6CB44600A7708B /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15D92C6CB44600A7708B /* LoginModel.swift */; };
+		48CD15DC2C6CB46E00A7708B /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15DB2C6CB46E00A7708B /* ProfileModel.swift */; };
+		48CD15DE2C6CB48500A7708B /* RefreshModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15DD2C6CB48500A7708B /* RefreshModel.swift */; };
+		48CD15E02C6CB49600A7708B /* FilesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15DF2C6CB49600A7708B /* FilesModel.swift */; };
+		48CD15E22C6CB4CC00A7708B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15E12C6CB4CC00A7708B /* NetworkManager.swift */; };
+		48CD15E42C6DA86500A7708B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15E32C6DA86500A7708B /* SignUpModel.swift */; };
+		48CD15E72C6DAE7900A7708B /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15E62C6DAE7900A7708B /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		48CD15832C6CA23900A7708B /* BrilliantCake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrilliantCake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CD15862C6CA23900A7708B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48CD15882C6CA23900A7708B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		48CD158A2C6CA23900A7708B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		48CD158A2C6CA23900A7708B /* BrowseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
 		48CD158F2C6CA23B00A7708B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		48CD15922C6CA23B00A7708B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48CD15942C6CA23B00A7708B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48CD159A2C6CA34900A7708B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		48CD159C2C6CA4B200A7708B /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		48CD15AA2C6CAAA000A7708B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		48CD15AC2C6CAB0200A7708B /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		48CD15AE2C6CAB2400A7708B /* BaseCollectionVIewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionVIewCell.swift; sourceTree = "<group>"; };
+		48CD15B12C6CADC700A7708B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		48CD15B72C6CAEAB00A7708B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		48CD15B92C6CAEDC00A7708B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		48CD15CC2C6CB00000A7708B /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		48CD15CF2C6CB0CF00A7708B /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		48CD15D12C6CB2A900A7708B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		48CD15D32C6CB32F00A7708B /* LoginQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginQuery.swift; sourceTree = "<group>"; };
+		48CD15D52C6CB36E00A7708B /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		48CD15D72C6CB3B900A7708B /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		48CD15D92C6CB44600A7708B /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		48CD15DB2C6CB46E00A7708B /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		48CD15DD2C6CB48500A7708B /* RefreshModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshModel.swift; sourceTree = "<group>"; };
+		48CD15DF2C6CB49600A7708B /* FilesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesModel.swift; sourceTree = "<group>"; };
+		48CD15E12C6CB4CC00A7708B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		48CD15E32C6DA86500A7708B /* SignUpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +76,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48CD15CB2C6CAF3900A7708B /* RxSwift in Frameworks */,
+				48CD15C32C6CAF1300A7708B /* Kingfisher in Frameworks */,
+				48CD15C62C6CAF2700A7708B /* IQKeyboardManagerSwift in Frameworks */,
+				48CD15C92C6CAF3900A7708B /* RxCocoa in Frameworks */,
+				48CD15BD2C6CAEF200A7708B /* SnapKit in Frameworks */,
+				48CD15E72C6DAE7900A7708B /* Toast in Frameworks */,
+				48CD15C02C6CAEFC00A7708B /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,9 +109,14 @@
 		48CD15852C6CA23900A7708B /* BrilliantCake */ = {
 			isa = PBXGroup;
 			children = (
+				48CD15CE2C6CB0A500A7708B /* Network */,
+				48CD15B62C6CAE9B00A7708B /* Login */,
+				48CD15B02C6CADA600A7708B /* SignUp */,
+				48CD15A02C6CA9A800A7708B /* Browse */,
+				48CD15A12C6CA9D900A7708B /* Base */,
+				48CD15B32C6CAE0D00A7708B /* Model */,
 				48CD159E2C6CA5DE00A7708B /* App */,
 				48CD159F2C6CA5F000A7708B /* Resource */,
-				48CD158A2C6CA23900A7708B /* ViewController.swift */,
 			);
 			path = BrilliantCake;
 			sourceTree = "<group>";
@@ -86,6 +141,67 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		48CD15A02C6CA9A800A7708B /* Browse */ = {
+			isa = PBXGroup;
+			children = (
+				48CD158A2C6CA23900A7708B /* BrowseViewController.swift */,
+			);
+			path = Browse;
+			sourceTree = "<group>";
+		};
+		48CD15A12C6CA9D900A7708B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				48CD15AA2C6CAAA000A7708B /* BaseViewController.swift */,
+				48CD15AC2C6CAB0200A7708B /* BaseView.swift */,
+				48CD15AE2C6CAB2400A7708B /* BaseCollectionVIewCell.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		48CD15B02C6CADA600A7708B /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				48CD15B12C6CADC700A7708B /* SignUpViewController.swift */,
+				48CD15CC2C6CB00000A7708B /* SignUpView.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		48CD15B32C6CAE0D00A7708B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				48CD15D32C6CB32F00A7708B /* LoginQuery.swift */,
+				48CD15D92C6CB44600A7708B /* LoginModel.swift */,
+				48CD15E32C6DA86500A7708B /* SignUpModel.swift */,
+				48CD15DB2C6CB46E00A7708B /* ProfileModel.swift */,
+				48CD15DD2C6CB48500A7708B /* RefreshModel.swift */,
+				48CD15DF2C6CB49600A7708B /* FilesModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		48CD15B62C6CAE9B00A7708B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				48CD15B72C6CAEAB00A7708B /* LoginViewController.swift */,
+				48CD15B92C6CAEDC00A7708B /* LoginView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		48CD15CE2C6CB0A500A7708B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				48CD15CF2C6CB0CF00A7708B /* Header.swift */,
+				48CD15D12C6CB2A900A7708B /* Router.swift */,
+				48CD15D52C6CB36E00A7708B /* TargetType.swift */,
+				48CD15D72C6CB3B900A7708B /* UserDefaultsManager.swift */,
+				48CD15E12C6CB4CC00A7708B /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -102,6 +218,15 @@
 			dependencies = (
 			);
 			name = BrilliantCake;
+			packageProductDependencies = (
+				48CD15BC2C6CAEF200A7708B /* SnapKit */,
+				48CD15BF2C6CAEFC00A7708B /* Alamofire */,
+				48CD15C22C6CAF1300A7708B /* Kingfisher */,
+				48CD15C52C6CAF2700A7708B /* IQKeyboardManagerSwift */,
+				48CD15C82C6CAF3900A7708B /* RxCocoa */,
+				48CD15CA2C6CAF3900A7708B /* RxSwift */,
+				48CD15E62C6DAE7900A7708B /* Toast */,
+			);
 			productName = BrilliantCake;
 			productReference = 48CD15832C6CA23900A7708B /* BrilliantCake.app */;
 			productType = "com.apple.product-type.application";
@@ -130,6 +255,14 @@
 				Base,
 			);
 			mainGroup = 48CD157A2C6CA23900A7708B;
+			packageReferences = (
+				48CD15BB2C6CAEF200A7708B /* XCRemoteSwiftPackageReference "SnapKit" */,
+				48CD15BE2C6CAEFC00A7708B /* XCRemoteSwiftPackageReference "Alamofire" */,
+				48CD15C12C6CAF1300A7708B /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				48CD15C42C6CAF2700A7708B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				48CD15C72C6CAF3900A7708B /* XCRemoteSwiftPackageReference "RxSwift" */,
+				48CD15E52C6DAE7900A7708B /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+			);
 			productRefGroup = 48CD15842C6CA23900A7708B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -157,10 +290,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48CD158B2C6CA23900A7708B /* ViewController.swift in Sources */,
+				48CD15D62C6CB36E00A7708B /* TargetType.swift in Sources */,
+				48CD15B82C6CAEAB00A7708B /* LoginViewController.swift in Sources */,
+				48CD15AF2C6CAB2400A7708B /* BaseCollectionVIewCell.swift in Sources */,
+				48CD15E22C6CB4CC00A7708B /* NetworkManager.swift in Sources */,
+				48CD15AB2C6CAAA000A7708B /* BaseViewController.swift in Sources */,
+				48CD15B22C6CADC700A7708B /* SignUpViewController.swift in Sources */,
+				48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */,
+				48CD15D82C6CB3B900A7708B /* UserDefaultsManager.swift in Sources */,
+				48CD15D02C6CB0CF00A7708B /* Header.swift in Sources */,
+				48CD15DA2C6CB44600A7708B /* LoginModel.swift in Sources */,
+				48CD15DC2C6CB46E00A7708B /* ProfileModel.swift in Sources */,
+				48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */,
+				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
+				48CD15AD2C6CAB0200A7708B /* BaseView.swift in Sources */,
 				48CD159D2C6CA4B200A7708B /* APIKey.swift in Sources */,
+				48CD15DE2C6CB48500A7708B /* RefreshModel.swift in Sources */,
+				48CD15BA2C6CAEDC00A7708B /* LoginView.swift in Sources */,
 				48CD15892C6CA23900A7708B /* SceneDelegate.swift in Sources */,
+				48CD15E42C6DA86500A7708B /* SignUpModel.swift in Sources */,
+				48CD15D22C6CB2A900A7708B /* Router.swift in Sources */,
+				48CD15E02C6CB49600A7708B /* FilesModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +534,95 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		48CD15BB2C6CAEF200A7708B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		48CD15BE2C6CAEFC00A7708B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+		48CD15C12C6CAF1300A7708B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
+		48CD15C42C6CAF2700A7708B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.1;
+			};
+		};
+		48CD15C72C6CAF3900A7708B /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.7.1;
+			};
+		};
+		48CD15E52C6DAE7900A7708B /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		48CD15BC2C6CAEF200A7708B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15BB2C6CAEF200A7708B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		48CD15BF2C6CAEFC00A7708B /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15BE2C6CAEFC00A7708B /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		48CD15C22C6CAF1300A7708B /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15C12C6CAF1300A7708B /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		48CD15C52C6CAF2700A7708B /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15C42C6CAF2700A7708B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+		48CD15C82C6CAF3900A7708B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15C72C6CAF3900A7708B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		48CD15CA2C6CAF3900A7708B /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15C72C6CAF3900A7708B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		48CD15E62C6DAE7900A7708B /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15E52C6DAE7900A7708B /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48CD157B2C6CA23900A7708B /* Project object */;
 }

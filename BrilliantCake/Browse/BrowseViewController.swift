@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BrowseViewController.swift
 //  BrilliantCake
 //
 //  Created by 박다현 on 8/14/24.
@@ -7,13 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class BrowseViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        configureNavigation()
     }
-
-
 }
 
