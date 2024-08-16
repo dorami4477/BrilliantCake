@@ -14,6 +14,7 @@ enum Router {
     case fetchProfile
     case editProfile
     case refresh
+    case fetchPost(query: FetchPostQuery)
 }
 
 extension Router: TargetType {
@@ -30,7 +31,10 @@ extension Router: TargetType {
             return .put
         case .refresh:
             return .get
+        case .fetchPost:
+            return .get
         }
+
     }
     
     var parameters: String? {
@@ -65,7 +69,18 @@ extension Router: TargetType {
                 print(error)
                 return nil
             }
-             
+        case .fetchPost(let query):
+            let encoder = JSONEncoder()
+            
+            do {
+                let data = try encoder.encode(query)
+                print("data \(data)")
+                return data
+            } catch {
+                print(error)
+                return nil
+            }
+            
         default: return nil
             
         }
@@ -86,6 +101,8 @@ extension Router: TargetType {
             return "/users/me/profile"
         case .refresh:
             return "/auth/refresh"
+        case .fetchPost:
+            return "/posts"
         }
     }
     
@@ -117,6 +134,12 @@ extension Router: TargetType {
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.refresh.rawValue: UserDefaultsManager.refreshToken,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .fetchPost:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
         }

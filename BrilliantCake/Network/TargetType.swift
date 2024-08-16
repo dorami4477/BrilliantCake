@@ -30,5 +30,14 @@ extension TargetType {
         return request
     }
     
+    func asURLRequestWithQueryString() throws -> URLRequest {
+        let url = try baseURL.asURL()
+        var request = try URLRequest(
+            url: url.appendingPathComponent(path),
+            method: method)
+        request.allHTTPHeaderFields = header
+        request.httpBody = parameters?.data(using: .utf8)
+        return request
+    }
 }
 

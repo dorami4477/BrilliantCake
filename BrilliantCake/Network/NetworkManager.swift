@@ -35,7 +35,6 @@ struct NetworkManager {
         }
     }
     
-    
     func createLogin(email: String, password: String, completion:@escaping (String) -> Void) {
 
         do {
@@ -61,6 +60,35 @@ struct NetworkManager {
         } catch {
             print(error)
         }
+    }
+    
+    func fetchPost(next: String, productId: String, completion:@escaping (PostModel) -> Void) {
+        do {
+            let query = FetchPostQuery(next: next, limit: "10", product_id: productId)
+            let request = try Router.fetchPost(query: query).asURLRequestWithQueryString()
+            
+            AF.request(request)
+            .responseDecodable(of: PostModel.self) { response in
+                
+                if response.response?.statusCode == 419 {
+                    self.refreshToken()
+                } else {
+                    switch response.result {
+                    case .success(let success):
+                        print("OK", success)
+                        completion(success)
+                    case .failure(let failure):
+                        print("Fail", failure)
+                        
+                    }
+                    
+                }
+                
+            }
+        } catch {
+            print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
+        }
+
     }
     
     func fetchProfile() {
@@ -122,20 +150,20 @@ struct NetworkManager {
 
         do {
             let request = try Router.refresh.asURLRequest()
-            
+
             AF.request(request)
             .responseDecodable(of: RefreshModel.self) { response in
-                 
                 if response.response?.statusCode == 418 {
                     //리프레시 토큰 만료
+                    //로그인으로 이동
                 } else {
                     switch response.result {
                     case .success(let success):
                         print("OK", success)
                         
                         UserDefaultsManager.token = success.accessToken
-                        
-                        self.fetchProfile()
+                        //self.fetchProfile()
+                        //self.fetchPost(next: "", productId: "testtest", completion: (PostModel) -> Void)
                         
                     case .failure(let failure):
                         print("Fail", failure)
@@ -145,6 +173,7 @@ struct NetworkManager {
 
         } catch {
             print(error)
+
         }
     }
 }

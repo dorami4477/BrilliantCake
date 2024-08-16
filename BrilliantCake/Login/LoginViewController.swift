@@ -29,7 +29,7 @@ final class LoginViewController: BaseViewController {
     @objc private func loginButtonTapped() {
         NetworkManager.shared.createLogin(email: loginView.emailTextField.text!,
                                           password: loginView.passwordTextField.text!) { [weak self] nick in
-            let browseVC = BrowseViewController()
+            let browseVC = TabBarController()
             self?.changeRootVC(browseVC)
         }
     }
