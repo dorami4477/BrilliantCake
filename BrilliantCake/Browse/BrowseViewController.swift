@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 final class BrowseViewController: BaseViewController {
 
@@ -15,19 +16,33 @@ final class BrowseViewController: BaseViewController {
         case main
     }
     
+    let viewModel = BrowseViewModel()
+    let disposeBag = DisposeBag()
     var dataSource: UICollectionViewDiffableDataSource<Section, PostData>! = nil
+    var snapshot = NSDiffableDataSourceSnapshot<Section, PostData>()
     var collectionView: UICollectionView! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureDataSource()
         bind()
+        configureDataSource()
     }
     
     func bind() {
+        let input = BrowseViewModel.Input()
+        let output = viewModel.transform(input: input)
+       
+        snapshot.appendSections([Section.main])
         
-        NetworkManager.shared.fetchPost(next: "", productId: "testtest")
+        output.postList
+            .bind(with: self) { owner, value in
+                owner.snapshot.appendItems(value)
+                print("데이터", owner.snapshot.numberOfItems)
+                owner.dataSource.apply(owner.snapshot, animatingDifferences: false)
+            }
+            .disposed(by: disposeBag)
     }
+    
     
     override func configureHierarchy() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -88,12 +103,27 @@ final class BrowseViewController: BaseViewController {
         }
         return layout
     }
-    
+
     func configureDataSource() {
         
         let cellRegistration = UICollectionView.CellRegistration<BrowseCollectionViewCell, PostData> { (cell, indexPath, identifier) in
-            //cell.label.text = "\(indexPath.section), \(indexPath.item)"
-            cell.contentView.backgroundColor = .gray
+            guard let fileUrl = identifier.files[0] else { return }
+            print(fileUrl)
+            let image = NetworkManager.shared.fetchPostImage(url: fileUrl)
+            image
+                .subscribe(with: self) { owner, result in
+                    switch result {
+                    case .success(let image):
+                        cell.mainImageView.image = image
+
+                    case .failure(let error):
+                        print(error)
+
+                    }
+                } onFailure: { owner, error in
+                    print(error)
+                }
+                .disposed(by: self.disposeBag)
         }
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -102,11 +132,11 @@ final class BrowseViewController: BaseViewController {
         })
 
         // initial data
-        var snapshot = NSDiffableDataSourceSnapshot<Section, PostData>()
-        snapshot.appendSections([Section.main])
+        //var snapshot = NSDiffableDataSourceSnapshot<Section, PostData>()
+       // snapshot.appendSections([Section.main])
         //snapshot.appendItems(Array(0..<100))
        // snapshot.appendItems(mockChatList, toSection:"chattingRoom")
-        dataSource.apply(snapshot, animatingDifferences: false)
+       // dataSource.apply(snapshot, animatingDifferences: false)
     }
     
 }

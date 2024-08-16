@@ -26,7 +26,7 @@ struct PostData: Decodable, Hashable{
     let content: String
     let createdAt: String
     let creator: Creator
-    let files: [String]
+    let files: [String?]
     let likes: [String]?
     let likes2: [String]?
     let buyers: [String]?

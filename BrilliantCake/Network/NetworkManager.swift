@@ -5,10 +5,17 @@
 //  Created by 박다현 on 8/14/24.
 //
 
-import Foundation
+import UIKit
 import Alamofire
+import RxSwift
 
-struct NetworkManager {
+enum NetworkError:Error {
+    case invaildURL
+    case decodingError
+    case invaildToken
+}
+
+class NetworkManager {
     
     static let shared = NetworkManager()
     private init() { }
@@ -62,7 +69,7 @@ struct NetworkManager {
         }
     }
     
-    func fetchPost(next: String, productId: String, completion:@escaping (PostModel) -> Void) {
+    /*func fetchPost(next: String, productId: String, completion:@escaping (PostModel) -> Void) {
         do {
             let query = FetchPostQuery(next: next, limit: "10", product_id: productId)
             let request = try Router.fetchPost(query: query).asURLRequestWithQueryString()
@@ -89,6 +96,79 @@ struct NetworkManager {
             print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
         }
 
+    }*/
+    
+    func fetchPost(next: String, productId: String) -> Single<Result<PostModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let query = FetchPostQuery(next: next, limit: "10", product_id: productId)
+                let request = try Router.fetchPost(query: query).asURLRequestWithQueryString()
+                
+                AF.request(request)
+                .responseDecodable(of: PostModel.self) { [weak self] response in
+                    switch response.result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                        
+                    case .failure:
+                        if response.response?.statusCode == 419 {
+                            self?.refreshToken { [weak self] in
+                                guard let self = self else { return }
+                                _ = self.fetchPost(next: next, productId: productId)
+                                    .subscribe(onSuccess: { result in
+                                        observer(.success(result))
+                                    }, onFailure: { error in
+                                        observer(.failure(error))
+                                    })
+                            }
+                        } else {
+                            observer(.success(.failure(.decodingError)))
+                        }
+                    }
+                }
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
+            }
+            return Disposables.create()
+        }.debug("fetchPost1 API 통신")
+    }
+    
+    func fetchPostImage(url: String) -> Single<Result<UIImage, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let request = try Router.fetchPostImage(path: url).asURLRequest()
+                
+                AF.request(request)
+                    .responseString { [weak self] response in
+                        
+                        switch response.result {
+                        case .success(let success):
+                            guard let imageData = response.data,
+                                  let image = UIImage(data: imageData) else { return }
+                            observer(.success(.success(image)))
+                            
+                        case .failure:
+                            if response.response?.statusCode == 419 {
+                                self?.refreshToken { [weak self] in
+                                    guard let self = self else { return }
+                                    _ = self.fetchPostImage(url: url)
+                                        .subscribe(onSuccess: { result in
+                                            observer(.success(result))
+                                        }, onFailure: { error in
+                                            observer(.failure(error))
+                                        })
+                                }
+                            } else {
+                                observer(.success(.failure(.decodingError)))
+                            }
+                        }
+                    }
+
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
+            }
+            return Disposables.create()
+        }.debug("fetchPostImage 통신")
     }
     
     func fetchProfile() {
@@ -100,7 +180,7 @@ struct NetworkManager {
             .responseDecodable(of: ProfileModel.self) { response in
                 
                 if response.response?.statusCode == 419 {
-                    self.refreshToken()
+                   // self.refreshToken()
                 } else {
                     switch response.result {
                     case .success(let success):
@@ -127,7 +207,7 @@ struct NetworkManager {
             .responseDecodable(of: ProfileModel.self) { response in
                 
                 if response.response?.statusCode == 419 {
-                    self.refreshToken()
+                   // self.refreshToken()
                 } else {
                     switch response.result {
                     case .success(let success):
@@ -146,7 +226,7 @@ struct NetworkManager {
         }
     }
     
-    func refreshToken() {
+    func refreshToken(handler:@escaping () -> Void) {
 
         do {
             let request = try Router.refresh.asURLRequest()
@@ -163,7 +243,6 @@ struct NetworkManager {
                         
                         UserDefaultsManager.token = success.accessToken
                         //self.fetchProfile()
-                        //self.fetchPost(next: "", productId: "testtest", completion: (PostModel) -> Void)
                         
                     case .failure(let failure):
                         print("Fail", failure)

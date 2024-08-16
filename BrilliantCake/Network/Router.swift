@@ -15,6 +15,7 @@ enum Router {
     case editProfile
     case refresh
     case fetchPost(query: FetchPostQuery)
+    case fetchPostImage(path:String)
 }
 
 extension Router: TargetType {
@@ -33,6 +34,8 @@ extension Router: TargetType {
             return .get
         case .fetchPost:
             return .get
+        case .fetchPostImage:
+            return .get
         }
 
     }
@@ -42,7 +45,15 @@ extension Router: TargetType {
     }
     
     var queryItems: [URLQueryItem]? {
-        return nil
+        switch self {
+        case .fetchPost(let query):
+         return [
+                URLQueryItem(name: "next", value: query.next),
+                URLQueryItem(name: "limit", value: query.limit),
+                URLQueryItem(name: "product_id", value: query.product_id)
+            ]
+        default: return nil
+        }
     }
     
     var body: Data? {
@@ -103,6 +114,8 @@ extension Router: TargetType {
             return "/auth/refresh"
         case .fetchPost:
             return "/posts"
+        case .fetchPostImage(path: let path):
+            return "/\(path)"
         }
     }
     
@@ -137,6 +150,12 @@ extension Router: TargetType {
                 Header.sesacKey.rawValue: APIKey.key
             ]
         case .fetchPost:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.json.rawValue,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .fetchPostImage:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.json.rawValue,
