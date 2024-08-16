@@ -5,7 +5,7 @@
 //  Created by 박다현 on 8/14/24.
 //
 
-import UIKit
+import Foundation
 import Alamofire
 import RxSwift
 
@@ -69,34 +69,6 @@ class NetworkManager {
         }
     }
     
-    /*func fetchPost(next: String, productId: String, completion:@escaping (PostModel) -> Void) {
-        do {
-            let query = FetchPostQuery(next: next, limit: "10", product_id: productId)
-            let request = try Router.fetchPost(query: query).asURLRequestWithQueryString()
-            
-            AF.request(request)
-            .responseDecodable(of: PostModel.self) { response in
-                
-                if response.response?.statusCode == 419 {
-                    self.refreshToken()
-                } else {
-                    switch response.result {
-                    case .success(let success):
-                        print("OK", success)
-                        completion(success)
-                    case .failure(let failure):
-                        print("Fail", failure)
-                        
-                    }
-                    
-                }
-                
-            }
-        } catch {
-            print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
-        }
-
-    }*/
     
     func fetchPost(next: String, productId: String) -> Single<Result<PostModel, NetworkError>> {
         return Single.create { observer -> Disposable in
@@ -130,10 +102,10 @@ class NetworkManager {
                 print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
             }
             return Disposables.create()
-        }.debug("fetchPost1 API 통신")
+        }
     }
     
-    func fetchPostImage(url: String) -> Single<Result<UIImage, NetworkError>> {
+    func fetchPostImage(url: String) -> Single<Result<Data, NetworkError>> {
         return Single.create { observer -> Disposable in
             do {
                 let request = try Router.fetchPostImage(path: url).asURLRequest()
@@ -143,9 +115,8 @@ class NetworkManager {
                         
                         switch response.result {
                         case .success(let success):
-                            guard let imageData = response.data,
-                                  let image = UIImage(data: imageData) else { return }
-                            observer(.success(.success(image)))
+                            guard let imageData = response.data else { return }
+                            observer(.success(.success(imageData)))
                             
                         case .failure:
                             if response.response?.statusCode == 419 {
@@ -168,7 +139,7 @@ class NetworkManager {
                 print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
             }
             return Disposables.create()
-        }.debug("fetchPostImage 통신")
+        }
     }
     
     func fetchProfile() {
@@ -234,15 +205,13 @@ class NetworkManager {
             AF.request(request)
             .responseDecodable(of: RefreshModel.self) { response in
                 if response.response?.statusCode == 418 {
+                    print("refreshToken expiration")
                     //리프레시 토큰 만료
                     //로그인으로 이동
                 } else {
                     switch response.result {
                     case .success(let success):
-                        print("OK", success)
-                        
                         UserDefaultsManager.token = success.accessToken
-                        //self.fetchProfile()
                         
                     case .failure(let failure):
                         print("Fail", failure)

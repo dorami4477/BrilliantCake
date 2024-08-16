@@ -13,17 +13,18 @@ final class BrowseViewModel: BaseViewModel {
     let disposeBag = DisposeBag()
     
     struct Input {
-        
+        let selectedModel: ControlEvent<PostData>
     }
     
     struct Output {
         let postList:Observable<[PostData]>
+        let selectedModel: ControlEvent<PostData>
     }
     
     func transform(input: Input) -> Output {
         let postList = PublishSubject<[PostData]>()
         
-        Single.just(("", "testtest"))
+        Single.just(("", "allBCake"))
             .flatMap{ value in
                 NetworkManager.shared.fetchPost(next: value.0, productId: value.1)
             }
@@ -42,6 +43,6 @@ final class BrowseViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         
-        return Output(postList: postList)
+        return Output(postList: postList, selectedModel: input.selectedModel)
     }
 }

@@ -29,7 +29,7 @@ final class BrowseViewController: BaseViewController {
     }
     
     func bind() {
-        let input = BrowseViewModel.Input()
+        let input = BrowseViewModel.Input(selectedModel: collectionView.rx.modelSelected(PostData.self))
         let output = viewModel.transform(input: input)
        
         snapshot.appendSections([Section.main])
@@ -39,6 +39,13 @@ final class BrowseViewController: BaseViewController {
                 owner.snapshot.appendItems(value)
                 print("데이터", owner.snapshot.numberOfItems)
                 owner.dataSource.apply(owner.snapshot, animatingDifferences: false)
+            }
+            .disposed(by: disposeBag)
+        
+        output.selectedModel
+            .bind(with: self) { owner, _ in
+                let detailVC = DetailPostingViewController()
+                owner.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
     }
@@ -113,7 +120,8 @@ final class BrowseViewController: BaseViewController {
             image
                 .subscribe(with: self) { owner, result in
                     switch result {
-                    case .success(let image):
+                    case .success(let imageData):
+                        let image = UIImage(data: imageData)
                         cell.mainImageView.image = image
 
                     case .failure(let error):

@@ -46,6 +46,7 @@
 		48CD15F22C6EDAE400A7708B /* BrowseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F12C6EDAE400A7708B /* BrowseViewModel.swift */; };
 		48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F32C6EDB6400A7708B /* BaseViewModel.swift */; };
 		48CD15F62C6EDD8400A7708B /* FetchPostQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */; };
+		48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +84,7 @@
 		48CD15F12C6EDAE400A7708B /* BrowseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewModel.swift; sourceTree = "<group>"; };
 		48CD15F32C6EDB6400A7708B /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPostQuery.swift; sourceTree = "<group>"; };
+		48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				48CD15CE2C6CB0A500A7708B /* Network */,
 				48CD15B62C6CAE9B00A7708B /* Login */,
 				48CD15B02C6CADA600A7708B /* SignUp */,
+				48CD15F72C6F5B5500A7708B /* DetailPosting */,
 				48CD15A02C6CA9A800A7708B /* Browse */,
 				48CD15A12C6CA9D900A7708B /* Base */,
 				48CD15B32C6CAE0D00A7708B /* Model */,
@@ -231,6 +234,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		48CD15F72C6F5B5500A7708B /* DetailPosting */ = {
+			isa = PBXGroup;
+			children = (
+				48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */,
+			);
+			path = DetailPosting;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -321,6 +332,7 @@
 			files = (
 				48CD15D62C6CB36E00A7708B /* TargetType.swift in Sources */,
 				48CD15EC2C6DC19C00A7708B /* TabbarController.swift in Sources */,
+				48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */,
 				48CD15B82C6CAEAB00A7708B /* LoginViewController.swift in Sources */,
 				48CD15AF2C6CAB2400A7708B /* BaseCollectionVIewCell.swift in Sources */,
 				48CD15E22C6CB4CC00A7708B /* NetworkManager.swift in Sources */,
