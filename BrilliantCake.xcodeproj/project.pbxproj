@@ -54,6 +54,8 @@
 		48CD16062C704B2D00A7708B /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD16052C704B2D00A7708B /* KakaoMapsSDK-SPM */; };
 		48CD16092C709D9900A7708B /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16082C709D9900A7708B /* MapViewModel.swift */; };
 		48CD160E2C70DBDE00A7708B /* DetailPostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD160D2C70DBDE00A7708B /* DetailPostingView.swift */; };
+		48CD16102C70E3A000A7708B /* DetailPostingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD160F2C70E3A000A7708B /* DetailPostingViewModel.swift */; };
+		48CD16122C70EFDC00A7708B /* DetailPostingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16112C70EFDC00A7708B /* DetailPostingCVCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +98,8 @@
 		48CD16022C70475F00A7708B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		48CD16082C709D9900A7708B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		48CD160D2C70DBDE00A7708B /* DetailPostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingView.swift; sourceTree = "<group>"; };
+		48CD160F2C70E3A000A7708B /* DetailPostingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingViewModel.swift; sourceTree = "<group>"; };
+		48CD16112C70EFDC00A7708B /* DetailPostingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingCVCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +259,8 @@
 			children = (
 				48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */,
 				48CD160D2C70DBDE00A7708B /* DetailPostingView.swift */,
+				48CD160F2C70E3A000A7708B /* DetailPostingViewModel.swift */,
+				48CD16112C70EFDC00A7708B /* DetailPostingCVCell.swift */,
 			);
 			path = DetailPosting;
 			sourceTree = "<group>";
@@ -369,6 +375,7 @@
 				48CD15AF2C6CAB2400A7708B /* BaseCollectionVIewCell.swift in Sources */,
 				48CD15E22C6CB4CC00A7708B /* NetworkManager.swift in Sources */,
 				48CD15F02C6DD0F200A7708B /* PostModel.swift in Sources */,
+				48CD16102C70E3A000A7708B /* DetailPostingViewModel.swift in Sources */,
 				48CD15AB2C6CAAA000A7708B /* BaseViewController.swift in Sources */,
 				48CD15B22C6CADC700A7708B /* SignUpViewController.swift in Sources */,
 				48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */,
@@ -380,6 +387,7 @@
 				48CD16032C70475F00A7708B /* MapViewController.swift in Sources */,
 				48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */,
 				48CD16092C709D9900A7708B /* MapViewModel.swift in Sources */,
+				48CD16122C70EFDC00A7708B /* DetailPostingCVCell.swift in Sources */,
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,

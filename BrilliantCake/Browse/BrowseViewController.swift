@@ -29,8 +29,7 @@ final class BrowseViewController: BaseViewController {
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>(
                     configureCell: { _, collectionView, indexPath, item in
                         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseCollectionViewCell", for: indexPath) as! BrowseCollectionViewCell
-                        guard let fileUrl = item.files[0] else { return UICollectionViewCell() }
-                        let image = NetworkManager.shared.fetchPostImage(url: fileUrl)
+                        let image = NetworkManager.shared.fetchPostImage(url: item.files[0])
                         image
                             .subscribe(with: self) { owner, result in
                                 switch result {
@@ -72,8 +71,9 @@ final class BrowseViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.selectedModel
-            .bind(with: self) { owner, _ in
+            .bind(with: self) { owner, value in
                 let detailVC = DetailPostingViewController()
+                detailVC.viewModel.data = value
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)

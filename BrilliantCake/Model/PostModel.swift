@@ -21,7 +21,7 @@ struct PostData: Decodable{
     let content2: String
     let createdAt: String
     let creator: Creator
-    let files: [String?]
+    let files: [String]
     let likes: [String]?
     let likes2: [String]?
     let buyers: [String]?
