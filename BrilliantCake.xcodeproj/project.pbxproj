@@ -52,6 +52,8 @@
 		48CD16012C6F96D300A7708B /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD16002C6F96D300A7708B /* RxDataSources */; };
 		48CD16032C70475F00A7708B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16022C70475F00A7708B /* MapViewController.swift */; };
 		48CD16062C704B2D00A7708B /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD16052C704B2D00A7708B /* KakaoMapsSDK-SPM */; };
+		48CD16092C709D9900A7708B /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16082C709D9900A7708B /* MapViewModel.swift */; };
+		48CD160E2C70DBDE00A7708B /* DetailPostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD160D2C70DBDE00A7708B /* DetailPostingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +94,8 @@
 		48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingViewController.swift; sourceTree = "<group>"; };
 		48CD15FB2C6F961A00A7708B /* testViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testViewController.swift; sourceTree = "<group>"; };
 		48CD16022C70475F00A7708B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		48CD16082C709D9900A7708B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		48CD160D2C70DBDE00A7708B /* DetailPostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */,
+				48CD160D2C70DBDE00A7708B /* DetailPostingView.swift */,
 			);
 			path = DetailPosting;
 			sourceTree = "<group>";
@@ -258,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				48CD16022C70475F00A7708B /* MapViewController.swift */,
+				48CD16082C709D9900A7708B /* MapViewModel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -359,6 +365,7 @@
 				48CD15EC2C6DC19C00A7708B /* TabBarController.swift in Sources */,
 				48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */,
 				48CD15B82C6CAEAB00A7708B /* LoginViewController.swift in Sources */,
+				48CD160E2C70DBDE00A7708B /* DetailPostingView.swift in Sources */,
 				48CD15AF2C6CAB2400A7708B /* BaseCollectionVIewCell.swift in Sources */,
 				48CD15E22C6CB4CC00A7708B /* NetworkManager.swift in Sources */,
 				48CD15F02C6DD0F200A7708B /* PostModel.swift in Sources */,
@@ -372,6 +379,7 @@
 				48CD15DC2C6CB46E00A7708B /* ProfileModel.swift in Sources */,
 				48CD16032C70475F00A7708B /* MapViewController.swift in Sources */,
 				48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */,
+				48CD16092C709D9900A7708B /* MapViewModel.swift in Sources */,
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,
