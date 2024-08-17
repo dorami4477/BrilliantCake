@@ -32,7 +32,7 @@ class DetailPostingViewController: BaseViewController {
         output.postData
             .bind(with: self) { owner, value in
                 guard let value else { return }
-                owner.mainView.nickNameLebal.text = value.creator.nick
+                owner.mainView.titleLabel.text = value.title
             }
             .disposed(by: disposeBag)
         
