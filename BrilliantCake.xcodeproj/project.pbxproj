@@ -47,6 +47,9 @@
 		48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F32C6EDB6400A7708B /* BaseViewModel.swift */; };
 		48CD15F62C6EDD8400A7708B /* FetchPostQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */; };
 		48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */; };
+		48CD15FC2C6F961A00A7708B /* testViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15FB2C6F961A00A7708B /* testViewController.swift */; };
+		48CD15FF2C6F96D300A7708B /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15FE2C6F96D300A7708B /* Differentiator */; };
+		48CD16012C6F96D300A7708B /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD16002C6F96D300A7708B /* RxDataSources */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +88,7 @@
 		48CD15F32C6EDB6400A7708B /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPostQuery.swift; sourceTree = "<group>"; };
 		48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingViewController.swift; sourceTree = "<group>"; };
+		48CD15FB2C6F961A00A7708B /* testViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +100,9 @@
 				48CD15C32C6CAF1300A7708B /* Kingfisher in Frameworks */,
 				48CD15C62C6CAF2700A7708B /* IQKeyboardManagerSwift in Frameworks */,
 				48CD15C92C6CAF3900A7708B /* RxCocoa in Frameworks */,
+				48CD15FF2C6F96D300A7708B /* Differentiator in Frameworks */,
 				48CD15BD2C6CAEF200A7708B /* SnapKit in Frameworks */,
+				48CD16012C6F96D300A7708B /* RxDataSources in Frameworks */,
 				48CD15E72C6DAE7900A7708B /* Toast in Frameworks */,
 				48CD15C02C6CAEFC00A7708B /* Alamofire in Frameworks */,
 			);
@@ -129,6 +135,7 @@
 				48CD15CE2C6CB0A500A7708B /* Network */,
 				48CD15B62C6CAE9B00A7708B /* Login */,
 				48CD15B02C6CADA600A7708B /* SignUp */,
+				48CD15FA2C6F5DFA00A7708B /* Map */,
 				48CD15F72C6F5B5500A7708B /* DetailPosting */,
 				48CD15A02C6CA9A800A7708B /* Browse */,
 				48CD15A12C6CA9D900A7708B /* Base */,
@@ -165,6 +172,7 @@
 				48CD158A2C6CA23900A7708B /* BrowseViewController.swift */,
 				48CD15ED2C6DCD5000A7708B /* BrowseCollectionViewCell.swift */,
 				48CD15F12C6EDAE400A7708B /* BrowseViewModel.swift */,
+				48CD15FB2C6F961A00A7708B /* testViewController.swift */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -242,6 +250,13 @@
 			path = DetailPosting;
 			sourceTree = "<group>";
 		};
+		48CD15FA2C6F5DFA00A7708B /* Map */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -266,6 +281,8 @@
 				48CD15C82C6CAF3900A7708B /* RxCocoa */,
 				48CD15CA2C6CAF3900A7708B /* RxSwift */,
 				48CD15E62C6DAE7900A7708B /* Toast */,
+				48CD15FE2C6F96D300A7708B /* Differentiator */,
+				48CD16002C6F96D300A7708B /* RxDataSources */,
 			);
 			productName = BrilliantCake;
 			productReference = 48CD15832C6CA23900A7708B /* BrilliantCake.app */;
@@ -302,6 +319,7 @@
 				48CD15C42C6CAF2700A7708B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				48CD15C72C6CAF3900A7708B /* XCRemoteSwiftPackageReference "RxSwift" */,
 				48CD15E52C6DAE7900A7708B /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				48CD15FD2C6F96D300A7708B /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 48CD15842C6CA23900A7708B /* Products */;
 			projectDirPath = "";
@@ -349,6 +367,7 @@
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,
+				48CD15FC2C6F961A00A7708B /* testViewController.swift in Sources */,
 				48CD15AD2C6CAB0200A7708B /* BaseView.swift in Sources */,
 				48CD159D2C6CA4B200A7708B /* APIKey.swift in Sources */,
 				48CD15F22C6EDAE400A7708B /* BrowseViewModel.swift in Sources */,
@@ -632,6 +651,14 @@
 				minimumVersion = 5.1.1;
 			};
 		};
+		48CD15FD2C6F96D300A7708B /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -669,6 +696,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 48CD15E52C6DAE7900A7708B /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
+		};
+		48CD15FE2C6F96D300A7708B /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15FD2C6F96D300A7708B /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		48CD16002C6F96D300A7708B /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD15FD2C6F96D300A7708B /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

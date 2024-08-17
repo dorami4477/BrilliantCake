@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 final class BrowseCollectionViewCell: BaseCollectionVIewCell {
+    
     let mainImageView = {
        let image = UIImageView()
         image.contentMode = .scaleAspectFill
