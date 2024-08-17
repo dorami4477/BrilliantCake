@@ -40,7 +40,7 @@
 		48CD15E42C6DA86500A7708B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15E32C6DA86500A7708B /* SignUpModel.swift */; };
 		48CD15E72C6DAE7900A7708B /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15E62C6DAE7900A7708B /* Toast */; };
 		48CD15EA2C6DC08E00A7708B /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15E92C6DC08E00A7708B /* Literal.swift */; };
-		48CD15EC2C6DC19C00A7708B /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15EB2C6DC19C00A7708B /* TabbarController.swift */; };
+		48CD15EC2C6DC19C00A7708B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15EB2C6DC19C00A7708B /* TabBarController.swift */; };
 		48CD15EE2C6DCD5000A7708B /* BrowseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15ED2C6DCD5000A7708B /* BrowseCollectionViewCell.swift */; };
 		48CD15F02C6DD0F200A7708B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15EF2C6DD0F200A7708B /* PostModel.swift */; };
 		48CD15F22C6EDAE400A7708B /* BrowseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F12C6EDAE400A7708B /* BrowseViewModel.swift */; };
@@ -50,6 +50,8 @@
 		48CD15FC2C6F961A00A7708B /* testViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15FB2C6F961A00A7708B /* testViewController.swift */; };
 		48CD15FF2C6F96D300A7708B /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15FE2C6F96D300A7708B /* Differentiator */; };
 		48CD16012C6F96D300A7708B /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD16002C6F96D300A7708B /* RxDataSources */; };
+		48CD16032C70475F00A7708B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16022C70475F00A7708B /* MapViewController.swift */; };
+		48CD16062C704B2D00A7708B /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD16052C704B2D00A7708B /* KakaoMapsSDK-SPM */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +83,7 @@
 		48CD15E12C6CB4CC00A7708B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		48CD15E32C6DA86500A7708B /* SignUpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
 		48CD15E92C6DC08E00A7708B /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
-		48CD15EB2C6DC19C00A7708B /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		48CD15EB2C6DC19C00A7708B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		48CD15ED2C6DCD5000A7708B /* BrowseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseCollectionViewCell.swift; sourceTree = "<group>"; };
 		48CD15EF2C6DD0F200A7708B /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		48CD15F12C6EDAE400A7708B /* BrowseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewModel.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 		48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPostQuery.swift; sourceTree = "<group>"; };
 		48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingViewController.swift; sourceTree = "<group>"; };
 		48CD15FB2C6F961A00A7708B /* testViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testViewController.swift; sourceTree = "<group>"; };
+		48CD16022C70475F00A7708B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,7 @@
 				48CD15FF2C6F96D300A7708B /* Differentiator in Frameworks */,
 				48CD15BD2C6CAEF200A7708B /* SnapKit in Frameworks */,
 				48CD16012C6F96D300A7708B /* RxDataSources in Frameworks */,
+				48CD16062C704B2D00A7708B /* KakaoMapsSDK-SPM in Frameworks */,
 				48CD15E72C6DAE7900A7708B /* Toast in Frameworks */,
 				48CD15C02C6CAEFC00A7708B /* Alamofire in Frameworks */,
 			);
@@ -237,7 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				48CD15E92C6DC08E00A7708B /* Literal.swift */,
-				48CD15EB2C6DC19C00A7708B /* TabbarController.swift */,
+				48CD15EB2C6DC19C00A7708B /* TabBarController.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -253,6 +257,7 @@
 		48CD15FA2C6F5DFA00A7708B /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				48CD16022C70475F00A7708B /* MapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				48CD15E62C6DAE7900A7708B /* Toast */,
 				48CD15FE2C6F96D300A7708B /* Differentiator */,
 				48CD16002C6F96D300A7708B /* RxDataSources */,
+				48CD16052C704B2D00A7708B /* KakaoMapsSDK-SPM */,
 			);
 			productName = BrilliantCake;
 			productReference = 48CD15832C6CA23900A7708B /* BrilliantCake.app */;
@@ -320,6 +326,7 @@
 				48CD15C72C6CAF3900A7708B /* XCRemoteSwiftPackageReference "RxSwift" */,
 				48CD15E52C6DAE7900A7708B /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				48CD15FD2C6F96D300A7708B /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				48CD16042C704B2D00A7708B /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 			);
 			productRefGroup = 48CD15842C6CA23900A7708B /* Products */;
 			projectDirPath = "";
@@ -349,7 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48CD15D62C6CB36E00A7708B /* TargetType.swift in Sources */,
-				48CD15EC2C6DC19C00A7708B /* TabbarController.swift in Sources */,
+				48CD15EC2C6DC19C00A7708B /* TabBarController.swift in Sources */,
 				48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */,
 				48CD15B82C6CAEAB00A7708B /* LoginViewController.swift in Sources */,
 				48CD15AF2C6CAB2400A7708B /* BaseCollectionVIewCell.swift in Sources */,
@@ -363,6 +370,7 @@
 				48CD15EA2C6DC08E00A7708B /* Literal.swift in Sources */,
 				48CD15DA2C6CB44600A7708B /* LoginModel.swift in Sources */,
 				48CD15DC2C6CB46E00A7708B /* ProfileModel.swift in Sources */,
+				48CD16032C70475F00A7708B /* MapViewController.swift in Sources */,
 				48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */,
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
@@ -542,6 +550,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -574,6 +583,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -659,6 +669,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		48CD16042C704B2D00A7708B /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -706,6 +724,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 48CD15FD2C6F96D300A7708B /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		48CD16052C704B2D00A7708B /* KakaoMapsSDK-SPM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48CD16042C704B2D00A7708B /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */;
+			productName = "KakaoMapsSDK-SPM";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

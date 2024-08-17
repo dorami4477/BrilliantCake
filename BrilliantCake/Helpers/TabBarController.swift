@@ -1,5 +1,5 @@
 //
-//  TabbarController.swift
+//  TabBarController.swift
 //  BrilliantCake
 //
 //  Created by 박다현 on 8/15/24.
@@ -17,27 +17,22 @@ final class TabBarController: UITabBarController {
             UITabBar.appearance().backgroundColor = UIColor.white
             tabBar.tintColor = .black
             
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = .white
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            
             let browse = BrowseViewController()
             let nav1 = UINavigationController(rootViewController: browse)
-            nav1.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "house.fill"), tag: 0)
-            //nav1.tabBarItem.selectedImage = UIImage(named:IconName.topicActive)
+            nav1.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house.fill"), tag: 0)
+            nav1.tabBarItem.selectedImage = UIImage(named:"house.fill")
             
-//            let random = RandomPhotoViewController()
-//            let nav2 = UINavigationController(rootViewController: random)
-//            nav2.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: IconName.video), tag: 1)
-//            nav2.tabBarItem.selectedImage = UIImage(named:IconName.videoActive)
-//            
+            let mapVC = MapViewController()
+            let nav2 = UINavigationController(rootViewController: mapVC)
+            nav2.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "map.fill"), tag: 1)
+            nav2.tabBarItem.selectedImage = UIImage(named:"map.fill")
+//
 //            let search = SearchViewController()
 //            let nav3 = UINavigationController(rootViewController: search)
 //            nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: IconName.search), tag: 2)
 //            nav3.tabBarItem.selectedImage = UIImage(named:IconName.searchActive)
-            
 
-            setViewControllers([nav1], animated: true)
+            setViewControllers([nav1, nav2], animated: true)
         
         }
     
