@@ -33,7 +33,7 @@ final class BrowseViewModel: BaseViewModel {
                 case .success(let result):
                     postList.onNext(result.data)
                 case .failure(let error):
-                    print(error)
+                    print("postdata", error)
                 }
             }, onFailure: { owner, error in
                 print(error)

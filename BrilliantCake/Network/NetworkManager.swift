@@ -78,6 +78,7 @@ class NetworkManager {
                 
                 AF.request(request)
                 .responseDecodable(of: PostModel.self) { [weak self] response in
+                    
                     switch response.result {
                     case .success(let value):
                         observer(.success(.success(value)))
@@ -114,7 +115,7 @@ class NetworkManager {
                     .responseString { [weak self] response in
                         
                         switch response.result {
-                        case .success(let success):
+                        case .success:
                             guard let imageData = response.data else { return }
                             observer(.success(.success(imageData)))
                             

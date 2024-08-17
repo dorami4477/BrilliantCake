@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import Kingfisher
 import RxSwift
 import RxCocoa
-import Kingfisher
 import RxDataSources
 
 final class BrowseViewController: BaseViewController {
@@ -29,7 +29,23 @@ final class BrowseViewController: BaseViewController {
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>(
                     configureCell: { _, collectionView, indexPath, item in
                         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseCollectionViewCell", for: indexPath) as! BrowseCollectionViewCell
-                        cell.backgroundColor = .gray
+                        guard let fileUrl = item.files[0] else { return UICollectionViewCell() }
+                        let image = NetworkManager.shared.fetchPostImage(url: fileUrl)
+                        image
+                            .subscribe(with: self) { owner, result in
+                                switch result {
+                                case .success(let imageData):
+                                    let image = UIImage(data: imageData)
+                                    cell.mainImageView.image = image
+                                    
+                                case .failure(let error):
+                                    print(error)
+                                    
+                                }
+                            } onFailure: { owner, error in
+                                print(error)
+                            }
+                            .disposed(by: self.disposeBag)
                         return cell
                     },
                     configureSupplementaryView: { _, collectionView, kind, indexPath in
@@ -62,8 +78,6 @@ final class BrowseViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
     }
-    
-
     
     override func configureHierarchy() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -126,40 +140,6 @@ final class BrowseViewController: BaseViewController {
         }
         return layout
     }
-
-
-    
-    
-//    func configureDataSource() {
-//        
-//        let cellRegistration = UICollectionView.CellRegistration<BrowseCollectionViewCell, PostData> { (cell, indexPath, identifier) in
-//            guard let fileUrl = identifier.files[0] else { return }
-//            print(fileUrl)
-//            //** 뷰모델로 옮기기
-//            let image = NetworkManager.shared.fetchPostImage(url: fileUrl)
-//            image
-//                .subscribe(with: self) { owner, result in
-//                    switch result {
-//                    case .success(let imageData):
-//                        let image = UIImage(data: imageData)
-//                        cell.mainImageView.image = image
-//
-//                    case .failure(let error):
-//                        print(error)
-//
-//                    }
-//                } onFailure: { owner, error in
-//                    print(error)
-//                }
-//                .disposed(by: self.disposeBag)
-//        }
-//        
-//        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-//            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-//            return cell
-//        })
-//
-//    }
     
 }
 

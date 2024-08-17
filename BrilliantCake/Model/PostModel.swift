@@ -12,18 +12,13 @@ struct PostModel: Decodable {
     let next_cursor: String
 }
 
-struct PostData: Decodable, Hashable{
-    static func == (lhs: PostData, rhs: PostData) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        return hasher.combine(id)
-    }
-    
+struct PostData: Decodable{
     let id: String
+    let productId: String
     let title: String
     let content: String
+    let content1: String
+    let content2: String
     let createdAt: String
     let creator: Creator
     let files: [String?]
@@ -31,12 +26,15 @@ struct PostData: Decodable, Hashable{
     let likes2: [String]?
     let buyers: [String]?
     let hashTags: [String]?
-    let comments: [String]?
+    let comments: [Comments]?
     
     enum CodingKeys: String, CodingKey {
         case id = "post_id"
+        case productId = "product_id"
         case title
         case content
+        case content1
+        case content2
         case createdAt
         case creator
         case files
@@ -51,4 +49,12 @@ struct PostData: Decodable, Hashable{
 struct Creator: Decodable {
     let user_id: String
     let nick: String
+    let profileImage: String?
+}
+
+struct Comments: Decodable {
+    let comment_id: String
+    let content: String
+    let createdAt: String
+    let creator: Creator
 }
