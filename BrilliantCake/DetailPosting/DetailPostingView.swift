@@ -32,7 +32,7 @@ final class DetailPostingView: BaseView {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person")
+        imageView.image = UIImage(named: "BC_11")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
@@ -66,16 +66,8 @@ final class DetailPostingView: BaseView {
         return label
     }()
     
-    let storeButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("브뢸레 케이크 압구정점", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = .main
-        button.layer.cornerRadius = 8
-        return button
-    }()
-    
+    let storeButton = UIButton()
+  
     let commentsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -91,6 +83,11 @@ final class DetailPostingView: BaseView {
         return layout
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureStoreButton()
+    }
+    
     override func configureHierarchy() {
         addSubview(scrollView)
         scrollView.addSubview(contentView1)
@@ -103,11 +100,6 @@ final class DetailPostingView: BaseView {
         contentView1.addSubview(descriptionLabel)
         contentView1.addSubview(storeButton)
         contentView2.addSubview(commentsStackView)
-        
-        addComment(text: "너무 예쁜데요!! 저도 여기에서 주문 해볼라구영 주문 해야징")
-        addComment(text: "세상에나 세상에나 세상에나 세상에나 세상에나 세상에나")
-        addComment(text: "우왕와아아양")
-        addComment(text: "배고파지네요 케이크 먹고 싶은 충동이 멈추질 않습니다")
         
     }
     
@@ -167,21 +159,76 @@ final class DetailPostingView: BaseView {
 
         commentsStackView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(contentView2).inset(20)
-            make.bottom.equalToSuperview().offset(-20)
+            make.bottom.equalToSuperview().offset(-50)
         }
     }
     
 
 
-    func addComment(text: String) {
-        let commentLabel: UILabel = {
+    func addComment(user: String, drawUpDate:String, comment:String) {
+        let commentView = UIView()
+        
+        let userLabel: UILabel = {
             let label = UILabel()
-            label.text = text
-            label.font = UIFont.systemFont(ofSize: 17)
-            label.numberOfLines = 0
+            label.text = user
+            label.font = UIFont.boldSystemFont(ofSize: 14)
             return label
         }()
-        commentsStackView.addArrangedSubview(commentLabel)
+        
+        let drawUpDateLabel: UILabel = {
+            let label = UILabel()
+            label.text = drawUpDate
+            label.font = UIFont.systemFont(ofSize: 14)
+            label.textColor = .gray
+            return label
+        }()
+        
+        let commentLabel: UILabel = {
+            let label = CommentLabel(padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+            label.text = comment
+            return label
+        }()
+        
+        commentsStackView.addArrangedSubview(commentView)
+        commentView.addSubview(userLabel)
+        commentView.addSubview(drawUpDateLabel)
+        commentView.addSubview(commentLabel)
+
+        commentView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.greaterThanOrEqualTo(0)
+        }
+        
+        userLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(10)
+        }
+        
+        drawUpDateLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalTo(userLabel.snp.trailing).offset(10)
+        }
+        
+        commentLabel.snp.makeConstraints { make in
+            make.top.equalTo(userLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().inset(10)
+        }
+    }
+    
+    private func configureStoreButton() {
+        let resizedImage = resizeImage(image: UIImage(named: "BC_13")!, targetSize: CGSize(width: 25, height: 25))
+        
+        var configuration = UIButton.Configuration.filled()
+        configuration.image = resizedImage
+        configuration.baseBackgroundColor = .main
+        configuration.baseForegroundColor = .black
+        configuration.background.cornerRadius = 10
+        configuration.imagePadding = 8
+        
+        storeButton.configuration = configuration
+        storeButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
     }
 }
 

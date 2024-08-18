@@ -37,6 +37,12 @@ final class DetailPostingViewController: BaseViewController {
                 owner.mainView.titleLabel.text = value.title
                 owner.mainView.descriptionLabel.text = value.content
                 owner.mainView.storeButton.setTitle(value.content2, for: .normal)
+                _ = value.comments?.compactMap{ comments in
+                    print(comments.creator.nick, comments.content)
+                    owner.mainView.addComment(user: comments.creator.nick,
+                                              drawUpDate: comments.createdAt.convertToDateTime,
+                                              comment: comments.content)
+                }                
             }
             .disposed(by: disposeBag)
         
