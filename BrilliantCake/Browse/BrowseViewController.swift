@@ -28,7 +28,7 @@ final class BrowseViewController: BaseViewController {
     func configureDataSource() {
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>(
                     configureCell: { _, collectionView, indexPath, item in
-                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseCollectionViewCell", for: indexPath) as! BrowseCollectionViewCell
+                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrowseCollectionViewCell.identifier, for: indexPath) as! BrowseCollectionViewCell
                         let image = NetworkManager.shared.fetchPostImage(url: item.files[0])
                         image
                             .subscribe(with: self) { owner, result in

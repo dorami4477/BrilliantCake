@@ -25,10 +25,5 @@ class BaseView:UIView{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func screenSize() -> CGRect {
-        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return CGRect() }
-        let screenSize = window.screen.bounds
-        return screenSize
-    }
+
 }

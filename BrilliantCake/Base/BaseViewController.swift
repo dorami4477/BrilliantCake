@@ -31,12 +31,6 @@ class BaseViewController: UIViewController {
         sceneDelegate?.window?.makeKeyAndVisible()
     }
     
-    func screenSize() -> CGRect {
-        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return CGRect() }
-        let screenSize = window.screen.bounds
-        return screenSize
-    }
-    
     func showToast(message : String) {
             let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 125, y: self.view.frame.size.height-200, width: 250, height: 65))
             toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.8)

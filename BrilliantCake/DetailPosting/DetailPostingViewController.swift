@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class DetailPostingViewController: BaseViewController {
+final class DetailPostingViewController: BaseViewController {
 
     let mainView = DetailPostingView()
     let viewModel = DetailPostingViewModel()
@@ -26,7 +26,7 @@ class DetailPostingViewController: BaseViewController {
     }
     
     func bind() {
-        let input = DetailPostingViewModel.Input()
+        let input = DetailPostingViewModel.Input(storeButtonTap: mainView.storeButton.rx.tap)
         let output = viewModel.transform(input: input)
         
         output.postData
@@ -46,15 +46,23 @@ class DetailPostingViewController: BaseViewController {
                     UIImage(data: $0)
                 }
             }
-            .bind(to: mainView.collectionView.rx.items(cellIdentifier: "DetailPostingCVCell", cellType: DetailPostingCVCell.self)){ index, model, cell in
+            .bind(to: mainView.collectionView.rx.items(cellIdentifier: DetailPostingCVCell.identifier, cellType: DetailPostingCVCell.self)){ index, model, cell in
                 cell.mainImageView.image = model
             }
             .disposed(by: disposeBag)
         
+        output.storeButtonTap
+            .bind(with: self) { owner, _ in
+                let storeVC = StoreViewController()
+                owner.navigationController?.pushViewController(storeVC, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     func configureView() {
-        mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: "DetailPostingCVCell")
+        mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: DetailPostingCVCell.identifier)
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = UIColor.clear
     }
     
 
