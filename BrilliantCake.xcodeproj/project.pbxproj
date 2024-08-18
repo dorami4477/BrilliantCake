@@ -61,6 +61,7 @@
 		48CD161A2C7198F800A7708B /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16192C7198F800A7708B /* StoreViewController.swift */; };
 		48CD161C2C71B3F200A7708B /* CommentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161B2C71B3F200A7708B /* CommentLabel.swift */; };
 		48CD161E2C71CF0400A7708B /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161D2C71CF0400A7708B /* StoreView.swift */; };
+		48CD16202C72048800A7708B /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161F2C72048800A7708B /* StoreViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		48CD16192C7198F800A7708B /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		48CD161B2C71B3F200A7708B /* CommentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentLabel.swift; sourceTree = "<group>"; };
 		48CD161D2C71CF0400A7708B /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
+		48CD161F2C72048800A7708B /* StoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +303,7 @@
 			children = (
 				48CD16192C7198F800A7708B /* StoreViewController.swift */,
 				48CD161D2C71CF0400A7708B /* StoreView.swift */,
+				48CD161F2C72048800A7708B /* StoreViewModel.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */,
 				48CD16092C709D9900A7708B /* MapViewModel.swift in Sources */,
 				48CD16122C70EFDC00A7708B /* DetailPostingCVCell.swift in Sources */,
+				48CD16202C72048800A7708B /* StoreViewModel.swift in Sources */,
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,

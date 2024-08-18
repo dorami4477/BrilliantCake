@@ -57,5 +57,11 @@ class BaseViewController: UIViewController {
         alert.addAction(confirm)
         present(alert, animated: true)
     }
+    
+    func screenSize() -> CGRect {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return CGRect() }
+        let screenSize = window.screen.bounds
+        return screenSize
+    }
 }
 

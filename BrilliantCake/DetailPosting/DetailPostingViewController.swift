@@ -57,8 +57,13 @@ final class DetailPostingViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.storeButtonTap
-            .bind(with: self) { owner, _ in
+            .withLatestFrom(output.postData, resultSelector: { _, postData in
+                return postData
+            })
+            .bind(with: self) { owner, value in
                 let storeVC = StoreViewController()
+                guard let value else { return }
+                storeVC.storeId = value.content1
                 owner.navigationController?.pushViewController(storeVC, animated: true)
             }
             .disposed(by: disposeBag)

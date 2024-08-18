@@ -10,18 +10,18 @@ import SnapKit
 
 class StoreView: BaseView {
 
-    private lazy var scrollView: UIScrollView = {
+    private var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
 
-    private lazy var contentView: UIView = {
+    private var contentView: UIView = {
         let view = UIView()
         return view
     }()
 
-    private lazy var cakeImageView1: UIImageView = {
+    private var cakeImageView1: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -29,7 +29,7 @@ class StoreView: BaseView {
         return imageView
     }()
 
-    private lazy var cakeImageView2: UIImageView = {
+    private var cakeImageView2: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -37,7 +37,7 @@ class StoreView: BaseView {
         return imageView
     }()
 
-    private lazy var cakeImageView3: UIImageView = {
+    private var cakeImageView3: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -45,7 +45,7 @@ class StoreView: BaseView {
         return imageView
     }()
 
-    private lazy var titleLabel: UILabel = {
+    private var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "브뤨레 케이크 압구정점"
         label.font = .systemFont(ofSize: 24, weight: .bold)
@@ -53,7 +53,7 @@ class StoreView: BaseView {
         return label
     }()
 
-    private lazy var descriptionLabel: UILabel = {
+    private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "'맛'과 '재미'가 공존하는 브뤨레 케이크에서 소중한 날을 기념할 수 있는 케이크를 경험해 보세요!"
         label.font = .systemFont(ofSize: 16)
@@ -61,7 +61,7 @@ class StoreView: BaseView {
         return label
     }()
 
-    private lazy var contactLabel: UILabel = {
+    private var contactLabel: UILabel = {
         let label = UILabel()
         label.text = "[매장 연락처 안내]\n센트럴시티점 : 02-7452-5000\n압구정점 : 02-3563-7734\n[메뉴 안내]\n스몰 사이즈 커스텀 : 70,000\n빅 사이즈 커스텀 : 120,000\n*상세 내용은 전화 상담 바랍니다."
         label.font = .systemFont(ofSize: 14)
@@ -69,7 +69,7 @@ class StoreView: BaseView {
         return label
     }()
 
-    private lazy var callButton: UIButton = {
+    private var callButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("02-7452-5000", for: .normal)
         button.setImage(UIImage(systemName: "phone.fill"), for: .normal)
@@ -79,7 +79,7 @@ class StoreView: BaseView {
         return button
     }()
     
-    private lazy var locationButton: UIButton = {
+    private var locationButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "map.fill"), for: .normal)
         button.tintColor = .black
@@ -87,11 +87,20 @@ class StoreView: BaseView {
         button.layer.cornerRadius = 10
         return button
     }()
+    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
 
+    func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let width = screenSize().width / 3
+        layout.itemSize = CGSize(width: width, height: width)
+        return layout
+    }
+    
     override func configureHierarchy() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
-
         contentView.addSubview(cakeImageView1)
         contentView.addSubview(cakeImageView2)
         contentView.addSubview(cakeImageView3)
@@ -100,8 +109,10 @@ class StoreView: BaseView {
         contentView.addSubview(contactLabel)
         contentView.addSubview(callButton)
         contentView.addSubview(locationButton)
-
-        // SnapKit Constraints
+        contentView.addSubview(collectionView)
+    }
+    
+    override func configureLayout() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -113,7 +124,7 @@ class StoreView: BaseView {
 
         cakeImageView1.snp.makeConstraints { make in
             make.top.equalTo(contentView)
-            make.leading.trailing.equalTo(contentView)
+            make.leading.equalTo(contentView)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.70)
             make.height.equalTo(cakeImageView1.snp.width).multipliedBy(0.75)
         }
@@ -121,7 +132,7 @@ class StoreView: BaseView {
         cakeImageView2.snp.makeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(cakeImageView1.snp.trailing)
-            make.trailing.equalTo(contentView.snp.trailing)
+            make.trailing.equalToSuperview()
             make.width.equalTo(contentView.snp.width).multipliedBy(0.30)
             make.height.equalTo(cakeImageView1.snp.height).multipliedBy(0.5)
         }
@@ -129,7 +140,7 @@ class StoreView: BaseView {
         cakeImageView3.snp.makeConstraints { make in
             make.top.equalTo(cakeImageView2.snp.bottom)
             make.leading.equalTo(cakeImageView1.snp.trailing)
-            make.trailing.equalTo(contentView.snp.trailing)
+            make.trailing.equalToSuperview()
             make.width.equalTo(contentView.snp.width).multipliedBy(0.30)
             make.height.equalTo(cakeImageView1.snp.height).multipliedBy(0.5)
         }
@@ -162,6 +173,12 @@ class StoreView: BaseView {
             make.trailing.equalTo(contentView).inset(20)
             make.height.equalTo(50)
             make.width.equalTo(callButton)
+        }
+
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(locationButton.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(contentView)
+            make.height.equalTo(collectionView.contentSize.height)
             make.bottom.equalTo(contentView).offset(-20)
         }
     }
