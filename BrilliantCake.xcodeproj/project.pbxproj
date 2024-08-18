@@ -60,6 +60,7 @@
 		48CD16172C71958000A7708B /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16162C71958000A7708B /* UIView+.swift */; };
 		48CD161A2C7198F800A7708B /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16192C7198F800A7708B /* StoreViewController.swift */; };
 		48CD161C2C71B3F200A7708B /* CommentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161B2C71B3F200A7708B /* CommentLabel.swift */; };
+		48CD161E2C71CF0400A7708B /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161D2C71CF0400A7708B /* StoreView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +109,7 @@
 		48CD16162C71958000A7708B /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		48CD16192C7198F800A7708B /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		48CD161B2C71B3F200A7708B /* CommentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentLabel.swift; sourceTree = "<group>"; };
+		48CD161D2C71CF0400A7708B /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				48CD16192C7198F800A7708B /* StoreViewController.swift */,
+				48CD161D2C71CF0400A7708B /* StoreView.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				48CD15892C6CA23900A7708B /* SceneDelegate.swift in Sources */,
 				48CD15E42C6DA86500A7708B /* SignUpModel.swift in Sources */,
 				48CD16172C71958000A7708B /* UIView+.swift in Sources */,
+				48CD161E2C71CF0400A7708B /* StoreView.swift in Sources */,
 				48CD161C2C71B3F200A7708B /* CommentLabel.swift in Sources */,
 				48CD15D22C6CB2A900A7708B /* Router.swift in Sources */,
 				48CD15EE2C6DCD5000A7708B /* BrowseCollectionViewCell.swift in Sources */,

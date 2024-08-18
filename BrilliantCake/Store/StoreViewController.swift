@@ -9,6 +9,11 @@ import UIKit
 
 class StoreViewController: BaseViewController {
 
+    let mainView = StoreView()
+    
+    override func loadView() {
+        view = mainView
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
     }
