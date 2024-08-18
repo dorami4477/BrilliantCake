@@ -81,4 +81,3 @@ class StoreViewController: BaseViewController {
         mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: DetailPostingCVCell.identifier)
     }
 }
-

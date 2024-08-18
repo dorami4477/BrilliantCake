@@ -79,6 +79,7 @@ final class DetailPostingView: BaseView {
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
         layout.itemSize = CGSize(width: screenSize().width, height: screenSize().width)
         return layout
     }
@@ -229,6 +230,7 @@ final class DetailPostingView: BaseView {
         
         storeButton.configuration = configuration
         storeButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        collectionView.isPagingEnabled = true
     }
 }
 

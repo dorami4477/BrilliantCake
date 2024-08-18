@@ -85,7 +85,8 @@ final class BrowseViewController: BaseViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.verticalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview().inset(1)
         }
     }
     

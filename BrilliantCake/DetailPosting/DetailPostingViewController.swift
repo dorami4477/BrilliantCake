@@ -73,6 +73,7 @@ final class DetailPostingViewController: BaseViewController {
         mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: DetailPostingCVCell.identifier)
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = UIColor.clear
+
     }
     
 

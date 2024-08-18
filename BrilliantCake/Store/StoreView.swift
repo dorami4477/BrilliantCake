@@ -93,6 +93,8 @@ class StoreView: BaseView {
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let width = screenSize().width / 3
         layout.itemSize = CGSize(width: width, height: width)
         return layout
