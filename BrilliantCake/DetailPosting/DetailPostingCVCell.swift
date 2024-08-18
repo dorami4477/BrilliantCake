@@ -8,7 +8,11 @@
 import UIKit
 
 final class DetailPostingCVCell: BaseCollectionVIewCell {
-    let mainImageView = UIImageView()
+    let mainImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        return image
+    }()
     
     override func configureHierarchy() {
         contentView.addSubview(mainImageView)

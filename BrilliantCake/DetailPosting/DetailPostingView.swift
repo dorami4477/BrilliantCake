@@ -8,8 +8,26 @@
 import UIKit
 
 final class DetailPostingView: BaseView {
-    let scrollView = UIScrollView()
-    let contentView = UIView()
+    let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.backgroundColor = .lightGray
+        view.contentInsetAdjustmentBehavior = .never
+        return view
+    }()
+    
+    let contentView1: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
+    let contentView2: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        return view
+    }()
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     let profileImageView: UIImageView = {
@@ -23,14 +41,19 @@ final class DetailPostingView: BaseView {
     
     let nickNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "dlfma"
         label.font = UIFont.boldSystemFont(ofSize: 17)
+        return label
+    }()
+    
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = .gray
         return label
     }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "영롱한 제 케이크 좀 봐주세요!"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
         return label
@@ -38,20 +61,16 @@ final class DetailPostingView: BaseView {
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = """
-        엄마 환갑 기념으로 특별히 부탁드렸는데, 너무 만족스러워요.
-        사실 맛보다는 그냥 예쁘게 되었으면 좋겠다고 생각했는데, 맛도 이렇게 맛있을 수가 없습니다.
-        기념일 마다 이 케이크 집으로+.+
-        """
         label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 0
         return label
     }()
     
-    let commentButton: UIButton = {
+    let storeButton: UIButton = {
         let button = UIButton()
         button.setTitle("브뢸레 케이크 압구정점", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.backgroundColor = .main
         button.layer.cornerRadius = 8
         return button
@@ -74,20 +93,22 @@ final class DetailPostingView: BaseView {
     
     override func configureHierarchy() {
         addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubview(collectionView)
-        contentView.addSubview(profileImageView)
-        contentView.addSubview(nickNameLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(commentButton)
-        contentView.addSubview(commentsStackView)
+        scrollView.addSubview(contentView1)
+        scrollView.addSubview(contentView2)
+        contentView1.addSubview(collectionView)
+        contentView1.addSubview(profileImageView)
+        contentView1.addSubview(nickNameLabel)
+        contentView1.addSubview(dateLabel)
+        contentView1.addSubview(titleLabel)
+        contentView1.addSubview(descriptionLabel)
+        contentView1.addSubview(storeButton)
+        contentView2.addSubview(commentsStackView)
         
         addComment(text: "너무 예쁜데요!! 저도 여기에서 주문 해볼라구영 주문 해야징")
         addComment(text: "세상에나 세상에나 세상에나 세상에나 세상에나 세상에나")
         addComment(text: "우왕와아아양")
         addComment(text: "배고파지네요 케이크 먹고 싶은 충동이 멈추질 않습니다")
-
+        
     }
     
     override func configureLayout() {
@@ -95,31 +116,42 @@ final class DetailPostingView: BaseView {
             make.edges.equalToSuperview()
         }
 
-        contentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        contentView1.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+        
+        contentView2.snp.makeConstraints { make in
+            make.top.equalTo(contentView1.snp.bottom).offset(10)
+            make.horizontalEdges.bottom.equalToSuperview()
             make.width.equalTo(scrollView)
         }
 
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.horizontalEdges.equalTo(contentView)
+            make.horizontalEdges.equalTo(contentView1)
             make.height.equalTo(collectionView.snp.width).multipliedBy(0.75)
         }
 
         profileImageView.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(20)
-            make.leading.equalTo(contentView).offset(20)
+            make.leading.equalTo(contentView1).offset(20)
             make.size.equalTo(40)
         }
 
         nickNameLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(profileImageView)
+            make.centerY.equalTo(profileImageView).offset(-10)
+            make.leading.equalTo(profileImageView.snp.trailing).offset(20)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.top.equalTo(nickNameLabel.snp.bottom)
             make.leading.equalTo(profileImageView.snp.trailing).offset(20)
         }
 
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(contentView).inset(20)
+            make.horizontalEdges.equalTo(contentView1).inset(20)
         }
 
         descriptionLabel.snp.makeConstraints { make in
@@ -127,15 +159,14 @@ final class DetailPostingView: BaseView {
             make.horizontalEdges.equalTo(titleLabel)
         }
 
-        commentButton.snp.makeConstraints { make in
+        storeButton.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(contentView).inset(20)
+            make.horizontalEdges.bottom.equalTo(contentView1).inset(20)
             make.height.equalTo(50)
         }
 
         commentsStackView.snp.makeConstraints { make in
-            make.top.equalTo(commentButton.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(contentView).inset(20)
+            make.top.horizontalEdges.equalTo(contentView2).inset(20)
             make.bottom.equalToSuperview().offset(-20)
         }
     }
@@ -146,7 +177,7 @@ final class DetailPostingView: BaseView {
         let commentLabel: UILabel = {
             let label = UILabel()
             label.text = text
-            label.font = UIFont.systemFont(ofSize: 14)
+            label.font = UIFont.systemFont(ofSize: 17)
             label.numberOfLines = 0
             return label
         }()
