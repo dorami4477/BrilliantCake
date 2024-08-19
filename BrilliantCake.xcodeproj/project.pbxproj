@@ -62,6 +62,9 @@
 		48CD161C2C71B3F200A7708B /* CommentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161B2C71B3F200A7708B /* CommentLabel.swift */; };
 		48CD161E2C71CF0400A7708B /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161D2C71CF0400A7708B /* StoreView.swift */; };
 		48CD16202C72048800A7708B /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD161F2C72048800A7708B /* StoreViewModel.swift */; };
+		48CD162B2C73260D00A7708B /* StoreListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD162A2C73260D00A7708B /* StoreListViewController.swift */; };
+		48CD162F2C733ED700A7708B /* StoreListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD162E2C733ED700A7708B /* StoreListTableViewCell.swift */; };
+		48CD16312C7341E400A7708B /* StoreListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16302C7341E400A7708B /* StoreListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +115,9 @@
 		48CD161B2C71B3F200A7708B /* CommentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentLabel.swift; sourceTree = "<group>"; };
 		48CD161D2C71CF0400A7708B /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 		48CD161F2C72048800A7708B /* StoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModel.swift; sourceTree = "<group>"; };
+		48CD162A2C73260D00A7708B /* StoreListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewController.swift; sourceTree = "<group>"; };
+		48CD162E2C733ED700A7708B /* StoreListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListTableViewCell.swift; sourceTree = "<group>"; };
+		48CD16302C7341E400A7708B /* StoreListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +167,7 @@
 				48CD15B62C6CAE9B00A7708B /* Login */,
 				48CD15B02C6CADA600A7708B /* SignUp */,
 				48CD15FA2C6F5DFA00A7708B /* Map */,
+				48CD16292C7325D700A7708B /* StoreList */,
 				48CD16182C7198DA00A7708B /* Store */,
 				48CD15F72C6F5B5500A7708B /* DetailPosting */,
 				48CD15A02C6CA9A800A7708B /* Browse */,
@@ -308,6 +315,16 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		48CD16292C7325D700A7708B /* StoreList */ = {
+			isa = PBXGroup;
+			children = (
+				48CD162A2C73260D00A7708B /* StoreListViewController.swift */,
+				48CD162E2C733ED700A7708B /* StoreListTableViewCell.swift */,
+				48CD16302C7341E400A7708B /* StoreListViewModel.swift */,
+			);
+			path = StoreList;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -408,6 +425,7 @@
 				48CD160E2C70DBDE00A7708B /* DetailPostingView.swift in Sources */,
 				48CD16152C7193DD00A7708B /* String+.swift in Sources */,
 				48CD15AF2C6CAB2400A7708B /* BaseCollectionVIewCell.swift in Sources */,
+				48CD162B2C73260D00A7708B /* StoreListViewController.swift in Sources */,
 				48CD15E22C6CB4CC00A7708B /* NetworkManager.swift in Sources */,
 				48CD15F02C6DD0F200A7708B /* PostModel.swift in Sources */,
 				48CD16102C70E3A000A7708B /* DetailPostingViewModel.swift in Sources */,
@@ -415,8 +433,10 @@
 				48CD15B22C6CADC700A7708B /* SignUpViewController.swift in Sources */,
 				48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */,
 				48CD15D82C6CB3B900A7708B /* UserDefaultsManager.swift in Sources */,
+				48CD162F2C733ED700A7708B /* StoreListTableViewCell.swift in Sources */,
 				48CD15D02C6CB0CF00A7708B /* Header.swift in Sources */,
 				48CD15EA2C6DC08E00A7708B /* Literal.swift in Sources */,
+				48CD16312C7341E400A7708B /* StoreListViewModel.swift in Sources */,
 				48CD15DA2C6CB44600A7708B /* LoginModel.swift in Sources */,
 				48CD15DC2C6CB46E00A7708B /* ProfileModel.swift in Sources */,
 				48CD16032C70475F00A7708B /* MapViewController.swift in Sources */,

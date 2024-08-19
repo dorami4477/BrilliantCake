@@ -22,6 +22,14 @@ final class DetailPostingView: BaseView {
         return view
     }()
     
+    let contentStackView : UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 20
+        view.distribution = .equalSpacing
+        return view
+    }()
+    
     let contentView2: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -98,8 +106,9 @@ final class DetailPostingView: BaseView {
         contentView1.addSubview(nickNameLabel)
         contentView1.addSubview(dateLabel)
         contentView1.addSubview(titleLabel)
-        contentView1.addSubview(descriptionLabel)
-        contentView1.addSubview(storeButton)
+        contentView1.addSubview(contentStackView)
+        contentStackView.addArrangedSubview(descriptionLabel)
+        contentStackView.addArrangedSubview(storeButton)
         contentView2.addSubview(commentsStackView)
         
     }
@@ -123,7 +132,7 @@ final class DetailPostingView: BaseView {
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalTo(contentView1)
-            make.height.equalTo(collectionView.snp.width).multipliedBy(0.75)
+            make.height.equalTo(collectionView.snp.width).multipliedBy(0.9)
         }
 
         profileImageView.snp.makeConstraints { make in
@@ -147,14 +156,13 @@ final class DetailPostingView: BaseView {
             make.horizontalEdges.equalTo(contentView1).inset(20)
         }
 
-        descriptionLabel.snp.makeConstraints { make in
+        contentStackView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(titleLabel)
+            make.horizontalEdges.equalTo(contentView1).inset(20)
+            make.bottom.equalTo(contentView1).inset(30)
         }
-
+        
         storeButton.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(20)
-            make.horizontalEdges.bottom.equalTo(contentView1).inset(20)
             make.height.equalTo(50)
         }
 

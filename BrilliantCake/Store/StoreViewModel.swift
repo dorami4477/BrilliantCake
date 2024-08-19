@@ -75,10 +75,6 @@ final class StoreViewModel: BaseViewModel {
         input.storeId
             .flatMapLatest { value in
                 NetworkManager.shared.fetchSpecificPost(id: value)
-//                    .catch { error in
-//                        print("storeData fetch error:", error)
-//                        return Single<Result<PostData, NetworkError>>.never()
-//                    }
             }
             .flatMapLatest { result -> Observable<[Result<Data, NetworkError>]> in
                 switch result {
