@@ -9,21 +9,21 @@ import UIKit
 
 final class DetailPostingView: BaseView {
     
-    let scrollView: UIScrollView = {
+    private let scrollView = {
         let view = UIScrollView()
         view.backgroundColor = .lightGray
         view.contentInsetAdjustmentBehavior = .never
         return view
     }()
     
-    let contentView1: UIView = {
+    private let contentView1 = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
         return view
     }()
     
-    let contentStackView : UIStackView = {
+    private let contentStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 20
@@ -31,7 +31,7 @@ final class DetailPostingView: BaseView {
         return view
     }()
     
-    let contentView2: UIView = {
+    private let contentView2 = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
@@ -39,7 +39,7 @@ final class DetailPostingView: BaseView {
     }()
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
-    let profileImageView: UIImageView = {
+    let profileImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "BC_11")
         imageView.contentMode = .scaleAspectFill
@@ -48,27 +48,27 @@ final class DetailPostingView: BaseView {
         return imageView
     }()
     
-    let nickNameLabel: UILabel = {
+    let nickNameLabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
     
-    let dateLabel: UILabel = {
+    let dateLabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .gray
         return label
     }()
     
-    let titleLabel: UILabel = {
+    let titleLabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
         return label
     }()
     
-    let descriptionLabel: UILabel = {
+    let descriptionLabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 0
@@ -77,7 +77,7 @@ final class DetailPostingView: BaseView {
     
     let storeButton = UIButton()
   
-    let commentsStackView: UIStackView = {
+    let commentsStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 8
@@ -85,7 +85,7 @@ final class DetailPostingView: BaseView {
         return stackView
     }()
     
-    let commentTextView = {
+    private let commentTextView = {
         let view = UIView()
         view.backgroundColor = .backgroundGray
         view.layer.cornerRadius = 10
@@ -107,7 +107,7 @@ final class DetailPostingView: BaseView {
         return button
     }()
     
-    func createLayout() -> UICollectionViewLayout {
+    private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0

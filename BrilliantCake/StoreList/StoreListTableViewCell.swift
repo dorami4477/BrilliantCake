@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 final class StoreListTableViewCell: UITableViewCell {
-
+    
     let disposeBag = DisposeBag()
     
     let nameLabel = {
@@ -26,7 +26,7 @@ final class StoreListTableViewCell: UITableViewCell {
         return label
     }()
     
-    let imageBoxStackView = {
+    private let imageBoxStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
@@ -58,40 +58,40 @@ final class StoreListTableViewCell: UITableViewCell {
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-           super.init(style: style, reuseIdentifier: reuseIdentifier)
-           setupUI()
-           setupLayout()
-       }
-       
-       required init?(coder: NSCoder) {
-           fatalError("init(coder:) has not been implemented")
-       }
-       
-       private func setupUI() {
-           contentView.addSubview(nameLabel)
-           contentView.addSubview(detailsLabel)
-           contentView.addSubview(imageBoxStackView)
-           imageBoxStackView.addArrangedSubview(storeImageView1)
-           imageBoxStackView.addArrangedSubview(storeImageView2)
-           imageBoxStackView.addArrangedSubview(storeImageView3)
-       }
-       
-       private func setupLayout() {
-           nameLabel.snp.makeConstraints { make in
-               make.top.horizontalEdges.equalToSuperview().inset(20)
-           }
-           
-           detailsLabel.snp.makeConstraints { make in
-               make.top.equalTo(nameLabel.snp.bottom).offset(4)
-               make.horizontalEdges.equalToSuperview().inset(20)
-           }
-           
-           imageBoxStackView.snp.makeConstraints { make in
-               make.top.equalTo(detailsLabel.snp.bottom).offset(10)
-               make.horizontalEdges.equalToSuperview().inset(20)
-               make.height.equalTo(120)
-               make.bottom.lessThanOrEqualToSuperview().inset(20)
-           }
-       }
-
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureHierarchy()
+        configureLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureHierarchy() {
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(detailsLabel)
+        contentView.addSubview(imageBoxStackView)
+        imageBoxStackView.addArrangedSubview(storeImageView1)
+        imageBoxStackView.addArrangedSubview(storeImageView2)
+        imageBoxStackView.addArrangedSubview(storeImageView3)
+    }
+    
+    private func configureLayout() {
+        nameLabel.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        detailsLabel.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom).offset(4)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        imageBoxStackView.snp.makeConstraints { make in
+            make.top.equalTo(detailsLabel.snp.bottom).offset(10)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(120)
+            make.bottom.lessThanOrEqualToSuperview().inset(20)
+        }
+    }
+    
 }

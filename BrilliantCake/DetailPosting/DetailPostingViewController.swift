@@ -13,7 +13,7 @@ final class DetailPostingViewController: BaseViewController {
 
     let mainView = DetailPostingView()
     let viewModel = DetailPostingViewModel()
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func loadView() {
         view = mainView
@@ -25,7 +25,7 @@ final class DetailPostingViewController: BaseViewController {
         bind()
     }
     
-    func bind() {
+    private func bind() {
         let input = DetailPostingViewModel.Input(storeButtonTap: mainView.storeButton.rx.tap,
                                                  textField: mainView.commentTextField.rx.text.orEmpty,
                                                  addCommentButtonTap: mainView.addCommentButton.rx.tap)
@@ -81,12 +81,11 @@ final class DetailPostingViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
-    func configureView() {
+    private func configureView() {
         mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: DetailPostingCVCell.identifier)
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = UIColor.clear
 
     }
     
-
 }

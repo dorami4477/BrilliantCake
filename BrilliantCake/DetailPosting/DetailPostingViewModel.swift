@@ -10,7 +10,8 @@ import RxSwift
 import RxCocoa
 
 final class DetailPostingViewModel: BaseViewModel {
-    let disposeBag = DisposeBag()
+    
+    private let disposeBag = DisposeBag()
     var data:PostData?
     
     struct Input {
@@ -40,7 +41,7 @@ final class DetailPostingViewModel: BaseViewModel {
                 let requests = urls.map { url -> Single<Result<Data, NetworkError>> in
                     NetworkManager.shared.fetchPostImage(url: url)
                 }
-                return Single.zip(requests) // 모든 요청을 병합
+                return Single.zip(requests)
             }
             .subscribe(onNext: { results in
                 let images = results.compactMap { result -> Data? in

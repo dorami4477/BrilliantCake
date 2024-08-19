@@ -10,7 +10,8 @@ import RxSwift
 import RxCocoa
 
 final class StoreListViewModel: BaseViewModel {
-    let disposeBag = DisposeBag()
+    
+    private let disposeBag = DisposeBag()
     
     struct Input {
         let modelSelected: ControlEvent<PostData>

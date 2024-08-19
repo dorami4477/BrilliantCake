@@ -12,7 +12,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class MapViewController: BaseViewController, MapControllerDelegate {
+final class MapViewController: BaseViewController, MapControllerDelegate {
     
     private let currentLocationButton = {
        let button = UIButton()

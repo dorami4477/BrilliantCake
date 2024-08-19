@@ -8,20 +8,20 @@
 import UIKit
 import SnapKit
 
-class StoreView: BaseView {
+final class StoreView: BaseView {
 
-    private var scrollView: UIScrollView = {
+    private var scrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
 
-    private var contentView: UIView = {
+    private var contentView = {
         let view = UIView()
         return view
     }()
 
-    var cakeImageView1: UIImageView = {
+    var cakeImageView1 = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -29,7 +29,7 @@ class StoreView: BaseView {
         return imageView
     }()
 
-    var cakeImageView2: UIImageView = {
+    var cakeImageView2 = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -37,7 +37,7 @@ class StoreView: BaseView {
         return imageView
     }()
 
-    var cakeImageView3: UIImageView = {
+    var cakeImageView3 = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -45,28 +45,28 @@ class StoreView: BaseView {
         return imageView
     }()
 
-    var titleLabel: UILabel = {
+    var titleLabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.numberOfLines = 2
         return label
     }()
 
-    var descriptionLabel: UILabel = {
+    var descriptionLabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
         label.numberOfLines = 0
         return label
     }()
 
-    var contactLabel: UILabel = {
+    var contactLabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
         return label
     }()
 
-    var callButton: UIButton = {
+    var callButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "phone.fill"), for: .normal)
         button.tintColor = .black
@@ -75,7 +75,7 @@ class StoreView: BaseView {
         return button
     }()
     
-    var locationButton: UIButton = {
+    var locationButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "map.fill"), for: .normal)
         button.tintColor = .black
@@ -86,7 +86,7 @@ class StoreView: BaseView {
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
 
-    func createLayout() -> UICollectionViewLayout {
+    private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0

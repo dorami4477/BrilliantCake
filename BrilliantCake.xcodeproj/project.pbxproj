@@ -47,7 +47,6 @@
 		48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F32C6EDB6400A7708B /* BaseViewModel.swift */; };
 		48CD15F62C6EDD8400A7708B /* FetchPostQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */; };
 		48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */; };
-		48CD15FC2C6F961A00A7708B /* testViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15FB2C6F961A00A7708B /* testViewController.swift */; };
 		48CD15FF2C6F96D300A7708B /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD15FE2C6F96D300A7708B /* Differentiator */; };
 		48CD16012C6F96D300A7708B /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 48CD16002C6F96D300A7708B /* RxDataSources */; };
 		48CD16032C70475F00A7708B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16022C70475F00A7708B /* MapViewController.swift */; };
@@ -104,7 +103,6 @@
 		48CD15F32C6EDB6400A7708B /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPostQuery.swift; sourceTree = "<group>"; };
 		48CD15F82C6F5B6800A7708B /* DetailPostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingViewController.swift; sourceTree = "<group>"; };
-		48CD15FB2C6F961A00A7708B /* testViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testViewController.swift; sourceTree = "<group>"; };
 		48CD16022C70475F00A7708B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		48CD16082C709D9900A7708B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		48CD160D2C70DBDE00A7708B /* DetailPostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostingView.swift; sourceTree = "<group>"; };
@@ -207,7 +205,6 @@
 				48CD158A2C6CA23900A7708B /* BrowseViewController.swift */,
 				48CD15ED2C6DCD5000A7708B /* BrowseCollectionViewCell.swift */,
 				48CD15F12C6EDAE400A7708B /* BrowseViewModel.swift */,
-				48CD15FB2C6F961A00A7708B /* testViewController.swift */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -451,7 +448,6 @@
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,
-				48CD15FC2C6F961A00A7708B /* testViewController.swift in Sources */,
 				48CD15AD2C6CAB0200A7708B /* BaseView.swift in Sources */,
 				48CD159D2C6CA4B200A7708B /* APIKey.swift in Sources */,
 				48CD15F22C6EDAE400A7708B /* BrowseViewModel.swift in Sources */,

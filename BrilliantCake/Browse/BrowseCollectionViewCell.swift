@@ -7,8 +7,11 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final class BrowseCollectionViewCell: BaseCollectionVIewCell {
+    
+    let disposeBag = DisposeBag()
     
     let mainImageView = {
        let image = UIImageView()

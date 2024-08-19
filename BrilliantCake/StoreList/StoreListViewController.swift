@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class StoreListViewController: BaseViewController {
-
+    
     private let tableView = UITableView()
     private let viewModel = StoreListViewModel()
     private let disposeBag = DisposeBag()
@@ -20,7 +20,7 @@ final class StoreListViewController: BaseViewController {
         bind()
     }
     
-    func bind() {
+    private func bind() {
         let input = StoreListViewModel.Input(modelSelected: tableView.rx.modelSelected(PostData.self))
         let output = viewModel.transform(input: input)
         
@@ -31,7 +31,7 @@ final class StoreListViewController: BaseViewController {
                     print("Expected exactly 3 image URLs, but got \(element.files.count)")
                     return
                 }
-
+                
                 let imageViews = [cell.storeImageView1, cell.storeImageView2, cell.storeImageView3]
                 
                 for (index, url) in element.files.enumerated() {
@@ -49,7 +49,7 @@ final class StoreListViewController: BaseViewController {
                             print("Failed to fetch image for index \(index): \(error)")
                         })
                         .disposed(by: cell.disposeBag)
-                    }
+                }
                 
                 cell.nameLabel.text = element.title
                 cell.detailsLabel.text = element.content
@@ -75,7 +75,5 @@ final class StoreListViewController: BaseViewController {
         }
         tableView.register(StoreListTableViewCell.self, forCellReuseIdentifier: StoreListTableViewCell.identifier)
     }
-    
-
-
+       
 }

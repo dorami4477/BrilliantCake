@@ -13,11 +13,11 @@ import RxDataSources
 
 final class BrowseViewController: BaseViewController {
     
-    let viewModel = BrowseViewModel()
-    let disposeBag = DisposeBag()
-    var dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>! = nil
-    var section: PublishSubject<[SectionOfBasicData]> = PublishSubject()
-    var collectionView: UICollectionView! = nil
+    private let viewModel = BrowseViewModel()
+    private let disposeBag = DisposeBag()
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>! = nil
+    private var section: PublishSubject<[SectionOfBasicData]> = PublishSubject()
+    private var collectionView: UICollectionView! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,36 +25,36 @@ final class BrowseViewController: BaseViewController {
         bind()
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>(
-                    configureCell: { _, collectionView, indexPath, item in
-                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrowseCollectionViewCell.identifier, for: indexPath) as! BrowseCollectionViewCell
-                        let image = NetworkManager.shared.fetchPostImage(url: item.files[0])
-                        image
-                            .subscribe(with: self) { owner, result in
-                                switch result {
-                                case .success(let imageData):
-                                    let image = UIImage(data: imageData)
-                                    cell.mainImageView.image = image
-                                    
-                                case .failure(let error):
-                                    print(error)
-                                    
-                                }
-                            } onFailure: { owner, error in
-                                print(error)
-                            }
-                            .disposed(by: self.disposeBag)
-                        return cell
-                    },
-                    configureSupplementaryView: { _, collectionView, kind, indexPath in
-                        return UICollectionReusableView()
+            configureCell: { _, collectionView, indexPath, item in
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrowseCollectionViewCell.identifier, for: indexPath) as! BrowseCollectionViewCell
+                let image = NetworkManager.shared.fetchPostImage(url: item.files[0])
+                image
+                    .subscribe(with: self) { owner, result in
+                        switch result {
+                        case .success(let imageData):
+                            let image = UIImage(data: imageData)
+                            cell.mainImageView.image = image
+                            
+                        case .failure(let error):
+                            print(error)
+                            
+                        }
+                    } onFailure: { owner, error in
+                        print(error)
                     }
-                )
+                    .disposed(by: cell.disposeBag)
+                return cell
+            },
+            configureSupplementaryView: { _, collectionView, kind, indexPath in
+                return UICollectionReusableView()
+            }
+        )
         
     }
     
-    func bind() {
+    private func bind() {
         let input = BrowseViewModel.Input(selectedModel: collectionView.rx.modelSelected(PostData.self))
         let output = viewModel.transform(input: input)
         
@@ -101,7 +101,7 @@ final class BrowseViewController: BaseViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    func createLayout() -> UICollectionViewLayout {
+    private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
 
@@ -154,6 +154,7 @@ extension BrowseViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - Section for CollectionView
 struct SectionOfBasicData {
     var header: String
     var items: [Item]

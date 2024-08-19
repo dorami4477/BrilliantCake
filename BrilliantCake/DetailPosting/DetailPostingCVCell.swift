@@ -8,6 +8,7 @@
 import UIKit
 
 final class DetailPostingCVCell: BaseCollectionVIewCell {
+    
     let mainImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill

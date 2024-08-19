@@ -10,12 +10,12 @@ import RxSwift
 import RxCocoa
 import Kingfisher
 
-class StoreViewController: BaseViewController {
+final class StoreViewController: BaseViewController {
 
-    let mainView = StoreView()
-    let viewModel = StoreViewModel()
+    private let mainView = StoreView()
+    private let viewModel = StoreViewModel()
+    private let disposeBag = DisposeBag()
     var storeId: String = ""
-    let disposeBag = DisposeBag()
     
     override func loadView() {
         view = mainView
@@ -25,7 +25,7 @@ class StoreViewController: BaseViewController {
         bind()
     }
     
-    func bind() {
+    private func bind() {
         let input = StoreViewModel.Input(storeId: Observable.just(storeId), modelSelected: mainView.collectionView.rx.modelSelected(PostData.self))
         let output = viewModel.transform(input: input)
         
@@ -81,7 +81,6 @@ class StoreViewController: BaseViewController {
                 detailVC.viewModel.data = value
                 detailVC.mainView.storeButton.isHidden = true
                 owner.present(detailVC, animated: true)
-                //self.changeRootVC(UINavigationController(rootViewController: detailVC))
             }
             .disposed(by: disposeBag)
         

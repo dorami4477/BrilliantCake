@@ -17,7 +17,6 @@ final class SignUpViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupActions()
-       
     }
     
     private func setupActions() {
