@@ -65,6 +65,7 @@
 		48CD162B2C73260D00A7708B /* StoreListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD162A2C73260D00A7708B /* StoreListViewController.swift */; };
 		48CD162F2C733ED700A7708B /* StoreListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD162E2C733ED700A7708B /* StoreListTableViewCell.swift */; };
 		48CD16312C7341E400A7708B /* StoreListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD16302C7341E400A7708B /* StoreListViewModel.swift */; };
+		48DF97682C736D28006D4BA8 /* CommentsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DF97672C736D28006D4BA8 /* CommentsQuery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		48CD162A2C73260D00A7708B /* StoreListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewController.swift; sourceTree = "<group>"; };
 		48CD162E2C733ED700A7708B /* StoreListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListTableViewCell.swift; sourceTree = "<group>"; };
 		48CD16302C7341E400A7708B /* StoreListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewModel.swift; sourceTree = "<group>"; };
+		48DF97672C736D28006D4BA8 /* CommentsQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsQuery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +244,7 @@
 				48CD15DF2C6CB49600A7708B /* FilesModel.swift */,
 				48CD15EF2C6DD0F200A7708B /* PostModel.swift */,
 				48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */,
+				48DF97672C736D28006D4BA8 /* CommentsQuery.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				48CD15EA2C6DC08E00A7708B /* Literal.swift in Sources */,
 				48CD16312C7341E400A7708B /* StoreListViewModel.swift in Sources */,
 				48CD15DA2C6CB44600A7708B /* LoginModel.swift in Sources */,
+				48DF97682C736D28006D4BA8 /* CommentsQuery.swift in Sources */,
 				48CD15DC2C6CB46E00A7708B /* ProfileModel.swift in Sources */,
 				48CD16032C70475F00A7708B /* MapViewController.swift in Sources */,
 				48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */,

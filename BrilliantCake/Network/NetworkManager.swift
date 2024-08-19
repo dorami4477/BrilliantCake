@@ -178,6 +178,43 @@ class NetworkManager {
         }
     }
     
+    func addComment(id: String, comment: String) -> Single<Result<Comments, NetworkError>> {
+        
+        return Single.create { observer -> Disposable in
+            do {
+                let query = CommentsQuery(content: comment)
+                let request = try Router.addComment(id: id, query: query).asURLRequest()
+                
+                AF.request(request)
+                .responseDecodable(of: Comments.self) { [weak self] response in
+                    
+                    switch response.result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                        
+                    case .failure:
+                        if response.response?.statusCode == 419 {
+                            self?.refreshToken { [weak self] in
+                                guard let self = self else { return }
+                                _ = self.addComment(id: id, comment: comment)
+                                    .subscribe(onSuccess: { result in
+                                        observer(.success(result))
+                                    }, onFailure: { error in
+                                        observer(.failure(error))
+                                    })
+                            }
+                        } else {
+                            observer(.success(.failure(.decodingError)))
+                        }
+                    }
+                }
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
+            }
+            return Disposables.create()
+        }
+    }
+    
     func fetchProfile() {
 
         do {

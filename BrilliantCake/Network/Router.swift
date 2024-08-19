@@ -15,8 +15,9 @@ enum Router {
     case editProfile
     case refresh
     case fetchPost(query: FetchPostQuery)
-    case fetchPostImage(path:String)
-    case fetchSpecificPost(id:String)
+    case fetchPostImage(path: String)
+    case fetchSpecificPost(id: String)
+    case addComment(id: String, query: CommentsQuery)
 }
 
 extension Router: TargetType {
@@ -39,6 +40,8 @@ extension Router: TargetType {
             return .get
         case .fetchSpecificPost(id: let id):
             return .get
+        case .addComment:
+            return .put
         }
 
     }
@@ -94,6 +97,17 @@ extension Router: TargetType {
                 print(error)
                 return nil
             }
+        case .addComment(let id, let query):
+            let encoder = JSONEncoder()
+            
+            do {
+                let data = try encoder.encode(query)
+                print("data \(data)")
+                return data
+            } catch {
+                print(error)
+                return nil
+            }
             
         default: return nil
             
@@ -121,6 +135,8 @@ extension Router: TargetType {
             return "/\(path)"
         case .fetchSpecificPost(id: let id):
             return "/posts/\(id)"
+        case .addComment(id: let id):
+            return "/posts/\(id)/comments"
         }
     }
     
@@ -166,7 +182,13 @@ extension Router: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
-        case .fetchSpecificPost(id: let id):
+        case .fetchSpecificPost:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.json.rawValue,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .addComment:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.json.rawValue,
