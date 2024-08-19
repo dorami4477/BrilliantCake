@@ -8,6 +8,7 @@
 import UIKit
 
 final class DetailPostingView: BaseView {
+    
     let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = .lightGray
@@ -139,7 +140,8 @@ final class DetailPostingView: BaseView {
     
     override func configureLayout() {
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
 
         contentView1.snp.makeConstraints { make in
@@ -149,8 +151,8 @@ final class DetailPostingView: BaseView {
         
         contentView2.snp.makeConstraints { make in
             make.top.equalTo(contentView1.snp.bottom).offset(10)
-            make.horizontalEdges.bottom.equalToSuperview()
-            make.width.equalTo(scrollView)
+            make.horizontalEdges.bottom.equalTo(scrollView)
+            make.bottom.equalTo(scrollView).inset(10)
         }
 
         collectionView.snp.makeConstraints { make in
@@ -197,7 +199,7 @@ final class DetailPostingView: BaseView {
         commentTextView.snp.makeConstraints { make in
             make.top.equalTo(commentsStackView.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(contentView2).inset(20)
-            make.bottom.equalToSuperview().offset(-50)
+            make.bottom.equalTo(contentView2).inset(30)
         }
         
         commentTextField.snp.makeConstraints { make in

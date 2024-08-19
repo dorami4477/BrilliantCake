@@ -41,7 +41,7 @@ extension Router: TargetType {
         case .fetchSpecificPost(id: let id):
             return .get
         case .addComment:
-            return .put
+            return .post
         }
 
     }
@@ -135,7 +135,7 @@ extension Router: TargetType {
             return "/\(path)"
         case .fetchSpecificPost(id: let id):
             return "/posts/\(id)"
-        case .addComment(id: let id):
+        case .addComment(let id, let query):
             return "/posts/\(id)/comments"
         }
     }

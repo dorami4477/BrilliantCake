@@ -26,7 +26,9 @@ final class DetailPostingViewController: BaseViewController {
     }
     
     func bind() {
-        let input = DetailPostingViewModel.Input(storeButtonTap: mainView.storeButton.rx.tap)
+        let input = DetailPostingViewModel.Input(storeButtonTap: mainView.storeButton.rx.tap,
+                                                 textField: mainView.commentTextField.rx.text.orEmpty,
+                                                 addCommentButtonTap: mainView.addCommentButton.rx.tap)
         let output = viewModel.transform(input: input)
         
         output.postData
@@ -66,6 +68,15 @@ final class DetailPostingViewController: BaseViewController {
                 guard let value else { return }
                 storeVC.storeId = value.content1
                 owner.navigationController?.pushViewController(storeVC, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.newCommnet
+            .bind(with: self) { owner, commnets in
+                owner.mainView.addComment(user: commnets.creator.nick,
+                                          drawUpDate: commnets.createdAt.convertToDateTime,
+                                          comment: commnets.content)
+                owner.mainView.commentTextField.text = ""
             }
             .disposed(by: disposeBag)
     }
