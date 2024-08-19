@@ -13,11 +13,12 @@ final class StoreListViewModel: BaseViewModel {
     let disposeBag = DisposeBag()
     
     struct Input {
-        
+        let modelSelected: ControlEvent<PostData>
     }
     
     struct Output {
         let postList: PublishSubject<[PostData]>
+        let modelSelected: ControlEvent<PostData>
     }
     
     func transform(input: Input) -> Output {
@@ -41,6 +42,6 @@ final class StoreListViewModel: BaseViewModel {
             })
             .disposed(by: disposeBag)
         
-        return Output(postList: postList)
+        return Output(postList: postList, modelSelected: input.modelSelected)
     }
 }

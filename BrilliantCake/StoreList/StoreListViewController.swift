@@ -21,7 +21,7 @@ final class StoreListViewController: BaseViewController {
     }
     
     func bind() {
-        let input = StoreListViewModel.Input()
+        let input = StoreListViewModel.Input(modelSelected: tableView.rx.modelSelected(PostData.self))
         let output = viewModel.transform(input: input)
         
         output.postList
@@ -53,6 +53,14 @@ final class StoreListViewController: BaseViewController {
                 
                 cell.nameLabel.text = element.title
                 cell.detailsLabel.text = element.content
+            }
+            .disposed(by: disposeBag)
+        
+        output.modelSelected
+            .bind(with: self) { owner, value in
+                let storeVC = StoreViewController()
+                storeVC.storeId = value.id
+                owner.navigationController?.pushViewController(storeVC, animated: true)
             }
             .disposed(by: disposeBag)
     }
