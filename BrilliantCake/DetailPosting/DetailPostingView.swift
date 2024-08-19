@@ -84,6 +84,28 @@ final class DetailPostingView: BaseView {
         return stackView
     }()
     
+    let commentTextView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundGray
+        view.layer.cornerRadius = 10
+        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.layer.borderWidth = 1
+        return view
+    }()
+    
+    let commentTextField = {
+        let textField = UITextField()
+        textField.placeholder = "댓글을 입력해보세요!"
+        return textField
+    }()
+    
+    lazy var addCommentButton = { [weak self] in
+        let button = UIButton()
+        let image = self?.resizeImage(image: UIImage(named: "BC_12")!, targetSize: CGSize(width: 30, height: 30))
+        button.setImage(image, for: .normal)
+        return button
+    }()
+    
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -110,7 +132,9 @@ final class DetailPostingView: BaseView {
         contentStackView.addArrangedSubview(descriptionLabel)
         contentStackView.addArrangedSubview(storeButton)
         contentView2.addSubview(commentsStackView)
-        
+        contentView2.addSubview(commentTextView)
+        commentTextView.addSubview(commentTextField)
+        commentTextView.addSubview(addCommentButton)
     }
     
     override func configureLayout() {
@@ -168,7 +192,25 @@ final class DetailPostingView: BaseView {
 
         commentsStackView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(contentView2).inset(20)
+        }
+        
+        commentTextView.snp.makeConstraints { make in
+            make.top.equalTo(commentsStackView.snp.bottom).offset(10)
+            make.horizontalEdges.equalTo(contentView2).inset(20)
             make.bottom.equalToSuperview().offset(-50)
+        }
+        
+        commentTextField.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+            make.height.equalTo(44)
+        }
+        
+        addCommentButton.snp.makeConstraints { make in
+            make.leading.equalTo(commentTextField.snp.trailing)
+            make.trailing.equalToSuperview().inset(10)
+            make.size.equalTo(30)
+            make.centerY.equalToSuperview()
         }
     }
     
