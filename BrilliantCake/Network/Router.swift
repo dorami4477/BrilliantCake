@@ -16,6 +16,7 @@ enum Router {
     case refresh
     case fetchPost(query: FetchPostQuery)
     case fetchPostImage(path:String)
+    case fetchSpecificPost(id:String)
 }
 
 extension Router: TargetType {
@@ -35,6 +36,8 @@ extension Router: TargetType {
         case .fetchPost:
             return .get
         case .fetchPostImage:
+            return .get
+        case .fetchSpecificPost(id: let id):
             return .get
         }
 
@@ -116,6 +119,8 @@ extension Router: TargetType {
             return "/posts"
         case .fetchPostImage(path: let path):
             return "/\(path)"
+        case .fetchSpecificPost(id: let id):
+            return "/posts/\(id)"
         }
     }
     
@@ -156,6 +161,12 @@ extension Router: TargetType {
                 Header.sesacKey.rawValue: APIKey.key
             ]
         case .fetchPostImage:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.json.rawValue,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .fetchSpecificPost(id: let id):
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.json.rawValue,

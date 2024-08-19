@@ -32,6 +32,7 @@ final class DetailPostingViewController: BaseViewController {
         output.postData
             .bind(with: self) { owner, value in
                 guard let value else { return }
+                print("포스팅id", value.id)
                 owner.mainView.nickNameLabel.text = value.creator.nick
                 owner.mainView.dateLabel.text = value.createdAt.convertToDateTime
                 owner.mainView.titleLabel.text = value.title

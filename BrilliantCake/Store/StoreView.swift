@@ -21,57 +21,53 @@ class StoreView: BaseView {
         return view
     }()
 
-    private var cakeImageView1: UIImageView = {
+    var cakeImageView1: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = UIImage(named: "BC_11")
         return imageView
     }()
 
-    private var cakeImageView2: UIImageView = {
+    var cakeImageView2: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = UIImage(named: "BC_11")
         return imageView
     }()
 
-    private var cakeImageView3: UIImageView = {
+    var cakeImageView3: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(systemName: "star")
+        imageView.image = UIImage(named: "BC_11")
         return imageView
     }()
 
-    private var titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "브뤨레 케이크 압구정점"
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.numberOfLines = 2
         return label
     }()
 
-    private var descriptionLabel: UILabel = {
+    var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "'맛'과 '재미'가 공존하는 브뤨레 케이크에서 소중한 날을 기념할 수 있는 케이크를 경험해 보세요!"
         label.font = .systemFont(ofSize: 16)
         label.numberOfLines = 0
         return label
     }()
 
-    private var contactLabel: UILabel = {
+    var contactLabel: UILabel = {
         let label = UILabel()
-        label.text = "[매장 연락처 안내]\n센트럴시티점 : 02-7452-5000\n압구정점 : 02-3563-7734\n[메뉴 안내]\n스몰 사이즈 커스텀 : 70,000\n빅 사이즈 커스텀 : 120,000\n*상세 내용은 전화 상담 바랍니다."
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
         return label
     }()
 
-    private var callButton: UIButton = {
+    var callButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("02-7452-5000", for: .normal)
         button.setImage(UIImage(systemName: "phone.fill"), for: .normal)
         button.tintColor = .black
         button.backgroundColor = .main
@@ -79,7 +75,7 @@ class StoreView: BaseView {
         return button
     }()
     
-    private var locationButton: UIButton = {
+    var locationButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "map.fill"), for: .normal)
         button.tintColor = .black

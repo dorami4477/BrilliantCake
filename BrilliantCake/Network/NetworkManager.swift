@@ -143,6 +143,41 @@ class NetworkManager {
         }
     }
     
+    func fetchSpecificPost(id: String) -> Single<Result<PostData, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let request = try Router.fetchSpecificPost(id: id).asURLRequestWithQueryString()
+                
+                AF.request(request)
+                .responseDecodable(of: PostData.self) { [weak self] response in
+                    
+                    switch response.result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                        
+                    case .failure:
+                        if response.response?.statusCode == 419 {
+                            self?.refreshToken { [weak self] in
+                                guard let self = self else { return }
+                                _ = self.fetchSpecificPost(id: id)
+                                    .subscribe(onSuccess: { result in
+                                        observer(.success(result))
+                                    }, onFailure: { error in
+                                        observer(.failure(error))
+                                    })
+                            }
+                        } else {
+                            observer(.success(.failure(.decodingError)))
+                        }
+                    }
+                }
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
+            }
+            return Disposables.create()
+        }
+    }
+    
     func fetchProfile() {
 
         do {

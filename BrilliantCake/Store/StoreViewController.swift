@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 class StoreViewController: BaseViewController {
 
@@ -48,6 +49,15 @@ class StoreViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.storeData
+            .bind(with: self) { owner, value in
+                owner.mainView.titleLabel.text = value.title
+                owner.mainView.descriptionLabel.text = value.content
+                owner.mainView.contactLabel.text = value.content1
+                owner.mainView.callButton.setTitle(value.content2, for: .normal)
+            }
+            .disposed(by: disposeBag)
+        
         output.postList
             .withUnretained(self)
             .map{ owner, value in
@@ -74,7 +84,19 @@ class StoreViewController: BaseViewController {
                 //self.changeRootVC(UINavigationController(rootViewController: detailVC))
             }
             .disposed(by: disposeBag)
-
+        
+        output.imageData
+            .map { value in
+                value.map {
+                    UIImage(data: $0)
+                }
+            }
+            .bind(with: self) { owner, value in
+                owner.mainView.cakeImageView1.image = value[0]
+                owner.mainView.cakeImageView2.image = value[1]
+                owner.mainView.cakeImageView3.image = value[2]
+            }
+            .disposed(by: disposeBag)
     }
 
     override func configureLayout() {
