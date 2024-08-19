@@ -12,13 +12,15 @@ import RxSwift
 enum NetworkError:Error {
     case invaildURL
     case decodingError
-    case invaildToken
+    case expiredToken
+    case unknownRefreshTokenError
 }
 
 class NetworkManager {
     
     static let shared = NetworkManager()
     private init() { }
+    let disposeBag = DisposeBag()
     
     func createAccount(nickname: String, email: String, password: String, completion:@escaping () -> Void) {
         
@@ -43,32 +45,31 @@ class NetworkManager {
     }
     
     func createLogin(email: String, password: String, completion:@escaping (String) -> Void) {
-
+        
         do {
             let query = LoginQuery(email: email, password: password)
             
             let request = try Router.login(query: query).asURLRequest()
             
             AF.request(request)
-              .responseDecodable(of: LoginModel.self) { response in
-                  
-                switch response.result {
-                case .success(let success):
+                .responseDecodable(of: LoginModel.self) { response in
                     
-                     print("OK", success)
-                    UserDefaultsManager.token = success.access
-                    UserDefaultsManager.refreshToken = success.refresh
-                    completion(success.nick)
-                    
-                case .failure(let failure):
-                    print("Fail", failure)
+                    switch response.result {
+                    case .success(let success):
+                        
+                        print("OK", success)
+                        UserDefaultsManager.token = success.access
+                        UserDefaultsManager.refreshToken = success.refresh
+                        completion(success.nick)
+                        
+                    case .failure(let failure):
+                        print("Fail", failure)
+                    }
                 }
-            }
         } catch {
             print(error)
         }
     }
-    
     
     func fetchPost(next: String, productId: String) -> Single<Result<PostModel, NetworkError>> {
         return Single.create { observer -> Disposable in
@@ -77,28 +78,39 @@ class NetworkManager {
                 let request = try Router.fetchPost(query: query).asURLRequestWithQueryString()
                 
                 AF.request(request)
-                .responseDecodable(of: PostModel.self) { [weak self] response in
-                    
-                    switch response.result {
-                    case .success(let value):
-                        observer(.success(.success(value)))
-                        
-                    case .failure:
-                        if response.response?.statusCode == 419 {
-                            self?.refreshToken { [weak self] in
-                                guard let self = self else { return }
-                                _ = self.fetchPost(next: next, productId: productId)
+                    .responseDecodable(of: PostModel.self) { [weak self] response in
+                        guard let self else { return }
+                        switch response.result {
+                        case .success(let value):
+                            observer(.success(.success(value)))
+                            
+                        case .failure:
+                            if response.response?.statusCode == 419 {
+                                self.refreshToken()
                                     .subscribe(onSuccess: { result in
-                                        observer(.success(result))
+                                        switch result {
+                                        case .success:
+                                            self.fetchPost(next: next, productId: productId)
+                                                .subscribe(onSuccess: { result in
+                                                    observer(.success(result))
+                                                }, onFailure: { error in
+                                                    observer(.failure(error))
+                                                })
+                                                .disposed(by: self.disposeBag)
+                                            
+                                        case .failure(let error):
+                                            observer(.failure(error))
+                                        }
                                     }, onFailure: { error in
                                         observer(.failure(error))
                                     })
+                                    .disposed(by: disposeBag)
+                                
+                            } else {
+                                observer(.success(.failure(.decodingError)))
                             }
-                        } else {
-                            observer(.success(.failure(.decodingError)))
                         }
                     }
-                }
             } catch {
                 print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
             }
@@ -113,6 +125,7 @@ class NetworkManager {
                 
                 AF.request(request)
                     .responseString { [weak self] response in
+                        guard let self else { return }
                         
                         switch response.result {
                         case .success:
@@ -121,21 +134,31 @@ class NetworkManager {
                             
                         case .failure:
                             if response.response?.statusCode == 419 {
-                                self?.refreshToken { [weak self] in
-                                    guard let self = self else { return }
-                                    _ = self.fetchPostImage(url: url)
-                                        .subscribe(onSuccess: { result in
-                                            observer(.success(result))
-                                        }, onFailure: { error in
+                                self.refreshToken()
+                                    .subscribe(onSuccess: { result in
+                                        switch result {
+                                        case .success:
+                                            self.fetchPostImage(url: url)
+                                                .subscribe(onSuccess: { result in
+                                                    observer(.success(result))
+                                                }, onFailure: { error in
+                                                    observer(.failure(error))
+                                                })
+                                                .disposed(by: self.disposeBag)
+                                            
+                                        case .failure(let error):
                                             observer(.failure(error))
-                                        })
-                                }
+                                        }
+                                    }, onFailure: { error in
+                                        observer(.failure(error))
+                                    })
+                                    .disposed(by: disposeBag)
+                                
                             } else {
                                 observer(.success(.failure(.decodingError)))
                             }
                         }
                     }
-
             } catch {
                 print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
             }
@@ -149,28 +172,40 @@ class NetworkManager {
                 let request = try Router.fetchSpecificPost(id: id).asURLRequestWithQueryString()
                 
                 AF.request(request)
-                .responseDecodable(of: PostData.self) { [weak self] response in
-                    
-                    switch response.result {
-                    case .success(let value):
-                        observer(.success(.success(value)))
+                    .responseDecodable(of: PostData.self) { [weak self] response in
+                        guard let self else { return }
                         
-                    case .failure:
-                        if response.response?.statusCode == 419 {
-                            self?.refreshToken { [weak self] in
-                                guard let self = self else { return }
-                                _ = self.fetchSpecificPost(id: id)
+                        switch response.result {
+                        case .success(let value):
+                            observer(.success(.success(value)))
+                            
+                        case .failure:
+                            if response.response?.statusCode == 419 {
+                                self.refreshToken()
                                     .subscribe(onSuccess: { result in
-                                        observer(.success(result))
+                                        switch result {
+                                        case .success:
+                                            self.fetchSpecificPost(id: id)
+                                                .subscribe(onSuccess: { result in
+                                                    observer(.success(result))
+                                                }, onFailure: { error in
+                                                    observer(.failure(error))
+                                                })
+                                                .disposed(by: self.disposeBag)
+                                            
+                                        case .failure(let error):
+                                            observer(.failure(error))
+                                        }
                                     }, onFailure: { error in
                                         observer(.failure(error))
                                     })
+                                    .disposed(by: disposeBag)
+                                
+                            } else {
+                                observer(.success(.failure(.decodingError)))
                             }
-                        } else {
-                            observer(.success(.failure(.decodingError)))
                         }
                     }
-                }
             } catch {
                 print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
             }
@@ -187,6 +222,7 @@ class NetworkManager {
                 
                 AF.request(request)
                     .responseDecodable(of: Comments.self) { [weak self] response in
+                        guard let self else { return }
                         
                         switch response.result {
                         case .success(let value):
@@ -194,15 +230,72 @@ class NetworkManager {
                             
                         case .failure:
                             if response.response?.statusCode == 419 {
-                                self?.refreshToken { [weak self] in
-                                    guard let self = self else { return }
-                                    _ = self.addComment(id: id, comment: comment)
-                                        .subscribe(onSuccess: { result in
-                                            observer(.success(result))
-                                        }, onFailure: { error in
+                                self.refreshToken()
+                                    .subscribe(onSuccess: { result in
+                                        switch result {
+                                        case .success:
+                                            self.addComment(id: id, comment: comment)
+                                                .subscribe(onSuccess: { result in
+                                                    observer(.success(result))
+                                                }, onFailure: { error in
+                                                    observer(.failure(error))
+                                                })
+                                                .disposed(by: self.disposeBag)
+                                            
+                                        case .failure(let error):
                                             observer(.failure(error))
-                                        })
-                                }
+                                        }
+                                    }, onFailure: { error in
+                                        observer(.failure(error))
+                                    })
+                                    .disposed(by: disposeBag)
+                                
+                            } else {
+                                observer(.success(.failure(.decodingError)))
+                            }
+                        }
+                    }
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func searchWithHashTag(query: SearchQuery) -> Single<Result<PostModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let request = try Router.search(query: query).asURLRequestWithQueryString()
+                
+                AF.request(request)
+                    .responseDecodable(of: PostModel.self) { [weak self] response in
+                        guard let self else { return }
+                        switch response.result {
+                        case .success(let value):
+                            observer(.success(.success(value)))
+                            
+                        case .failure:
+                            if response.response?.statusCode == 419 {
+                                self.refreshToken()
+                                    .subscribe(onSuccess: { result in
+                                        switch result {
+                                        case .success:
+                                            self.searchWithHashTag(query: query)
+                                                .subscribe(onSuccess: { result in
+                                                    observer(.success(result))
+                                                }, onFailure: { error in
+                                                    observer(.failure(error))
+                                                })
+                                                .disposed(by: self.disposeBag)
+                                            
+                                        case .failure(let error):
+                                            observer(.failure(error))
+                                        }
+                                    }, onFailure: { error in
+                                        observer(.failure(error))
+                                    })
+                                    .disposed(by: disposeBag)
+                                
                             } else {
                                 observer(.success(.failure(.decodingError)))
                             }
@@ -216,30 +309,30 @@ class NetworkManager {
     }
     
     func fetchProfile() {
-
+        
         do {
             let request = try Router.fetchProfile.asURLRequest()
             
             AF.request(request)
-            .responseDecodable(of: ProfileModel.self) { response in
-                
-                if response.response?.statusCode == 419 {
-                   // self.refreshToken()
-                } else {
-                    switch response.result {
-                    case .success(let success):
-                        print("OK", success)
-//                        self.profileView.emailLabel.text = success.email
-//                        self.profileView.userNameLabel.text = success.nick
-                    case .failure(let failure):
-                        print("Fail", failure)
+                .responseDecodable(of: ProfileModel.self) { response in
+                    
+                    if response.response?.statusCode == 419 {
+                        // self.refreshToken()
+                    } else {
+                        switch response.result {
+                        case .success(let success):
+                            print("OK", success)
+                            //self.profileView.emailLabel.text = success.email
+                            //self.profileView.userNameLabel.text = success.nick
+                        case .failure(let failure):
+                            print("Fail", failure)
+                        }
                     }
                 }
-            }
         } catch {
             print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
         }
-
+        
     }
     
     func editProfile() {
@@ -248,54 +341,54 @@ class NetworkManager {
             let request = try Router.editProfile.asURLRequest()
             
             AF.request(request)
-            .responseDecodable(of: ProfileModel.self) { response in
-                
-                if response.response?.statusCode == 419 {
-                   // self.refreshToken()
-                } else {
-                    switch response.result {
-                    case .success(let success):
-                        print("OK", success)
-                        
-                        self.fetchProfile()
-                        
-                    case .failure(let failure):
-                        print("Fail", failure)
+                .responseDecodable(of: ProfileModel.self) { response in
+                    
+                    if response.response?.statusCode == 419 {
+                        // self.refreshToken()
+                    } else {
+                        switch response.result {
+                        case .success(let success):
+                            print("OK", success)
+                            
+                            self.fetchProfile()
+                            
+                        case .failure(let failure):
+                            print("Fail", failure)
+                        }
                     }
                 }
-            }
-
+            
         } catch {
             print(error)
         }
     }
     
-    func refreshToken(handler:@escaping () -> Void) {
-
-        do {
-            let request = try Router.refresh.asURLRequest()
-
-            AF.request(request)
-            .responseDecodable(of: RefreshModel.self) { response in
-                if response.response?.statusCode == 418 {
-                    print("refreshToken expiration")
-                    //리프레시 토큰 만료
-                    //로그인으로 이동
-                } else {
-                    switch response.result {
-                    case .success(let success):
-                        UserDefaultsManager.token = success.accessToken
-                        
-                    case .failure(let failure):
-                        print("Fail", failure)
+    func refreshToken() -> Single<Result<Void, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let request = try Router.refresh.asURLRequest()
+                
+                AF.request(request)
+                    .responseDecodable(of: RefreshModel.self) { response in
+                        if response.response?.statusCode == 418 {
+                            print("refreshToken expiration")
+                            observer(.success(.failure(.expiredToken)))
+                        } else {
+                            switch response.result {
+                            case .success(let success):
+                                UserDefaultsManager.token = success.accessToken
+                                observer(.success(.success(())))
+                                
+                            case .failure(let failure):
+                                observer(.success(.failure(.unknownRefreshTokenError)))
+                            }
+                        }
                     }
-                }
+                
+            } catch {
+                print(error)
             }
-
-        } catch {
-            print(error)
-
+            return Disposables.create()
         }
     }
 }
-

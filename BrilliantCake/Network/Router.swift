@@ -18,6 +18,7 @@ enum Router {
     case fetchPostImage(path: String)
     case fetchSpecificPost(id: String)
     case addComment(id: String, query: CommentsQuery)
+    case search(query: SearchQuery)
 }
 
 extension Router: TargetType {
@@ -42,8 +43,9 @@ extension Router: TargetType {
             return .get
         case .addComment:
             return .post
+        case .search(query: let query):
+            return .get
         }
-
     }
     
     var parameters: String? {
@@ -57,6 +59,13 @@ extension Router: TargetType {
                 URLQueryItem(name: "next", value: query.next),
                 URLQueryItem(name: "limit", value: query.limit),
                 URLQueryItem(name: "product_id", value: query.product_id)
+            ]
+        case .search(let query):
+         return [
+                URLQueryItem(name: "next", value: query.next),
+                URLQueryItem(name: "limit", value: query.limit),
+                URLQueryItem(name: "product_id", value: query.product_id),
+                URLQueryItem(name: "hashTag", value: query.hashTag)
             ]
         default: return nil
         }
@@ -108,7 +117,6 @@ extension Router: TargetType {
                 print(error)
                 return nil
             }
-            
         default: return nil
             
         }
@@ -137,6 +145,8 @@ extension Router: TargetType {
             return "/posts/\(id)"
         case .addComment(let id, let query):
             return "/posts/\(id)/comments"
+        case .search(query: let query):
+            return "/posts/hashtags"
         }
     }
     
@@ -192,6 +202,11 @@ extension Router: TargetType {
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.json.rawValue,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .search:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.sesacKey.rawValue: APIKey.key
             ]
         }
