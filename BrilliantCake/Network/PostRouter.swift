@@ -1,19 +1,14 @@
 //
-//  Router.swift
+//  PostRouter.swift
 //  BrilliantCake
 //
-//  Created by 박다현 on 8/14/24.
+//  Created by 박다현 on 8/20/24.
 //
 
 import Foundation
 import Alamofire
 
-enum Router {
-    case signUp(query: SignUpQuery)
-    case login(query: LoginQuery)
-    case fetchProfile
-    case editProfile
-    case refresh
+enum PostRouter {
     case fetchPost(query: FetchPostQuery)
     case fetchPostImage(path: String)
     case fetchSpecificPost(id: String)
@@ -21,20 +16,10 @@ enum Router {
     case search(query: SearchQuery)
 }
 
-extension Router: TargetType {
+extension PostRouter: TargetType {
     
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .signUp:
-            return .post
-        case .login:
-            return .post
-        case .fetchProfile:
-            return .get
-        case .editProfile:
-            return .put
-        case .refresh:
-            return .get
         case .fetchPost:
             return .get
         case .fetchPostImage:
@@ -73,28 +58,6 @@ extension Router: TargetType {
     
     var body: Data? {
         switch self {
-        case .signUp(let query):
-            let encoder = JSONEncoder()
-            
-            do {
-                let data = try encoder.encode(query)
-                print("data \(data)")
-                return data
-            } catch {
-                print(error)
-                return nil
-            }
-        case .login(let query):
-            let encoder = JSONEncoder()
-            
-            do {
-                let data = try encoder.encode(query)
-                print("data \(data)")
-                return data
-            } catch {
-                print(error)
-                return nil
-            }
         case .fetchPost(let query):
             let encoder = JSONEncoder()
             
@@ -106,7 +69,7 @@ extension Router: TargetType {
                 print(error)
                 return nil
             }
-        case .addComment(let id, let query):
+        case .addComment(_, let query):
             let encoder = JSONEncoder()
             
             do {
@@ -129,21 +92,13 @@ extension Router: TargetType {
     
     var path: String {
         switch self {
-        case .signUp:
-            return "/users/join"
-        case .login:
-            return "/users/login"
-        case .fetchProfile, .editProfile:
-            return "/users/me/profile"
-        case .refresh:
-            return "/auth/refresh"
         case .fetchPost:
             return "/posts"
         case .fetchPostImage(path: let path):
             return "/\(path)"
         case .fetchSpecificPost(id: let id):
             return "/posts/\(id)"
-        case .addComment(let id, let query):
+        case .addComment(let id, _):
             return "/posts/\(id)/comments"
         case .search:
             return "/posts/hashtags"
@@ -152,34 +107,6 @@ extension Router: TargetType {
     
     var header: [String: String] {
         switch self {
-        case .signUp:
-            return [
-                 Header.contentType.rawValue: Header.json.rawValue,
-                 Header.sesacKey.rawValue: APIKey.key
-             ]
-        case .login:
-           return [
-                Header.contentType.rawValue: Header.json.rawValue,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .fetchProfile:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.json.rawValue,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .editProfile:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .refresh:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.json.rawValue,
-                Header.refresh.rawValue: UserDefaultsManager.refreshToken,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
         case .fetchPost:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
@@ -213,3 +140,4 @@ extension Router: TargetType {
     }
     
 }
+

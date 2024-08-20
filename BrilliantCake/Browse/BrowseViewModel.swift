@@ -27,7 +27,7 @@ final class BrowseViewModel: BaseViewModel {
         
         Single.just(("", "allBCake"))
             .flatMap{ value in
-                NetworkManager.shared.fetchPost(next: value.0, productId: value.1)
+                PostNetworkManager.shared.fetchPost(next: value.0, productId: value.1)
             }
             .subscribe(with: self, onSuccess: { owner, value in
                 switch value {

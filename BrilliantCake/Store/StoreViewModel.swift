@@ -29,7 +29,7 @@ final class StoreViewModel: BaseViewModel {
         
         let fetchPostObservable = Single.just(("", "allBCake"))
             .flatMap { value in
-                NetworkManager.shared.fetchPost(next: value.0, productId: value.1)
+                PostNetworkManager.shared.fetchPost(next: value.0, productId: value.1)
             }
             .asObservable()
         
@@ -52,7 +52,7 @@ final class StoreViewModel: BaseViewModel {
         
         input.storeId
             .flatMap{ value in
-                NetworkManager.shared.fetchSpecificPost(id: value)
+                PostNetworkManager.shared.fetchSpecificPost(id: value)
             }
             .subscribe(with: self, onNext: { owner, value in
                 switch value {

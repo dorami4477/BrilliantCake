@@ -75,7 +75,6 @@ final class StoreViewController: BaseViewController {
                 value.files
             }
             .bind(with: self) { owner, value in
-                print(value)
                 owner.mainView.cakeImageView1.setImage(url: value[0])
                 owner.mainView.cakeImageView2.setImage(url: value[1])
                 owner.mainView.cakeImageView3.setImage(url: value[2])

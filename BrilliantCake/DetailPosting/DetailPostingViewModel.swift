@@ -36,7 +36,7 @@ final class DetailPostingViewModel: BaseViewModel {
             .distinctUntilChanged()
             .flatMap { value in
                 guard let data = self.data else { return Single<Result<Comments, NetworkError>>.never() }
-                let result = NetworkManager.shared.addComment(id: data.id, comment: value)
+                let result = PostNetworkManager.shared.addComment(id: data.id, comment: value)
                 return result
             }
             .subscribe { result in
