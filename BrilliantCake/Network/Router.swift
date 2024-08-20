@@ -39,11 +39,11 @@ extension Router: TargetType {
             return .get
         case .fetchPostImage:
             return .get
-        case .fetchSpecificPost(id: let id):
+        case .fetchSpecificPost:
             return .get
         case .addComment:
             return .post
-        case .search(query: let query):
+        case .search:
             return .get
         }
     }
@@ -145,7 +145,7 @@ extension Router: TargetType {
             return "/posts/\(id)"
         case .addComment(let id, let query):
             return "/posts/\(id)/comments"
-        case .search(query: let query):
+        case .search:
             return "/posts/hashtags"
         }
     }

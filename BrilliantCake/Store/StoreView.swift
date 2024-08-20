@@ -116,7 +116,7 @@ final class StoreView: BaseView {
         }
 
         contentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(scrollView)
             make.width.equalTo(scrollView)
         }
 
@@ -177,7 +177,8 @@ final class StoreView: BaseView {
             make.top.equalTo(locationButton.snp.bottom).offset(20)
             make.leading.trailing.equalTo(contentView)
             make.height.equalTo(collectionView.contentSize.height)
-            make.bottom.equalTo(contentView).offset(-20)
+            make.bottom.equalToSuperview().offset(-20)
         }
+
     }
 }

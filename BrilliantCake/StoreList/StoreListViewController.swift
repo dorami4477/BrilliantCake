@@ -35,20 +35,7 @@ final class StoreListViewController: BaseViewController {
                 let imageViews = [cell.storeImageView1, cell.storeImageView2, cell.storeImageView3]
                 
                 for (index, url) in element.files.enumerated() {
-                    NetworkManager.shared.fetchPostImage(url: url)
-                        .observe(on: MainScheduler.instance)
-                        .subscribe(onSuccess: { result in
-                            switch result {
-                            case .success(let data):
-                                let image = UIImage(data: data)
-                                imageViews[index].image = image
-                            case .failure(let error):
-                                print(error)
-                            }
-                        }, onFailure: { error in
-                            print("Failed to fetch image for index \(index): \(error)")
-                        })
-                        .disposed(by: cell.disposeBag)
+                    imageViews[index].setImage(url: url)
                 }
                 
                 cell.nameLabel.text = element.title

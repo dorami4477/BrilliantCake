@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 import RxSwift
 import RxCocoa
 import RxDataSources
@@ -29,22 +28,8 @@ final class BrowseViewController: BaseViewController {
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>(
             configureCell: { _, collectionView, indexPath, item in
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BrowseCollectionViewCell.identifier, for: indexPath) as! BrowseCollectionViewCell
-                let image = NetworkManager.shared.fetchPostImage(url: item.files[0])
-                image
-                    .subscribe(with: self) { owner, result in
-                        switch result {
-                        case .success(let imageData):
-                            let image = UIImage(data: imageData)
-                            cell.mainImageView.image = image
-                            
-                        case .failure(let error):
-                            print(error)
-                            
-                        }
-                    } onFailure: { owner, error in
-                        print(error)
-                    }
-                    .disposed(by: cell.disposeBag)
+                cell.mainImageView.setImage(url: item.files[0])
+                
                 return cell
             },
             configureSupplementaryView: { _, collectionView, kind, indexPath in
@@ -81,7 +66,7 @@ final class BrowseViewController: BaseViewController {
     
     override func configureHierarchy() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-        collectionView.register(BrowseCollectionViewCell.self, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        collectionView.register(BrowseCollectionViewCell.self, forCellWithReuseIdentifier: BrowseCollectionViewCell.identifier)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in

@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Kingfisher
 
 final class StoreViewController: BaseViewController {
 
@@ -31,21 +30,7 @@ final class StoreViewController: BaseViewController {
         
         output.postList
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: DetailPostingCVCell.identifier, cellType: DetailPostingCVCell.self)){ index, item, cell in
-                let image = NetworkManager.shared.fetchPostImage(url: item.files[0])
-                image
-                    .subscribe(with: self) { owner, result in
-                        switch result {
-                        case .success(let imageData):
-                            let image = UIImage(data: imageData)
-                            cell.mainImageView.image = image
-                            
-                        case .failure(let error):
-                            print(error)
-                        }
-                    } onFailure: { owner, error in
-                        print(error)
-                    }
-                    .disposed(by: self.disposeBag)
+                cell.mainImageView.setImage(url: item.files[0])
             }
             .disposed(by: disposeBag)
         
@@ -84,16 +69,16 @@ final class StoreViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.imageData
-            .map { value in
-                value.map {
-                    UIImage(data: $0)
-                }
+        
+        output.storeData
+            .map{ value in
+                value.files
             }
             .bind(with: self) { owner, value in
-                owner.mainView.cakeImageView1.image = value[0]
-                owner.mainView.cakeImageView2.image = value[1]
-                owner.mainView.cakeImageView3.image = value[2]
+                print(value)
+                owner.mainView.cakeImageView1.setImage(url: value[0])
+                owner.mainView.cakeImageView2.setImage(url: value[1])
+                owner.mainView.cakeImageView3.setImage(url: value[2])
             }
             .disposed(by: disposeBag)
     }

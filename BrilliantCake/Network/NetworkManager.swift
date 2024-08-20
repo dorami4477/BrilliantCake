@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import RxSwift
+import Kingfisher
 
 enum NetworkError:Error {
     case invaildURL
@@ -60,6 +61,7 @@ class NetworkManager {
                         print("OK", success)
                         UserDefaultsManager.token = success.access
                         UserDefaultsManager.refreshToken = success.refresh
+                        KingfisherManager.shared.setHeaders()
                         completion(success.nick)
                         
                     case .failure(let failure):
@@ -377,9 +379,10 @@ class NetworkManager {
                             switch response.result {
                             case .success(let success):
                                 UserDefaultsManager.token = success.accessToken
+                                KingfisherManager.shared.setHeaders()
                                 observer(.success(.success(())))
                                 
-                            case .failure(let failure):
+                            case .failure:
                                 observer(.success(.failure(.unknownRefreshTokenError)))
                             }
                         }
