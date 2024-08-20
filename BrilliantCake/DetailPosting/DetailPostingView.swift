@@ -143,7 +143,7 @@ final class DetailPostingView: BaseView {
             make.top.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
-
+        
         contentView1.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
             make.width.equalTo(scrollView)
@@ -151,22 +151,22 @@ final class DetailPostingView: BaseView {
         
         contentView2.snp.makeConstraints { make in
             make.top.equalTo(contentView1.snp.bottom).offset(10)
-            make.horizontalEdges.bottom.equalTo(scrollView)
-            make.bottom.equalTo(scrollView).inset(10)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()  
         }
-
+        
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalTo(contentView1)
             make.height.equalTo(collectionView.snp.width).multipliedBy(0.9)
         }
-
+        
         profileImageView.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(20)
             make.leading.equalTo(contentView1).offset(20)
             make.size.equalTo(40)
         }
-
+        
         nickNameLabel.snp.makeConstraints { make in
             make.centerY.equalTo(profileImageView).offset(-10)
             make.leading.equalTo(profileImageView.snp.trailing).offset(20)
@@ -176,22 +176,22 @@ final class DetailPostingView: BaseView {
             make.top.equalTo(nickNameLabel.snp.bottom)
             make.leading.equalTo(profileImageView.snp.trailing).offset(20)
         }
-
+        
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(contentView1).inset(20)
         }
-
+        
         contentStackView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(contentView1).inset(20)
-            make.bottom.equalTo(contentView1).inset(30)
+            make.bottom.equalToSuperview().inset(30)
         }
         
         storeButton.snp.makeConstraints { make in
             make.height.equalTo(50)
         }
-
+        
         commentsStackView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(contentView2).inset(20)
         }

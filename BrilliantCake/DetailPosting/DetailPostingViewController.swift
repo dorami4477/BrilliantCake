@@ -48,16 +48,15 @@ final class DetailPostingViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.imageData
-            .map { value in
-                value.map {
-                    UIImage(data: $0)
-                }
+        output.postData
+            .compactMap { value in
+                return value?.files
             }
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: DetailPostingCVCell.identifier, cellType: DetailPostingCVCell.self)){ index, model, cell in
-                cell.mainImageView.image = model
+                cell.mainImageView.setImage(url: model)
             }
             .disposed(by: disposeBag)
+        
         
         output.storeButtonTap
             .withLatestFrom(output.postData, resultSelector: { _, postData in
