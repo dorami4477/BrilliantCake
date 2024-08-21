@@ -17,8 +17,7 @@ final class BrowseViewController: BaseViewController {
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>! = nil
     private var section: PublishSubject<[SectionOfBasicData]> = PublishSubject()
     private var collectionView: UICollectionView! = nil
-    
-    let searchController = UISearchController(searchResultsController: nil)
+    private let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +41,10 @@ final class BrowseViewController: BaseViewController {
     }
     
     private func bind() {
-        let input = BrowseViewModel.Input(selectedModel: collectionView.rx.modelSelected(PostData.self), textField: searchController.searchBar.rx.text.orEmpty, searchButtonTap: searchController.searchBar.rx.searchButtonClicked)
+        let input = BrowseViewModel.Input(selectedModel: collectionView.rx.modelSelected(PostData.self), 
+                                          textField: searchController.searchBar.rx.text.orEmpty,
+                                          searchButtonTap: searchController.searchBar.rx.searchButtonClicked,
+                                          cancelButtonTap: searchController.searchBar.rx.cancelButtonClicked)
         let output = viewModel.transform(input: input)
         
         output.postList

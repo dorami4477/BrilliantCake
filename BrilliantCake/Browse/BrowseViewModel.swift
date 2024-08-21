@@ -18,6 +18,7 @@ final class BrowseViewModel: BaseViewModel {
         let selectedModel: ControlEvent<PostData>
         let textField: ControlProperty<String>
         let searchButtonTap: ControlEvent<Void>
+        let cancelButtonTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -81,6 +82,11 @@ final class BrowseViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
 
+        input.cancelButtonTap
+            .subscribe(with: self) { owner, _ in
+                postList.onNext(owner.data)
+            }
+            .disposed(by: disposeBag)
         
         return Output(postList: postList, selectedModel: input.selectedModel, isTokenVaild: isTokenVaild)
     }
