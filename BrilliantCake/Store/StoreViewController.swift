@@ -82,13 +82,23 @@ final class StoreViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.mapButtonTap
-            .bind(with: self) { owner, _ in
-                let mapVC = SimplePOI()
-                mapVC.coord = (127.031701, 37.499610)
-                owner.present(mapVC, animated: true)
+        Observable
+            .zip(output.mapCoord, output.storeData)
+            .bind(with: self) { owner, value in
+                let mapVC = StoreMapMarkerViewController()
+                mapVC.coord = value.0
+                mapVC.storeInfo = (value.1.title, value.1.content)
+                owner.navigationController?.pushViewController(mapVC, animated: true)
             }
             .disposed(by: disposeBag)
+        
+//        output.mapCoord
+//            .bind(with: self) { owner, value in
+//                let mapVC = SimplePOI()
+//                mapVC.coord = value
+//                owner.navigationController?.pushViewController(mapVC, animated: true)
+//            }
+//            .disposed(by: disposeBag)
         
         output.isTokenVaild
             .bind(with: self) { owner, value in

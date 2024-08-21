@@ -25,7 +25,7 @@ final class StoreView: BaseView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "BC_11")
+        imageView.image = UIImage(named: ImageName.missingImage)
         return imageView
     }()
 
@@ -33,7 +33,7 @@ final class StoreView: BaseView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "BC_11")
+        imageView.image = UIImage(named: ImageName.missingImage)
         return imageView
     }()
 
@@ -41,7 +41,7 @@ final class StoreView: BaseView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "BC_11")
+        imageView.image = UIImage(named: ImageName.missingImage)
         return imageView
     }()
 

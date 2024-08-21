@@ -9,7 +9,7 @@
 import UIKit
 import KakaoMapsSDK
 
-class LodPOISample: TestMapViewController {
+class LodPOISample: MapViewController {
     
     override func addViews() {
         let defaultPosition: MapPoint = MapPoint(longitude: 127.108678, latitude: 37.402001)
@@ -44,9 +44,9 @@ class LodPOISample: TestMapViewController {
         let manager = view.getLabelManager()
         
         let symbols = [
-            UIImage(named: "BC_10"),
-            UIImage(named: "BC_11"),
-            UIImage(named: "BC_12")
+            UIImage(named: ImageName.mapPointer),
+            UIImage(named: ImageName.mapPointer),
+            UIImage(named: ImageName.mapPointer)
         ]
         
         // 같은 그룹내 경쟁속성이 들어갔을 경우, radius는 symbol width 혹은 height의 1/2로 권장.

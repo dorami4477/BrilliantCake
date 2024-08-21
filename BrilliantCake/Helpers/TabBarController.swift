@@ -19,17 +19,17 @@ final class TabBarController: UITabBarController {
             
             let browse = BrowseViewController()
             let nav1 = UINavigationController(rootViewController: browse)
-            let image1 = resizeImage(image: UIImage(named: "BC_18")!, targetSize: CGSize(width: 30, height: 30))
+            let image1 = resizeImage(image: UIImage(named: ImageName.browse)!, targetSize: CGSize(width: 30, height: 30))
             nav1.tabBarItem = UITabBarItem(title: nil, image: image1, tag: 0)
             
             let storeVC = StoreListViewController()
             let nav2 = UINavigationController(rootViewController: storeVC)
-            let image2 = resizeImage(image: UIImage(named: "BC_9")!, targetSize: CGSize(width: 30, height: 30))
+            let image2 = resizeImage(image: UIImage(named: ImageName.store)!, targetSize: CGSize(width: 30, height: 30))
             nav2.tabBarItem = UITabBarItem(title: nil, image: image2, tag: 0)
             
             let mapVC = LodPOISample()
             let nav3 = UINavigationController(rootViewController: mapVC)
-            let image3 = resizeImage(image: UIImage(named: "BC_19")!, targetSize: CGSize(width: 30, height: 30))
+            let image3 = resizeImage(image: UIImage(named: ImageName.map)!, targetSize: CGSize(width: 30, height: 30))
             nav3.tabBarItem = UITabBarItem(title: nil, image: image3, tag: 0)
             
             setViewControllers([nav1, nav2, nav3], animated: true)

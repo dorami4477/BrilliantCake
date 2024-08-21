@@ -86,6 +86,8 @@ final class BrowseViewController: BaseViewController {
     }
     
     override func configureNavigation() {
+        let resizedImage = view.resizeImage(image: UIImage(named: ImageName.logo)!, targetSize: CGSize(width: 30, height: 30))
+        navigationItem.titleView = UIImageView(image: resizedImage)
         
         searchController.searchBar.placeholder = Literal.GuideMessage.search
         searchController.hidesNavigationBarDuringPresentation = false

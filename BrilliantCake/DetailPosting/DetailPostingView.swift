@@ -41,7 +41,7 @@ final class DetailPostingView: BaseView {
     
     let profileImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "BC_11")
+        imageView.image = UIImage(named: ImageName.missingImage)
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
@@ -102,7 +102,7 @@ final class DetailPostingView: BaseView {
     
     lazy var addCommentButton = { [weak self] in
         let button = UIButton()
-        let image = self?.resizeImage(image: UIImage(named: "BC_12")!, targetSize: CGSize(width: 30, height: 30))
+        let image = self?.resizeImage(image: UIImage(named: ImageName.upload)!, targetSize: CGSize(width: 30, height: 30))
         button.setImage(image, for: .normal)
         return button
     }()
@@ -152,7 +152,7 @@ final class DetailPostingView: BaseView {
         contentView2.snp.makeConstraints { make in
             make.top.equalTo(contentView1.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()  
+            make.bottom.equalToSuperview().inset(10)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -271,7 +271,7 @@ final class DetailPostingView: BaseView {
     }
     
     private func configureStoreButton() {
-        let resizedImage = resizeImage(image: UIImage(named: "BC_13")!, targetSize: CGSize(width: 25, height: 25))
+        let resizedImage = resizeImage(image: UIImage(named: ImageName.button)!, targetSize: CGSize(width: 25, height: 25))
         
         var configuration = UIButton.Configuration.filled()
         configuration.image = resizedImage

@@ -23,13 +23,14 @@ final class StoreViewModel: BaseViewModel {
         let storeData: Observable<PostData>
         let modelSelected: ControlEvent<PostData>
         let isTokenVaild: Observable<Bool>
-        let mapButtonTap: ControlEvent<Void>
+        let mapCoord: Observable<[Double]>
     }
     
     func transform(input: Input) -> Output {
         let postList = PublishSubject<[PostData]>()
         let storeData = PublishSubject<PostData>()
         let isTokenVaild = BehaviorSubject(value: true)
+        let mapCoord = PublishSubject<[Double]>()
         
         let fetchPostObservable = Single.just(("", "allBCake"))
             .flatMap { value in
@@ -80,12 +81,40 @@ final class StoreViewModel: BaseViewModel {
             })
             .disposed(by: disposeBag)
         
+        input.mapButtonTap
+            .withLatestFrom(storeData) { _, value in
+                guard let value = value.content3 else { return "" }
+                return value
+            }
+            .map { [weak self] csvString in
+                guard let self else { return [1] }
+                print(self.convertCSVStringToArray(csvString))
+                return self.convertCSVStringToArray(csvString)
+            }
+            .subscribe(onNext: { array in
+                mapCoord.onNext(array)
+            })
+            .disposed(by: disposeBag)
         
         return Output(postList: postList, 
                       storeData: storeData,
                       modelSelected: input.modelSelected,
                       isTokenVaild: isTokenVaild,
-                      mapButtonTap: input.mapButtonTap)
+                      mapCoord: mapCoord)
         
     }
+    
+    
+    func convertCSVStringToArray(_ csvString: String) -> [Double] {
+            let components = csvString
+                .trimmingCharacters(in: .whitespaces)
+                .components(separatedBy: ",")
+            
+            // 각 문자열을 정수로 변환
+            let array = components.compactMap { component -> Double? in
+                return Double(component.trimmingCharacters(in: .whitespaces))
+            }
+            
+            return array
+        }
 }
