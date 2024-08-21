@@ -90,7 +90,6 @@ final class BrowseViewController: BaseViewController {
         navigationItem.titleView = UIImageView(image: resizedImage)
         
         searchController.searchBar.placeholder = Literal.GuideMessage.search
-        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.autocorrectionType = .no
