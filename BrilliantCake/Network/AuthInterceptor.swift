@@ -30,7 +30,6 @@ final class AuthInterceptor: RequestInterceptor {
     }
 
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        print("retry 진입")
         guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 419
         else {
             completion(.doNotRetryWithError(error))
@@ -39,18 +38,18 @@ final class AuthInterceptor: RequestInterceptor {
 
         // 토큰 갱신 API 호출
         if request.retryCount < 2 {
-            UserNetworkManager.shared.refreshToken()
-                .subscribe { result in
-                    switch result {
-                    case .success(let value):
-                        print("Retry-토큰 재발급 성공: \(value)")
-                        completion(.retry)
-                    case .failure(let error):
-                        print("리프레시토큰 만료?")
-                        completion(.doNotRetryWithError(error))
-                    }
+            UserNetworkManager.shared.refreshToken { result in
+                switch result {
+                case .success(let value):
+                    print("Retry-토큰 재발급 성공: \(value)")
+                    UserDefaultsManager.token = value.accessToken
+                    completion(.retry)
+                case .failure(let error):
+                    print("리프레시토큰 만료\(error)")
+                    completion(.doNotRetryWithError(error))
                 }
-                .disposed(by: disposeBag)
+            }
+            
         } else {
             completion(.doNotRetryWithError(error))
         }

@@ -78,6 +78,12 @@ final class DetailPostingViewController: BaseViewController {
                 owner.mainView.commentTextField.text = ""
             }
             .disposed(by: disposeBag)
+        
+        output.isTokenVaild
+            .bind(with: self) { owner, value in
+                owner.isExpiredToken(value)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func configureView() {

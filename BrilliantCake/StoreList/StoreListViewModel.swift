@@ -20,10 +20,12 @@ final class StoreListViewModel: BaseViewModel {
     struct Output {
         let postList: PublishSubject<[PostData]>
         let modelSelected: ControlEvent<PostData>
+        let isTokenVaild: Observable<Bool>
     }
     
     func transform(input: Input) -> Output {
         let postList = PublishSubject<[PostData]>()
+        let isTokenVaild = BehaviorSubject(value: true)
         
         Single.just(("", "allBCakeStore"))
             .flatMap{ value in
@@ -35,6 +37,9 @@ final class StoreListViewModel: BaseViewModel {
                     postList.onNext(result.data)
                 case .failure(let error):
                     print("postdata", error)
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
                 }
             }, onFailure: { owner, error in
                 print(error)
@@ -43,6 +48,6 @@ final class StoreListViewModel: BaseViewModel {
             })
             .disposed(by: disposeBag)
         
-        return Output(postList: postList, modelSelected: input.modelSelected)
+        return Output(postList: postList, modelSelected: input.modelSelected, isTokenVaild: isTokenVaild)
     }
 }

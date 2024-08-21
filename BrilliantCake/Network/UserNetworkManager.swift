@@ -120,34 +120,31 @@ class UserNetworkManager {
         }
     }
     
-    func refreshToken() -> Single<Result<Void, NetworkError>> {
-        return Single.create { observer -> Disposable in
-            do {
-                let request = try UserRouter.refresh.asURLRequest()
-                
-                AF.request(request)
-                    .responseDecodable(of: RefreshModel.self) { response in
-                        if response.response?.statusCode == 418 {
-                            print("refreshToken expiration")
-                            observer(.success(.failure(.expiredToken)))
-                        } else {
-                            switch response.result {
-                            case .success(let success):
-                                UserDefaultsManager.token = success.accessToken
-                               // KingfisherManager.shared.setHeaders()
-                                print("refresh실행됨")
-                                observer(.success(.success(())))
-                                
-                            case .failure:
-                                observer(.success(.failure(.unknownRefreshTokenError)))
-                            }
+    func refreshToken(handler: @escaping (Result<RefreshModel, NetworkError>) -> Void ) {
+    
+        do {
+            let request = try UserRouter.refresh.asURLRequest()
+            
+            AF.request(request)
+                .responseDecodable(of: RefreshModel.self) { response in
+                    
+                    if response.response?.statusCode == 418 {
+                        print("refreshToken expiration")
+                        handler(.failure(.expiredToken))
+                    } else {
+                        switch response.result {
+                        case .success(let success):
+                            handler(.success(success))
+                            
+                        case .failure(let failure):
+                            print(failure)
+                            handler(.failure(.unknownRefreshTokenError))
                         }
                     }
-                
-            } catch {
-                print(error)
-            }
-            return Disposables.create()
+                }
+            
+        } catch {
+            print(error)
         }
     }
 }

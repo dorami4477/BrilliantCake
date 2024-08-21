@@ -23,10 +23,12 @@ final class BrowseViewModel: BaseViewModel {
     struct Output {
         let postList:Observable<[PostData]>
         let selectedModel: ControlEvent<PostData>
+        let isTokenVaild: Observable<Bool>
     }
     
     func transform(input: Input) -> Output {
         let postList = PublishSubject<[PostData]>()
+        let isTokenVaild = BehaviorSubject(value: true)
         
         Single.just(("", "allBCake"))
             .flatMap{ value in
@@ -39,6 +41,9 @@ final class BrowseViewModel: BaseViewModel {
                     postList.onNext(owner.data)
                 case .failure(let error):
                     print("postdata", error)
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
                 }
             }, onFailure: { owner, error in
                 print(error)
@@ -63,6 +68,9 @@ final class BrowseViewModel: BaseViewModel {
                     
                 case .failure(let error):
                     print(error)
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
                 }
             } onError: { error in
                 print(error)
@@ -74,6 +82,6 @@ final class BrowseViewModel: BaseViewModel {
             .disposed(by: disposeBag)
 
         
-        return Output(postList: postList, selectedModel: input.selectedModel)
+        return Output(postList: postList, selectedModel: input.selectedModel, isTokenVaild: isTokenVaild)
     }
 }

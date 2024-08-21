@@ -24,11 +24,13 @@ final class DetailPostingViewModel: BaseViewModel {
         let postData: BehaviorSubject<PostData?>
         let storeButtonTap: ControlEvent<Void>
         let newCommnet: PublishSubject<Comments>
+        let isTokenVaild: Observable<Bool>
     }
     
     func transform(input: Input) -> Output {
         let postData = BehaviorSubject(value: data)
         let newCommnet = PublishSubject<Comments>()
+        let isTokenVaild = BehaviorSubject(value: true)
             
         input.addCommentButtonTap
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
@@ -46,6 +48,9 @@ final class DetailPostingViewModel: BaseViewModel {
                     
                 case .failure(let error):
                     print(error)
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
                 }
             } onError: { error in
                 print(error)
@@ -57,6 +62,6 @@ final class DetailPostingViewModel: BaseViewModel {
             .disposed(by: disposeBag)
 
         
-        return Output(postData: postData, storeButtonTap: input.storeButtonTap, newCommnet: newCommnet)
+        return Output(postData: postData, storeButtonTap: input.storeButtonTap, newCommnet: newCommnet, isTokenVaild: isTokenVaild)
     }
 }

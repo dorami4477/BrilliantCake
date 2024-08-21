@@ -64,5 +64,15 @@ class BaseViewController: UIViewController {
         let screenSize = window.screen.bounds
         return screenSize
     }
+    
+    
+    func isExpiredToken(_ value: Bool){
+        if !value {
+            showAlert(title: "토근만료", message: "토근이 만료되었습니다! 다시 로그인해주세요 :)", buttonTilte: "확인") { [weak self] _ in
+                let loginVC = LoginViewController()
+                self?.changeRootVC(loginVC)
+            }
+        }
+    }
 }
 

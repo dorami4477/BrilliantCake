@@ -80,6 +80,12 @@ final class StoreViewController: BaseViewController {
                 owner.mainView.cakeImageView3.setImage(url: value[2])
             }
             .disposed(by: disposeBag)
+        
+        output.isTokenVaild
+            .bind(with: self) { owner, value in
+                owner.isExpiredToken(value)
+            }
+            .disposed(by: disposeBag)
     }
 
     override func configureLayout() {

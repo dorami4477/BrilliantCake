@@ -64,6 +64,12 @@ final class BrowseViewController: BaseViewController {
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
+        
+        output.isTokenVaild
+            .bind(with: self) { owner, value in
+                owner.isExpiredToken(value)
+            }
+            .disposed(by: disposeBag)
     }
     
     override func configureHierarchy() {

@@ -21,11 +21,13 @@ final class StoreViewModel: BaseViewModel {
         let postList: Observable<[PostData]>
         let storeData: Observable<PostData>
         let modelSelected: ControlEvent<PostData>
+        let isTokenVaild: Observable<Bool>
     }
     
     func transform(input: Input) -> Output {
         let postList = PublishSubject<[PostData]>()
         let storeData = PublishSubject<PostData>()
+        let isTokenVaild = BehaviorSubject(value: true)
         
         let fetchPostObservable = Single.just(("", "allBCake"))
             .flatMap { value in
@@ -43,6 +45,9 @@ final class StoreViewModel: BaseViewModel {
                     postList.onNext(filtered)
                 case .failure(let error):
                     print("postdata", error)
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
                 }
             }, onError: { error in
                 print(error)
@@ -60,6 +65,9 @@ final class StoreViewModel: BaseViewModel {
                     storeData.onNext(result)
                 case .failure(let error):
                     print("storeData", error)
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
                 }
             }, onError: { owner, error in
                 print(error)
@@ -71,7 +79,7 @@ final class StoreViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         
-        return Output(postList: postList, storeData: storeData, modelSelected: input.modelSelected)
+        return Output(postList: postList, storeData: storeData, modelSelected: input.modelSelected, isTokenVaild: isTokenVaild)
         
     }
 }
