@@ -34,6 +34,7 @@ class PostNetworkManager {
                         .responseDecodable(of: PostModel.self) { response in
                             switch response.result {
                             case .success(let success):
+                                print("게시물호출")
                                 observer(.success(.success(success)))
                             case .failure(let error):
                                 print(error)

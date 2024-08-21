@@ -51,8 +51,6 @@ class UserNetworkManager {
                     
                     switch response.result {
                     case .success(let success):
-                        
-                        print("OK", success)
                         UserDefaultsManager.token = success.access
                         UserDefaultsManager.refreshToken = success.refresh
                         KingfisherManager.shared.setHeaders()
@@ -136,7 +134,7 @@ class UserNetworkManager {
                             switch response.result {
                             case .success(let success):
                                 UserDefaultsManager.token = success.accessToken
-                                KingfisherManager.shared.setHeaders()
+                               // KingfisherManager.shared.setHeaders()
                                 print("refresh실행됨")
                                 observer(.success(.success(())))
                                 

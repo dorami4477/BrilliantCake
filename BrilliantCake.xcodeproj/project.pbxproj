@@ -12,6 +12,9 @@
 		485BDF472C74D735006DE214 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF462C74D735006DE214 /* UserRouter.swift */; };
 		485BDF492C74D8C6006DE214 /* PostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF482C74D8C6006DE214 /* PostRouter.swift */; };
 		485BDF4B2C74E095006DE214 /* UserNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF4A2C74E095006DE214 /* UserNetworkManager.swift */; };
+		485BDF672C75ADAC006DE214 /* TestMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF662C75ADAC006DE214 /* TestMapViewController.swift */; };
+		485BDF692C75ADCC006DE214 /* SimplePOI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF682C75ADCC006DE214 /* SimplePOI.swift */; };
+		485BDF6B2C75B6F9006DE214 /* LodPOISample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF6A2C75B6F9006DE214 /* LodPOISample.swift */; };
 		48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15862C6CA23900A7708B /* AppDelegate.swift */; };
 		48CD15892C6CA23900A7708B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15882C6CA23900A7708B /* SceneDelegate.swift */; };
 		48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD158A2C6CA23900A7708B /* BrowseViewController.swift */; };
@@ -79,6 +82,9 @@
 		485BDF462C74D735006DE214 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
 		485BDF482C74D8C6006DE214 /* PostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRouter.swift; sourceTree = "<group>"; };
 		485BDF4A2C74E095006DE214 /* UserNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetworkManager.swift; sourceTree = "<group>"; };
+		485BDF662C75ADAC006DE214 /* TestMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMapViewController.swift; sourceTree = "<group>"; };
+		485BDF682C75ADCC006DE214 /* SimplePOI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePOI.swift; sourceTree = "<group>"; };
+		485BDF6A2C75B6F9006DE214 /* LodPOISample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LodPOISample.swift; sourceTree = "<group>"; };
 		48CD15832C6CA23900A7708B /* BrilliantCake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrilliantCake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CD15862C6CA23900A7708B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48CD15882C6CA23900A7708B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -303,8 +309,11 @@
 		48CD15FA2C6F5DFA00A7708B /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				485BDF6A2C75B6F9006DE214 /* LodPOISample.swift */,
 				48CD16022C70475F00A7708B /* MapViewController.swift */,
 				48CD16082C709D9900A7708B /* MapViewModel.swift */,
+				485BDF662C75ADAC006DE214 /* TestMapViewController.swift */,
+				485BDF682C75ADCC006DE214 /* SimplePOI.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -456,6 +465,7 @@
 				48CD15F02C6DD0F200A7708B /* PostModel.swift in Sources */,
 				48CD16102C70E3A000A7708B /* DetailPostingViewModel.swift in Sources */,
 				48CD15AB2C6CAAA000A7708B /* BaseViewController.swift in Sources */,
+				485BDF6B2C75B6F9006DE214 /* LodPOISample.swift in Sources */,
 				48CD15B22C6CADC700A7708B /* SignUpViewController.swift in Sources */,
 				48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */,
 				48CD15D82C6CB3B900A7708B /* UserDefaultsManager.swift in Sources */,
@@ -491,9 +501,11 @@
 				48CD16172C71958000A7708B /* UIView+.swift in Sources */,
 				48CD161E2C71CF0400A7708B /* StoreView.swift in Sources */,
 				48CD161C2C71B3F200A7708B /* CommentLabel.swift in Sources */,
+				485BDF672C75ADAC006DE214 /* TestMapViewController.swift in Sources */,
 				485BDF492C74D8C6006DE214 /* PostRouter.swift in Sources */,
 				48CD15EE2C6DCD5000A7708B /* BrowseCollectionViewCell.swift in Sources */,
 				48CD15E02C6CB49600A7708B /* FilesModel.swift in Sources */,
+				485BDF692C75ADCC006DE214 /* SimplePOI.swift in Sources */,
 				485BDF472C74D735006DE214 /* UserRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

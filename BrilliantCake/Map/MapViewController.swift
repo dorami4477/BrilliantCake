@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import KakaoMapsSDK
 import CoreLocation
+import KakaoMapsSDK
 import SnapKit
 import RxSwift
 import RxCocoa
@@ -16,7 +16,7 @@ final class MapViewController: BaseViewController, MapControllerDelegate {
     
     private let currentLocationButton = {
        let button = UIButton()
-        button.setImage(UIImage(systemName: "mappin.and.ellipse.circle.fill"), for: .normal)
+        button.setImage(UIImage(named: "BC_16"), for: .normal)
         button.tintColor = .main
         button.imageView?.contentMode = .scaleAspectFit
         return button
@@ -68,7 +68,7 @@ final class MapViewController: BaseViewController, MapControllerDelegate {
         mapController = KMController(viewContainer: mapContainer!)
         mapController!.delegate = self
         mapController?.prepareEngine() // 엔진 준비
-        locationManager.delegate = self
+        
 
         currentLocationButton.snp.makeConstraints { make in
             make.bottom.trailing.equalTo(view.safeAreaLayoutGuide).inset(30)

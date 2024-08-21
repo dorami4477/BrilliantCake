@@ -18,6 +18,8 @@ final class BrowseViewController: BaseViewController {
     private var section: PublishSubject<[SectionOfBasicData]> = PublishSubject()
     private var collectionView: UICollectionView! = nil
     
+    let searchController = UISearchController(searchResultsController: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDataSource()
@@ -40,7 +42,7 @@ final class BrowseViewController: BaseViewController {
     }
     
     private func bind() {
-        let input = BrowseViewModel.Input(selectedModel: collectionView.rx.modelSelected(PostData.self))
+        let input = BrowseViewModel.Input(selectedModel: collectionView.rx.modelSelected(PostData.self), textField: searchController.searchBar.rx.text.orEmpty, searchButtonTap: searchController.searchBar.rx.searchButtonClicked)
         let output = viewModel.transform(input: input)
         
         output.postList
@@ -76,7 +78,7 @@ final class BrowseViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        let searchController = UISearchController(searchResultsController: nil)
+        
         searchController.searchBar.placeholder = Literal.GuideMessage.search
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self

@@ -12,9 +12,12 @@ import RxCocoa
 final class BrowseViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
+    var data: [PostData] = []
     
     struct Input {
         let selectedModel: ControlEvent<PostData>
+        let textField: ControlProperty<String>
+        let searchButtonTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -32,7 +35,8 @@ final class BrowseViewModel: BaseViewModel {
             .subscribe(with: self, onSuccess: { owner, value in
                 switch value {
                 case .success(let result):
-                    postList.onNext(result.data)
+                    owner.data = result.data
+                    postList.onNext(owner.data)
                 case .failure(let error):
                     print("postdata", error)
                 }
@@ -43,6 +47,32 @@ final class BrowseViewModel: BaseViewModel {
             })
             .disposed(by: disposeBag)
         
+        input.searchButtonTap
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(input.textField)
+            .distinctUntilChanged()
+            .flatMap { value in
+                let query = SearchQuery(next: "", limit: "10", product_id: "allBCake", hashTag: value)
+                let result = PostNetworkManager.shared.searchWithHashTag(query: query)
+                return result
+            }
+            .subscribe { result in
+                switch result {
+                case .success(let value):
+                    postList.onNext(value.data)
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            } onError: { error in
+                print(error)
+            } onCompleted: {
+                print("onCompleted")
+            } onDisposed: {
+                print("onDisposed")
+            }
+            .disposed(by: disposeBag)
+
         
         return Output(postList: postList, selectedModel: input.selectedModel)
     }

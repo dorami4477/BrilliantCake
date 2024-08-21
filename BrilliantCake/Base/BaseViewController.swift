@@ -50,6 +50,7 @@ class BaseViewController: UIViewController {
             })
         }
     
+
     func showAlert(title:String, message:String?, buttonTilte:String, completionHandler:@escaping (UIAlertAction) -> Void){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirm = UIAlertAction(title: buttonTilte, style: .destructive, handler: completionHandler)

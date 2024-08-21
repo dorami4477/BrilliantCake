@@ -38,17 +38,21 @@ final class AuthInterceptor: RequestInterceptor {
         }
 
         // 토큰 갱신 API 호출
-        UserNetworkManager.shared.refreshToken()
-            .subscribe { result in
-                switch result {
-                case .success:
-                    print("Retry-토큰 재발급 성공")
-                    completion(.retry)
-                case .failure(let error):
-                    print("리프레시토큰 만료?")
-                    completion(.doNotRetryWithError(error))
+        if request.retryCount < 2 {
+            UserNetworkManager.shared.refreshToken()
+                .subscribe { result in
+                    switch result {
+                    case .success(let value):
+                        print("Retry-토큰 재발급 성공: \(value)")
+                        completion(.retry)
+                    case .failure(let error):
+                        print("리프레시토큰 만료?")
+                        completion(.doNotRetryWithError(error))
+                    }
                 }
-            }
-            .disposed(by: disposeBag)
+                .disposed(by: disposeBag)
+        } else {
+            completion(.doNotRetryWithError(error))
+        }
     }
 }
