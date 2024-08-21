@@ -9,9 +9,6 @@
 import UIKit
 import KakaoMapsSDK
 
-// 대량의 POI를 효율적으로 그리기 위한 LodLabelLayer 예제.
-// POI는 화면의 갱신이 있을 때마다 다시 위치 및 경쟁에 대한 연산을 수행하는데, 한번에 추가된 POI가 매우 많아질 경우, 이 처리시간이 길어져서 속도 저하로 이어질 수 있다.
-// LodLabelLayer는 이런 경우를 위해 추가된 라벨들의 경쟁을 사전에 미리 모두 계산해두고 재활용한다.
 class LodPOISample: TestMapViewController {
     
     override func addViews() {

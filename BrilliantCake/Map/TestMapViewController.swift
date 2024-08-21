@@ -20,7 +20,8 @@ class TestMapViewController: BaseViewController, MapControllerDelegate {
     
     let viewModel = MapViewModel()
     let disposeBag = DisposeBag()
-    private let locationManager = CLLocationManager()
+    let locationManager = CLLocationManager()
+    var didRequestLocationPermission = false
     
     deinit {
         mapController?.pauseEngine()
@@ -50,6 +51,7 @@ class TestMapViewController: BaseViewController, MapControllerDelegate {
         
         output.currentLocationTap
             .bind(with: self) { owner, _ in
+                owner.didRequestLocationPermission = true
                 owner.checkCurrentLocationAuthorization()
             }
             .disposed(by: disposeBag)
@@ -202,8 +204,8 @@ extension TestMapViewController: CLLocationManagerDelegate {
             if let kakaoMapView = mapController?.getView("mapview") as? KakaoMap {
                 let cameraUpdate = CameraUpdate.make(target: MapPoint(longitude: coordinate.longitude, latitude: coordinate.latitude), zoomLevel: 15, rotation: 0.0, tilt: 0.0, mapView: kakaoMapView)
                 
-                kakaoMapView.animateCamera(cameraUpdate: cameraUpdate, options: CameraAnimationOptions(autoElevation: true, consecutive: false, durationInMillis: 3000))
-                //kakaoMapView.moveCamera(cameraUpdate)
+                kakaoMapView.animateCamera(cameraUpdate: cameraUpdate, options: CameraAnimationOptions(autoElevation: true, consecutive: false, durationInMillis: 2000))
+
             }
 
         }
@@ -217,13 +219,16 @@ extension TestMapViewController: CLLocationManagerDelegate {
     
     private func checkDeviceLocationAuthorization(){
         //아이폰 위치 서비스 켜졌는지 확인
-        DispatchQueue.global().async {
-            if CLLocationManager.locationServicesEnabled(){
-                self.checkCurrentLocationAuthorization()
-            }else{
-                print("해당 아이폰의 위치 서비스가 꺼져있습니다.")
+        if didRequestLocationPermission {
+            DispatchQueue.global().async {
+                if CLLocationManager.locationServicesEnabled(){
+                    self.checkCurrentLocationAuthorization()
+                }else{
+                    print("해당 아이폰의 위치 서비스가 꺼져있습니다.")
+                }
             }
         }
+        didRequestLocationPermission = false
     }
     
     private func checkCurrentLocationAuthorization() {
@@ -250,6 +255,7 @@ extension TestMapViewController: CLLocationManagerDelegate {
         default:
             print(status)
         }
+        
     }
     
     private func showLocationAlert() {

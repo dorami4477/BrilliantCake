@@ -15,6 +15,7 @@ final class StoreViewModel: BaseViewModel {
     struct Input {
         let storeId: Observable<String>
         let modelSelected: ControlEvent<PostData>
+        let mapButtonTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -22,6 +23,7 @@ final class StoreViewModel: BaseViewModel {
         let storeData: Observable<PostData>
         let modelSelected: ControlEvent<PostData>
         let isTokenVaild: Observable<Bool>
+        let mapButtonTap: ControlEvent<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -79,7 +81,11 @@ final class StoreViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         
-        return Output(postList: postList, storeData: storeData, modelSelected: input.modelSelected, isTokenVaild: isTokenVaild)
+        return Output(postList: postList, 
+                      storeData: storeData,
+                      modelSelected: input.modelSelected,
+                      isTokenVaild: isTokenVaild,
+                      mapButtonTap: input.mapButtonTap)
         
     }
 }

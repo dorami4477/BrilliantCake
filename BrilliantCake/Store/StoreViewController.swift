@@ -25,7 +25,9 @@ final class StoreViewController: BaseViewController {
     }
     
     private func bind() {
-        let input = StoreViewModel.Input(storeId: Observable.just(storeId), modelSelected: mainView.collectionView.rx.modelSelected(PostData.self))
+        let input = StoreViewModel.Input(storeId: Observable.just(storeId), 
+                                         modelSelected: mainView.collectionView.rx.modelSelected(PostData.self), 
+                                         mapButtonTap: mainView.locationButton.rx.tap)
         let output = viewModel.transform(input: input)
         
         output.postList
@@ -69,7 +71,6 @@ final class StoreViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        
         output.storeData
             .map{ value in
                 value.files
@@ -78,6 +79,14 @@ final class StoreViewController: BaseViewController {
                 owner.mainView.cakeImageView1.setImage(url: value[0])
                 owner.mainView.cakeImageView2.setImage(url: value[1])
                 owner.mainView.cakeImageView3.setImage(url: value[2])
+            }
+            .disposed(by: disposeBag)
+        
+        output.mapButtonTap
+            .bind(with: self) { owner, _ in
+                let mapVC = SimplePOI()
+                mapVC.coord = (127.031701, 37.499610)
+                owner.present(mapVC, animated: true)
             }
             .disposed(by: disposeBag)
         
