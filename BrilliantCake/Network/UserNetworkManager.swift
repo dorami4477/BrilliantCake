@@ -53,6 +53,7 @@ class UserNetworkManager {
                     case .success(let success):
                         UserDefaultsManager.token = success.access
                         UserDefaultsManager.refreshToken = success.refresh
+                        UserDefaultsManager.userID = success.id
                         KingfisherManager.shared.setHeaders()
                         completion(success.nick)
                         

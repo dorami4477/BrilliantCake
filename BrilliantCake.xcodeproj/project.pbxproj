@@ -17,6 +17,7 @@
 		485BDF6B2C75B6F9006DE214 /* LodPOISample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF6A2C75B6F9006DE214 /* LodPOISample.swift */; };
 		485BDF6F2C76143E006DE214 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF6E2C76143E006DE214 /* DesignSystem.swift */; };
 		485BDF712C76275F006DE214 /* StoreMapInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF702C76275E006DE214 /* StoreMapInfoView.swift */; };
+		485BDF922C772010006DE214 /* LikeQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF912C772010006DE214 /* LikeQuery.swift */; };
 		48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15862C6CA23900A7708B /* AppDelegate.swift */; };
 		48CD15892C6CA23900A7708B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15882C6CA23900A7708B /* SceneDelegate.swift */; };
 		48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD158A2C6CA23900A7708B /* BrowseViewController.swift */; };
@@ -88,6 +89,7 @@
 		485BDF6A2C75B6F9006DE214 /* LodPOISample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LodPOISample.swift; sourceTree = "<group>"; };
 		485BDF6E2C76143E006DE214 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		485BDF702C76275E006DE214 /* StoreMapInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMapInfoView.swift; sourceTree = "<group>"; };
+		485BDF912C772010006DE214 /* LikeQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeQuery.swift; sourceTree = "<group>"; };
 		48CD15832C6CA23900A7708B /* BrilliantCake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrilliantCake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CD15862C6CA23900A7708B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48CD15882C6CA23900A7708B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				48CD15F52C6EDD8400A7708B /* FetchPostQuery.swift */,
 				48DF97672C736D28006D4BA8 /* CommentsQuery.swift */,
 				48DF97692C738B83006D4BA8 /* SearchQuery.swift */,
+				485BDF912C772010006DE214 /* LikeQuery.swift */,
 			);
 			path = EncodingModel;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				48CD16122C70EFDC00A7708B /* DetailPostingCVCell.swift in Sources */,
 				485BDF712C76275F006DE214 /* StoreMapInfoView.swift in Sources */,
 				48CD16202C72048800A7708B /* StoreViewModel.swift in Sources */,
+				485BDF922C772010006DE214 /* LikeQuery.swift in Sources */,
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,

@@ -116,7 +116,29 @@ class PostNetworkManager {
             }
             return Disposables.create()
         }
-
+    }
+    
+    func likePost(id: String, like: Bool) -> Single<Result<LikeQuery, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let query = LikeQuery(like_status: like)
+                let request = try PostRouter.like(id: id, query: query).asURLRequest()
+                
+                AF.request(request, interceptor: AuthInterceptor.shared)
+                    .responseDecodable(of: LikeQuery.self) { response in
+                        switch response.result {
+                        case .success(let success):
+                            observer(.success(.success(success)))
+                        case .failure(let error):
+                            print(error)
+                            observer(.success(.failure(.expiredToken)))
+                        }
+                    }
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+            }
+            return Disposables.create()
+        }
     }
     
 }

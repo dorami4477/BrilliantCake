@@ -14,6 +14,7 @@ enum PostRouter {
     case fetchSpecificPost(id: String)
     case addComment(id: String, query: CommentsQuery)
     case search(query: SearchQuery)
+    case like(id: String, query: LikeQuery)
 }
 
 extension PostRouter: TargetType {
@@ -30,7 +31,10 @@ extension PostRouter: TargetType {
             return .post
         case .search:
             return .get
+        case .like:
+            return .post
         }
+        
     }
     
     var parameters: String? {
@@ -80,8 +84,19 @@ extension PostRouter: TargetType {
                 print(error)
                 return nil
             }
-        default: return nil
+        case .like(_, let query):
+            let encoder = JSONEncoder()
             
+            do {
+                let data = try encoder.encode(query)
+                print("data \(data)")
+                return data
+            } catch {
+                print(error)
+                return nil
+            }
+            
+        default: return nil
         }
     }
     
@@ -102,6 +117,8 @@ extension PostRouter: TargetType {
             return "/posts/\(id)/comments"
         case .search:
             return "/posts/hashtags"
+        case .like(let id, _):
+            return "/posts/\(id)/like"
         }
     }
     
@@ -134,6 +151,12 @@ extension PostRouter: TargetType {
         case .search:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .like:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
         }

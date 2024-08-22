@@ -25,11 +25,12 @@ final class StoreViewController: BaseViewController {
     }
     
     private func bind() {
-        let input = StoreViewModel.Input(storeId: Observable.just(storeId), 
+        let input = StoreViewModel.Input(storeId: Observable.just(storeId),
                                          modelSelected: mainView.collectionView.rx.modelSelected(PostData.self), 
-                                         mapButtonTap: mainView.locationButton.rx.tap)
+                                         mapButtonTap: mainView.locationButton.rx.tap, 
+                                         likeButtonTap: navigationItem.rightBarButtonItem?.rx.tap)
         let output = viewModel.transform(input: input)
-        
+
         output.postList
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: DetailPostingCVCell.identifier, cellType: DetailPostingCVCell.self)){ index, item, cell in
                 cell.mainImageView.setImage(url: item.files[0])
@@ -92,13 +93,12 @@ final class StoreViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-//        output.mapCoord
-//            .bind(with: self) { owner, value in
-//                let mapVC = SimplePOI()
-//                mapVC.coord = value
-//                owner.navigationController?.pushViewController(mapVC, animated: true)
-//            }
-//            .disposed(by: disposeBag)
+        output.like
+            .bind(with: self) { owner, value in
+                owner.navigationItem.rightBarButtonItem?.image = value ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+                owner.navigationItem.rightBarButtonItem?.tintColor = value ? .main : .black
+            }
+            .disposed(by: disposeBag)
         
         output.isTokenVaild
             .bind(with: self) { owner, value in
@@ -107,6 +107,13 @@ final class StoreViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
 
+    override func configureNavigation() {
+        let likeButton = UIBarButtonItem(image: UIImage(systemName: "heart"))
+        navigationItem.rightBarButtonItem = likeButton
+    }
+    
+
+    
     override func configureLayout() {
         mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: DetailPostingCVCell.identifier)
     }

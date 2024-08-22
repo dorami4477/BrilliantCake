@@ -40,6 +40,7 @@ final class StoreListViewController: BaseViewController {
                 
                 cell.nameLabel.text = element.title
                 cell.detailsLabel.text = element.content
+                cell.selectionStyle = .none
             }
             .disposed(by: disposeBag)
         

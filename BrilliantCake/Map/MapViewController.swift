@@ -34,8 +34,6 @@ class MapViewController: BaseViewController, MapControllerDelegate {
         button.setImage(UIImage(named: ImageName.currentLocation), for: .normal)
         button.tintColor = .main
         button.imageView?.contentMode = .scaleAspectFit
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 15
         return button
     }()
     

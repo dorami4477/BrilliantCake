@@ -11,11 +11,12 @@ import RxCocoa
 
 final class StoreViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
-    
+
     struct Input {
         let storeId: Observable<String>
         let modelSelected: ControlEvent<PostData>
         let mapButtonTap: ControlEvent<Void>
+        let likeButtonTap: ControlEvent<()>?
     }
     
     struct Output {
@@ -24,6 +25,7 @@ final class StoreViewModel: BaseViewModel {
         let modelSelected: ControlEvent<PostData>
         let isTokenVaild: Observable<Bool>
         let mapCoord: Observable<[Double]>
+        let like: Observable<Bool>
     }
     
     func transform(input: Input) -> Output {
@@ -31,6 +33,7 @@ final class StoreViewModel: BaseViewModel {
         let storeData = PublishSubject<PostData>()
         let isTokenVaild = BehaviorSubject(value: true)
         let mapCoord = PublishSubject<[Double]>()
+        let like = BehaviorSubject(value: false)
         
         let fetchPostObservable = Single.just(("", "allBCake"))
             .flatMap { value in
@@ -66,6 +69,9 @@ final class StoreViewModel: BaseViewModel {
                 switch value {
                 case .success(let result):
                     storeData.onNext(result)
+                    guard let isLike = result.likes?.contains(UserDefaultsManager.userID) else { return }
+                    like.onNext(isLike)
+                    
                 case .failure(let error):
                     print("storeData", error)
                     if error == .expiredToken {
@@ -96,12 +102,43 @@ final class StoreViewModel: BaseViewModel {
             })
             .disposed(by: disposeBag)
         
-        return Output(postList: postList, 
+        if let likeButtonTap = input.likeButtonTap {
+            likeButtonTap
+            .withLatestFrom(Observable.combineLatest(like, input.storeId)){ _, likeInfo in
+                return (!likeInfo.0, likeInfo.1)
+            }
+            .flatMap{ value in
+                PostNetworkManager.shared.likePost(id: value.1, like: value.0)
+            }
+            .subscribe(with: self, onNext: { owner, value in
+                switch value {
+                case .success(let result):
+                    print("like status", result.like_status)
+                    like.onNext(result.like_status)
+                case .failure(let error):
+                    print("likeData", error)
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
+                }
+            }, onError: { owner, error in
+                print(error)
+            }, onCompleted: { owner in
+                print("onCompleted")
+            }, onDisposed: { owner in
+                print("onDisposed")
+            })
+            .disposed(by: disposeBag)
+        }
+        
+     
+        return Output(postList: postList,
                       storeData: storeData,
                       modelSelected: input.modelSelected,
                       isTokenVaild: isTokenVaild,
-                      mapCoord: mapCoord)
-        
+                      mapCoord: mapCoord, 
+                      like: like)
+
     }
     
     

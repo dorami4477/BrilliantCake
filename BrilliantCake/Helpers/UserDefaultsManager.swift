@@ -31,6 +31,9 @@ enum UserDefaultsManager{
     
     @UserDefault(key: "refreshToken", defaultValue: "")
     static var refreshToken:String
+    
+    @UserDefault(key: "userID", defaultValue: "")
+    static var userID:String
 
     static func deleteAllData() {
         for key in UserDefaults.standard.dictionaryRepresentation().keys {
