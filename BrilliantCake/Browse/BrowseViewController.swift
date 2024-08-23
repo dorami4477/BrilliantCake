@@ -76,7 +76,7 @@ final class BrowseViewController: BaseViewController {
         
         output.createButtonTap
             .bind(with: self) { owner, value in
-                let createVC = CreatePostViewController()
+                let createVC = CreatePostViewController(viewModel: CreatePostViewModel())
                 owner.navigationController?.pushViewController(createVC, animated: true)
             }
             .disposed(by: disposeBag)

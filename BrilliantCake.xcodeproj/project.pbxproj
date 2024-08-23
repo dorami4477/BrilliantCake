@@ -197,8 +197,8 @@
 			isa = PBXGroup;
 			children = (
 				485BDF9F2C78437F006DE214 /* CreatePostViewController.swift */,
-				485BDFA52C78812E006DE214 /* CreatePostViewModel.swift */,
 				485BDFA12C78438C006DE214 /* CreatePostView.swift */,
+				485BDFA52C78812E006DE214 /* CreatePostViewModel.swift */,
 			);
 			path = CreatePost;
 			sourceTree = "<group>";

@@ -139,7 +139,7 @@ extension PostRouter: TargetType {
             return "/posts/\(id)/like"
         case .uploadFiles:
             return "/posts/files"
-        case .createPost(query: let query):
+        case .createPost:
             return "/posts"
         }
     }
@@ -190,7 +190,7 @@ extension PostRouter: TargetType {
         case .createPost:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.multipart.rawValue,
+                Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
         }

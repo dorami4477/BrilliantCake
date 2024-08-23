@@ -142,46 +142,49 @@ final class PostNetworkManager {
         }
     }
     
-    func uploadImages(image: [UIImage], completion:@escaping (FilesModel) -> Void) {
-        
-        
-        let url = URL(string: PostRouter.uploadFiles.baseURL + PostRouter.uploadFiles.path)!
-        
-        let headers: HTTPHeaders = [
-            Header.authorization.rawValue: UserDefaultsManager.token,
-            Header.contentType.rawValue: Header.multipart.rawValue,
-            Header.sesacKey.rawValue: APIKey.key
-        ]
-        
-        AF.upload(multipartFormData: { MultipartFormData in
-            image.forEach { image in
-                let jpgImageData = image.jpegData(compressionQuality: 0.2) ?? Data()
-                
-                MultipartFormData.append(jpgImageData,
-                                         withName: "files",
-                                         fileName: "iamge.jpg",
-                                         mimeType: "image/jpg")
+    func uploadImages(imageData: [Data]) -> Single<Result<FilesModel, NetworkError>>{
+        return Single.create { observer -> Disposable in
+            
+            let url = URL(string: PostRouter.uploadFiles.baseURL + PostRouter.uploadFiles.path)!
+            
+            let headers: HTTPHeaders = [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.multipart.rawValue,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+            
+            AF.upload(multipartFormData: { MultipartFormData in
+                imageData.forEach { image in
+                    
+                    MultipartFormData.append(image,
+                                             withName: "files",
+                                             fileName: "iamge.jpg",
+                                             mimeType: "image/jpg")
+                }
+            }, to: url, method: .post, headers: headers)
+            .validate()
+            .responseDecodable(of: FilesModel.self) { reponse in
+                switch reponse.result {
+                case .success(let reuslt):
+                    observer(.success(.success(reuslt)))
+                    
+                case .failure:
+                    observer(.success(.failure(.expiredToken)))
+                }
             }
-        }, to: url, method: .post, headers: headers)
-        .validate()
-        .responseDecodable(of: FilesModel.self) { reponse in
-            switch reponse.result {
-            case .success(let reuslt):
-                    completion(reuslt)
-            case .failure(let error):
-                print(error)
-            }
+            return Disposables.create()
         }
+        
     }
     
-    func createPost(title: String, content:String, content1:String, content2: String, productId:String, files:[String]) -> Single<Result<PostModel, NetworkError>> {
+    func createPost(title: String, content:String, content1:String, content2: String, productId:String, files:[String]) -> Single<Result<PostData, NetworkError>> {
         return Single.create { observer -> Disposable in
             do {
                 let query = CreatePostQuery(title: title, content: content, content1: content1, content2: content2, product_id: productId, files: files)
                 let request = try PostRouter.createPost(query: query).asURLRequest()
                 
                 AF.request(request, interceptor: AuthInterceptor.shared)
-                    .responseDecodable(of: PostModel.self) { response in
+                    .responseDecodable(of: PostData.self) { response in
                         switch response.result {
                         case .success(let success):
                             observer(.success(.success(success)))
