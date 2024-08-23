@@ -32,7 +32,12 @@ final class TabBarController: UITabBarController {
             let image3 = view.resizeImage(image: UIImage(named: ImageName.map)!, targetSize: CGSize(width: 30, height: 30))
             nav3.tabBarItem = UITabBarItem(title: nil, image: image3, tag: 0)
             
-            setViewControllers([nav1, nav2, nav3], animated: true)
+            let profileVC = ProfileViewController()
+            let nav4 = UINavigationController(rootViewController: profileVC)
+            let image4 = view.resizeImage(image: UIImage(named: ImageName.user)!, targetSize: CGSize(width: 30, height: 30))
+            nav4.tabBarItem = UITabBarItem(title: nil, image: image4, tag: 0)
+            
+            setViewControllers([nav1, nav2, nav3, nav4], animated: true)
         
         }
     
