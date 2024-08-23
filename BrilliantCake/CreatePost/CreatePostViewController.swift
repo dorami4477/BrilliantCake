@@ -51,7 +51,6 @@ class CreatePostViewController: BaseViewController {
         
         output.pickerViewTap
             .bind(with: self) { owner, _ in
-                print("버튼 눌림")
                 var configuration = PHPickerConfiguration()
                 configuration.selectionLimit = 3
                 configuration.filter = .any(of: [.screenshots, .images])
@@ -72,15 +71,30 @@ class CreatePostViewController: BaseViewController {
 //델리게이트로 저장
 extension CreatePostViewController:PHPickerViewControllerDelegate{
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-
         picker.dismiss(animated: true)
 
-        if let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self){
-            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                DispatchQueue.main.async {
-                   // self.photoImageView.image = image as? UIImage
+        var selectedImages: [UIImage] = []
+        let dispatchGroup = DispatchGroup()
+
+        for result in results {
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                dispatchGroup.enter()
+
+                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                    DispatchQueue.main.async {
+                        if let loadedImage = image as? UIImage {
+                            selectedImages.append(loadedImage)
+                        }
+                        dispatchGroup.leave()
+                    }
                 }
             }
         }
+
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            self?.mainView.addNewImages(images: selectedImages)
+        }
     }
+
 }

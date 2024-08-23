@@ -134,6 +134,14 @@ final class CreatePostView: BaseView {
         return button
     }()
     
+    let photoStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
+    
     let photoCountLabel: UILabel = {
         let label = UILabel()
         label.text = "0/3"
@@ -170,6 +178,7 @@ final class CreatePostView: BaseView {
         addSubview(photoView)
         photoView.addSubview(photoLabel)
         photoView.addSubview(addPhotoButton)
+        photoView.addSubview(photoStackView)
         photoView.addSubview(photoCountLabel)
         addSubview(submitButton)
     }
@@ -255,6 +264,12 @@ final class CreatePostView: BaseView {
             make.size.equalTo(60)
         }
         
+        photoStackView.snp.makeConstraints { make in
+            make.top.equalTo(photoLabel.snp.bottom).offset(15)
+            make.leading.equalTo(addPhotoButton.snp.trailing).offset(10)
+            make.height.equalTo(50)
+        }
+        
         photoCountLabel.snp.makeConstraints { make in
             make.top.equalTo(addPhotoButton.snp.bottom).offset(4)
             make.trailing.equalToSuperview().inset(10)
@@ -265,6 +280,27 @@ final class CreatePostView: BaseView {
             make.bottom.equalTo(safeAreaLayoutGuide).inset(30)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(50)
+        }
+    }
+    
+    func addNewImages(images: [UIImage?]) {
+        photoStackView.arrangedSubviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+        
+        for image in images {
+            let photoImageView = {
+                let imageView = UIImageView()
+                imageView.contentMode = .scaleAspectFill
+                imageView.image = image
+                imageView.clipsToBounds = true
+                return imageView
+            }()
+            
+            photoStackView.addArrangedSubview(photoImageView)
+            photoImageView.snp.makeConstraints { make in
+                make.size.equalTo(50)
+            }
         }
     }
 }
