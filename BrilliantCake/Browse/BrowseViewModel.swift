@@ -19,12 +19,14 @@ final class BrowseViewModel: BaseViewModel {
         let textField: ControlProperty<String>
         let searchButtonTap: ControlEvent<Void>
         let cancelButtonTap: ControlEvent<Void>
+        let createButtonTap: ControlEvent<Void>
     }
     
     struct Output {
         let postList:Observable<[PostData]>
         let selectedModel: ControlEvent<PostData>
         let isTokenVaild: Observable<Bool>
+        let createButtonTap: ControlEvent<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -88,6 +90,6 @@ final class BrowseViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(postList: postList, selectedModel: input.selectedModel, isTokenVaild: isTokenVaild)
+        return Output(postList: postList, selectedModel: input.selectedModel, isTokenVaild: isTokenVaild, createButtonTap: input.createButtonTap)
     }
 }

@@ -12,8 +12,13 @@ import RxCocoa
 final class StoreListViewController: BaseViewController {
     
     private let tableView = UITableView()
-    private let viewModel = StoreListViewModel()
+    private let viewModel: StoreListViewModel
     private let disposeBag = DisposeBag()
+
+    init(viewModel: StoreListViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +51,7 @@ final class StoreListViewController: BaseViewController {
         
         output.modelSelected
             .bind(with: self) { owner, value in
-                let storeVC = StoreViewController()
+                let storeVC = StoreViewController(viewModel: StoreViewModel())
                 storeVC.storeId = value.id
                 owner.navigationController?.pushViewController(storeVC, animated: true)
             }

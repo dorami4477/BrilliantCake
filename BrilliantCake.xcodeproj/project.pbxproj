@@ -23,6 +23,10 @@
 		485BDF992C782780006DE214 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF982C782780006DE214 /* EditProfileViewController.swift */; };
 		485BDF9B2C7827F1006DE214 /* EditPorfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF9A2C7827F1006DE214 /* EditPorfileView.swift */; };
 		485BDF9D2C7828B0006DE214 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF9C2C7828B0006DE214 /* ProfileViewModel.swift */; };
+		485BDFA02C78437F006DE214 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF9F2C78437F006DE214 /* CreatePostViewController.swift */; };
+		485BDFA22C78438C006DE214 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDFA12C78438C006DE214 /* CreatePostView.swift */; };
+		485BDFA42C787C4B006DE214 /* CreatePostQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDFA32C787C4B006DE214 /* CreatePostQuery.swift */; };
+		485BDFA62C78812E006DE214 /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDFA52C78812E006DE214 /* CreatePostViewModel.swift */; };
 		48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15862C6CA23900A7708B /* AppDelegate.swift */; };
 		48CD15892C6CA23900A7708B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD15882C6CA23900A7708B /* SceneDelegate.swift */; };
 		48CD158B2C6CA23900A7708B /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD158A2C6CA23900A7708B /* BrowseViewController.swift */; };
@@ -100,6 +104,10 @@
 		485BDF982C782780006DE214 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		485BDF9A2C7827F1006DE214 /* EditPorfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPorfileView.swift; sourceTree = "<group>"; };
 		485BDF9C2C7828B0006DE214 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		485BDF9F2C78437F006DE214 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
+		485BDFA12C78438C006DE214 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		485BDFA32C787C4B006DE214 /* CreatePostQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostQuery.swift; sourceTree = "<group>"; };
+		485BDFA52C78812E006DE214 /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		48CD15832C6CA23900A7708B /* BrilliantCake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrilliantCake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CD15862C6CA23900A7708B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48CD15882C6CA23900A7708B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -178,11 +186,21 @@
 			children = (
 				485BDF942C7771A5006DE214 /* ProfileViewController.swift */,
 				485BDF962C777575006DE214 /* ProfileView.swift */,
+				485BDF9C2C7828B0006DE214 /* ProfileViewModel.swift */,
 				485BDF982C782780006DE214 /* EditProfileViewController.swift */,
 				485BDF9A2C7827F1006DE214 /* EditPorfileView.swift */,
-				485BDF9C2C7828B0006DE214 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		485BDF9E2C78435A006DE214 /* CreatePost */ = {
+			isa = PBXGroup;
+			children = (
+				485BDF9F2C78437F006DE214 /* CreatePostViewController.swift */,
+				485BDFA52C78812E006DE214 /* CreatePostViewModel.swift */,
+				485BDFA12C78438C006DE214 /* CreatePostView.swift */,
+			);
+			path = CreatePost;
 			sourceTree = "<group>";
 		};
 		48CD157A2C6CA23900A7708B = {
@@ -214,6 +232,7 @@
 				48CD15FA2C6F5DFA00A7708B /* Map */,
 				48CD16292C7325D700A7708B /* StoreList */,
 				48CD16182C7198DA00A7708B /* Store */,
+				485BDF9E2C78435A006DE214 /* CreatePost */,
 				48CD15F72C6F5B5500A7708B /* DetailPosting */,
 				48CD15A02C6CA9A800A7708B /* Browse */,
 				48CD15A12C6CA9D900A7708B /* Base */,
@@ -385,6 +404,7 @@
 				48DF97672C736D28006D4BA8 /* CommentsQuery.swift */,
 				48DF97692C738B83006D4BA8 /* SearchQuery.swift */,
 				485BDF912C772010006DE214 /* LikeQuery.swift */,
+				485BDFA32C787C4B006DE214 /* CreatePostQuery.swift */,
 			);
 			path = EncodingModel;
 			sourceTree = "<group>";
@@ -519,6 +539,7 @@
 				48CD15CD2C6CB00000A7708B /* SignUpView.swift in Sources */,
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,
+				485BDFA42C787C4B006DE214 /* CreatePostQuery.swift in Sources */,
 				485BDF4B2C74E095006DE214 /* UserNetworkManager.swift in Sources */,
 				48CD15AD2C6CAB0200A7708B /* BaseView.swift in Sources */,
 				48CD159D2C6CA4B200A7708B /* APIKey.swift in Sources */,
@@ -532,6 +553,7 @@
 				48CD161A2C7198F800A7708B /* StoreViewController.swift in Sources */,
 				48DF976D2C749943006D4BA8 /* KingfisherManager+.swift in Sources */,
 				48CD15892C6CA23900A7708B /* SceneDelegate.swift in Sources */,
+				485BDFA22C78438C006DE214 /* CreatePostView.swift in Sources */,
 				48CD15E42C6DA86500A7708B /* SignUpModel.swift in Sources */,
 				48CD16172C71958000A7708B /* UIView+.swift in Sources */,
 				48CD161E2C71CF0400A7708B /* StoreView.swift in Sources */,
@@ -540,8 +562,10 @@
 				485BDF492C74D8C6006DE214 /* PostRouter.swift in Sources */,
 				48CD15EE2C6DCD5000A7708B /* BrowseCollectionViewCell.swift in Sources */,
 				485BDF6F2C76143E006DE214 /* DesignSystem.swift in Sources */,
+				485BDFA02C78437F006DE214 /* CreatePostViewController.swift in Sources */,
 				48CD15E02C6CB49600A7708B /* FilesModel.swift in Sources */,
 				485BDF692C75ADCC006DE214 /* StoreMapMarkerViewController.swift in Sources */,
+				485BDFA62C78812E006DE214 /* CreatePostViewModel.swift in Sources */,
 				485BDF472C74D735006DE214 /* UserRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

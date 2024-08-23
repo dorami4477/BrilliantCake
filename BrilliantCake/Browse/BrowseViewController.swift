@@ -12,12 +12,18 @@ import RxDataSources
 
 final class BrowseViewController: BaseViewController {
     
-    private let viewModel = BrowseViewModel()
+    private let viewModel: BrowseViewModel
     private let disposeBag = DisposeBag()
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>! = nil
     private var section: PublishSubject<[SectionOfBasicData]> = PublishSubject()
     private var collectionView: UICollectionView! = nil
     private let searchController = UISearchController(searchResultsController: nil)
+    private let createButton = UIButton()
+    
+    init(viewModel: BrowseViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +50,8 @@ final class BrowseViewController: BaseViewController {
         let input = BrowseViewModel.Input(selectedModel: collectionView.rx.modelSelected(PostData.self), 
                                           textField: searchController.searchBar.rx.text.orEmpty,
                                           searchButtonTap: searchController.searchBar.rx.searchButtonClicked,
-                                          cancelButtonTap: searchController.searchBar.rx.cancelButtonClicked)
+                                          cancelButtonTap: searchController.searchBar.rx.cancelButtonClicked,
+                                          createButtonTap: createButton.rx.tap)
         let output = viewModel.transform(input: input)
         
         output.postList
@@ -61,9 +68,16 @@ final class BrowseViewController: BaseViewController {
         
         output.selectedModel
             .bind(with: self) { owner, value in
-                let detailVC = DetailPostingViewController()
+                let detailVC = DetailPostingViewController(viewModel: DetailPostingViewModel())
                 detailVC.viewModel.data = value
                 owner.navigationController?.pushViewController(detailVC, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.createButtonTap
+            .bind(with: self) { owner, value in
+                let createVC = CreatePostViewController()
+                owner.navigationController?.pushViewController(createVC, animated: true)
             }
             .disposed(by: disposeBag)
         
@@ -79,10 +93,24 @@ final class BrowseViewController: BaseViewController {
         collectionView.register(BrowseCollectionViewCell.self, forCellWithReuseIdentifier: BrowseCollectionViewCell.identifier)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
+        view.addSubview(createButton)
+    }
+    
+    override func configureLayout() {
         collectionView.snp.makeConstraints { make in
             make.verticalEdges.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview().inset(1)
         }
+        createButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(15)
+            make.width.equalTo(180)
+            make.height.equalTo(44)
+        }
+        createButton.setTitle("글 작성하기", for: .normal)
+        createButton.setTitleColor(.black, for: .normal)
+        createButton.backgroundColor = .main
+        createButton.layer.cornerRadius = 20
     }
     
     override func configureNavigation() {

@@ -12,8 +12,13 @@ import RxCocoa
 final class DetailPostingViewController: BaseViewController {
 
     let mainView = DetailPostingView()
-    let viewModel = DetailPostingViewModel()
+    let viewModel: DetailPostingViewModel
     private let disposeBag = DisposeBag()
+    
+    init(viewModel: DetailPostingViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     override func loadView() {
         view = mainView
@@ -63,7 +68,7 @@ final class DetailPostingViewController: BaseViewController {
                 return postData
             })
             .bind(with: self) { owner, value in
-                let storeVC = StoreViewController()
+                let storeVC = StoreViewController(viewModel: StoreViewModel())
                 guard let value else { return }
                 storeVC.storeId = value.content1
                 owner.navigationController?.pushViewController(storeVC, animated: true)

@@ -12,9 +12,14 @@ import RxCocoa
 final class StoreViewController: BaseViewController {
 
     private let mainView = StoreView()
-    private let viewModel = StoreViewModel()
+    private let viewModel: StoreViewModel
     private let disposeBag = DisposeBag()
     var storeId: String = ""
+    
+    init(viewModel: StoreViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     override func loadView() {
         view = mainView
@@ -65,7 +70,7 @@ final class StoreViewController: BaseViewController {
         
         output.modelSelected
             .bind(with: self) { owner, value in
-                let detailVC = DetailPostingViewController()
+                let detailVC = DetailPostingViewController(viewModel: DetailPostingViewModel())
                 detailVC.viewModel.data = value
                 detailVC.mainView.storeButton.isHidden = true
                 owner.present(detailVC, animated: true)

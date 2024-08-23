@@ -19,6 +19,12 @@ class ProfileViewController: BaseViewController {
     private let sectionData = [
         SectionOfData(header: "1", items: ["프로필 수정", "내가 작성한 글", "좋아요 한 케이크샵"])
     ]
+    private let viewModel: ProfileViewModel
+    
+    init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     override func loadView() {
         view = mainView
@@ -30,10 +36,21 @@ class ProfileViewController: BaseViewController {
     }
     
     private func bind() {
+        let input = ProfileViewModel.Input()
+        let output = viewModel.transform(input: input)
+        
         sections
             .asObservable()
             .bind(to: mainView.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        output.profileData
+            .bind(with: self) { owner, value in
+                owner.mainView.nameLabel.text = value.nick
+                owner.mainView.emailLabel.text = value.email
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     private func configureDataSource() {

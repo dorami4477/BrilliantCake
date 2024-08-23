@@ -23,6 +23,15 @@ class BaseViewController: UIViewController {
     func configureLayout() {}
     func configureNavigation(){}
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func changeRootVC(_ viewController:UIViewController){
         let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         let sceneDelegate = windowScene?.delegate as? SceneDelegate
