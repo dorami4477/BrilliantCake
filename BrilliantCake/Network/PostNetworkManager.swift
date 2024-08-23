@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 import RxSwift
 import Kingfisher
+import UIKit
 
 enum NetworkError:Error {
     case invaildURL
@@ -17,7 +18,7 @@ enum NetworkError:Error {
     case unknownRefreshTokenError
 }
 
-class PostNetworkManager {
+final class PostNetworkManager {
     
     static let shared = PostNetworkManager()
     let disposeBag = DisposeBag()
@@ -140,5 +141,61 @@ class PostNetworkManager {
             return Disposables.create()
         }
     }
+    
+    func uploadImages(image: [UIImage], completion:@escaping (FilesModel) -> Void) {
+        
+        
+        let url = URL(string: PostRouter.uploadFiles.baseURL + PostRouter.uploadFiles.path)!
+        
+        let headers: HTTPHeaders = [
+            Header.authorization.rawValue: UserDefaultsManager.token,
+            Header.contentType.rawValue: Header.multipart.rawValue,
+            Header.sesacKey.rawValue: APIKey.key
+        ]
+        
+        AF.upload(multipartFormData: { MultipartFormData in
+            image.forEach { image in
+                let jpgImageData = image.jpegData(compressionQuality: 0.2) ?? Data()
+                
+                MultipartFormData.append(jpgImageData,
+                                         withName: "files",
+                                         fileName: "iamge.jpg",
+                                         mimeType: "image/jpg")
+            }
+        }, to: url, method: .post, headers: headers)
+        .validate()
+        .responseDecodable(of: FilesModel.self) { reponse in
+            switch reponse.result {
+            case .success(let reuslt):
+                    completion(reuslt)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func createPost(title: String, content:String, content1:String, content2: String, productId:String, files:[String]) -> Single<Result<PostModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let query = CreatePostQuery(title: title, content: content, content1: content1, content2: content2, product_id: productId, files: files)
+                let request = try PostRouter.createPost(query: query).asURLRequest()
+                
+                AF.request(request, interceptor: AuthInterceptor.shared)
+                    .responseDecodable(of: PostModel.self) { response in
+                        switch response.result {
+                        case .success(let success):
+                            observer(.success(.success(success)))
+                        case .failure(let error):
+                            print(error)
+                            observer(.success(.failure(.expiredToken)))
+                        }
+                    }
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+            }
+            return Disposables.create()
+        }
+    }
+    
     
 }

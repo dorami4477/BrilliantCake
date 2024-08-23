@@ -15,6 +15,8 @@ enum PostRouter {
     case addComment(id: String, query: CommentsQuery)
     case search(query: SearchQuery)
     case like(id: String, query: LikeQuery)
+    case uploadFiles
+    case createPost(query: CreatePostQuery)
 }
 
 extension PostRouter: TargetType {
@@ -33,7 +35,12 @@ extension PostRouter: TargetType {
             return .get
         case .like:
             return .post
+        case .uploadFiles:
+            return .post
+        case .createPost:
+            return .post
         }
+    
         
     }
     
@@ -95,6 +102,17 @@ extension PostRouter: TargetType {
                 print(error)
                 return nil
             }
+        case .createPost(let query):
+            let encoder = JSONEncoder()
+            
+            do {
+                let data = try encoder.encode(query)
+                print("data \(data)")
+                return data
+            } catch {
+                print(error)
+                return nil
+            }
             
         default: return nil
         }
@@ -119,6 +137,10 @@ extension PostRouter: TargetType {
             return "/posts/hashtags"
         case .like(let id, _):
             return "/posts/\(id)/like"
+        case .uploadFiles:
+            return "/posts/files"
+        case .createPost(query: let query):
+            return "/posts"
         }
     }
     
@@ -157,6 +179,18 @@ extension PostRouter: TargetType {
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.json.rawValue,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .uploadFiles:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.multipart.rawValue,
+                Header.sesacKey.rawValue: APIKey.key
+            ]
+        case .createPost:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.multipart.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
         }

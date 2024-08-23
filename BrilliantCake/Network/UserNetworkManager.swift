@@ -10,7 +10,7 @@ import Alamofire
 import RxSwift
 import Kingfisher
 
-class UserNetworkManager {
+final class UserNetworkManager {
     
     static let shared = UserNetworkManager()
     let disposeBag = DisposeBag()
@@ -65,32 +65,27 @@ class UserNetworkManager {
             print(error)
         }
     }
-    
-    func fetchProfile() {
-        
-        do {
-            let request = try UserRouter.fetchProfile.asURLRequest()
-            
-            AF.request(request)
-                .responseDecodable(of: ProfileModel.self) { response in
-                    
-                    if response.response?.statusCode == 419 {
-                        // self.refreshToken()
-                    } else {
+
+    func fetchProfile() -> Single<Result<ProfileModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let request = try UserRouter.fetchProfile.asURLRequest()
+                
+                AF.request(request, interceptor: AuthInterceptor.shared)
+                    .responseDecodable(of: ProfileModel.self) { response in
                         switch response.result {
                         case .success(let success):
-                            print("OK", success)
-                            //self.profileView.emailLabel.text = success.email
-                            //self.profileView.userNameLabel.text = success.nick
-                        case .failure(let failure):
-                            print("Fail", failure)
+                            observer(.success(.success(success)))
+                        case .failure(let error):
+                            print(error)
+                            observer(.success(.failure(.expiredToken)))
                         }
                     }
-                }
-        } catch {
-            print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패!!")
+            } catch {
+                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+            }
+            return Disposables.create()
         }
-        
     }
     
     func editProfile() {
@@ -108,7 +103,7 @@ class UserNetworkManager {
                         case .success(let success):
                             print("OK", success)
                             
-                            self.fetchProfile()
+                            //self.fetchProfile()
                             
                         case .failure(let failure):
                             print("Fail", failure)
