@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4857A8B32C79674E00BC8F0D /* SelectStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8B22C79674E00BC8F0D /* SelectStoreViewController.swift */; };
+		4857A8B62C79746600BC8F0D /* SelectStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8B52C79746600BC8F0D /* SelectStoreTableViewCell.swift */; };
+		4857A8B82C7978AD00BC8F0D /* SelectStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8B72C7978AD00BC8F0D /* SelectStoreViewModel.swift */; };
 		485BDF432C749E8A006DE214 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF422C749E8A006DE214 /* UIImageView+.swift */; };
 		485BDF452C74CD50006DE214 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF442C74CD50006DE214 /* AuthInterceptor.swift */; };
 		485BDF472C74D735006DE214 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF462C74D735006DE214 /* UserRouter.swift */; };
@@ -88,6 +91,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4857A8B22C79674E00BC8F0D /* SelectStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStoreViewController.swift; sourceTree = "<group>"; };
+		4857A8B52C79746600BC8F0D /* SelectStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStoreTableViewCell.swift; sourceTree = "<group>"; };
+		4857A8B72C7978AD00BC8F0D /* SelectStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStoreViewModel.swift; sourceTree = "<group>"; };
 		485BDF422C749E8A006DE214 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		485BDF442C74CD50006DE214 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		485BDF462C74D735006DE214 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -181,6 +187,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4857A8B42C79675900BC8F0D /* SelectStore */ = {
+			isa = PBXGroup;
+			children = (
+				4857A8B22C79674E00BC8F0D /* SelectStoreViewController.swift */,
+				4857A8B72C7978AD00BC8F0D /* SelectStoreViewModel.swift */,
+				4857A8B52C79746600BC8F0D /* SelectStoreTableViewCell.swift */,
+			);
+			path = SelectStore;
+			sourceTree = "<group>";
+		};
 		485BDF932C77716F006DE214 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +248,7 @@
 				48CD15FA2C6F5DFA00A7708B /* Map */,
 				48CD16292C7325D700A7708B /* StoreList */,
 				48CD16182C7198DA00A7708B /* Store */,
+				4857A8B42C79675900BC8F0D /* SelectStore */,
 				485BDF9E2C78435A006DE214 /* CreatePost */,
 				48CD15F72C6F5B5500A7708B /* DetailPosting */,
 				48CD15A02C6CA9A800A7708B /* Browse */,
@@ -516,6 +533,7 @@
 				485BDF992C782780006DE214 /* EditProfileViewController.swift in Sources */,
 				48CD16102C70E3A000A7708B /* DetailPostingViewModel.swift in Sources */,
 				48CD15AB2C6CAAA000A7708B /* BaseViewController.swift in Sources */,
+				4857A8B82C7978AD00BC8F0D /* SelectStoreViewModel.swift in Sources */,
 				485BDF6B2C75B6F9006DE214 /* LodPOISample.swift in Sources */,
 				48CD15B22C6CADC700A7708B /* SignUpViewController.swift in Sources */,
 				48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */,
@@ -540,6 +558,7 @@
 				48CD15872C6CA23900A7708B /* AppDelegate.swift in Sources */,
 				48CD15F42C6EDB6400A7708B /* BaseViewModel.swift in Sources */,
 				485BDFA42C787C4B006DE214 /* CreatePostQuery.swift in Sources */,
+				4857A8B32C79674E00BC8F0D /* SelectStoreViewController.swift in Sources */,
 				485BDF4B2C74E095006DE214 /* UserNetworkManager.swift in Sources */,
 				48CD15AD2C6CAB0200A7708B /* BaseView.swift in Sources */,
 				48CD159D2C6CA4B200A7708B /* APIKey.swift in Sources */,
@@ -547,6 +566,7 @@
 				48CD15F62C6EDD8400A7708B /* FetchPostQuery.swift in Sources */,
 				48DF976A2C738B83006D4BA8 /* SearchQuery.swift in Sources */,
 				485BDF972C777575006DE214 /* ProfileView.swift in Sources */,
+				4857A8B62C79746600BC8F0D /* SelectStoreTableViewCell.swift in Sources */,
 				48CD15DE2C6CB48500A7708B /* RefreshModel.swift in Sources */,
 				485BDF432C749E8A006DE214 /* UIImageView+.swift in Sources */,
 				48CD15BA2C6CAEDC00A7708B /* LoginView.swift in Sources */,

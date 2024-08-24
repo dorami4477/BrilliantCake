@@ -40,12 +40,25 @@ class CreatePostViewController: BaseViewController {
         //mainView.contentTextView.rx.text.orEmpty
         
 //        let input = CreatePostViewModel.Input(imageData: Observable.just([jpgImageData]), postData: Observable.just(query), pickerViewTap: mainView.addPhotoButton.rx.tap)
-                let input = CreatePostViewModel.Input(pickerViewTap: mainView.addPhotoButton.rx.tap)
+        let input = CreatePostViewModel.Input(storeButtonTap: mainView.storeSelectButton.rx.tap, pickerViewTap: mainView.addPhotoButton.rx.tap)
         let output = viewModel.transform(input: input)
        
         output.postResult
             .bind(with: self) { owner, value in
                 print(value)
+            }
+            .disposed(by: disposeBag)
+        
+        input.storeButtonTap
+            .bind(with: self) { owner, value in
+                let storeVC = SelectStoreViewController(viewModel: SelectStoreViewModel())
+                storeVC.viewModel.selectedStore
+                    .bind(with: self) { owner, value in
+                        owner.mainView.storeSelectButtonUI(title: value.title)
+                    }
+                    .disposed(by: storeVC.viewModel.disposeBag)
+                
+                owner.navigationController?.pushViewController(storeVC, animated: true)
             }
             .disposed(by: disposeBag)
         

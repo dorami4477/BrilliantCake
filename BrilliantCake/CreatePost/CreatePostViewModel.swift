@@ -15,12 +15,14 @@ final class CreatePostViewModel: BaseViewModel {
     struct Input {
       //  let imageData: Observable<[Data]>
       //  let postData: Observable<CreatePostQuery>
+        let storeButtonTap: ControlEvent<Void>
         let pickerViewTap: ControlEvent<Void>
     }
     
     struct Output {
         let postResult: PublishSubject<PostData>
         let pickerViewTap: ControlEvent<Void>
+        let storeButtonTap: ControlEvent<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -71,6 +73,6 @@ final class CreatePostViewModel: BaseViewModel {
 //            }
 //            .disposed(by: disposeBag)
         
-        return Output(postResult: postResult, pickerViewTap: input.pickerViewTap)
+        return Output(postResult: postResult, pickerViewTap: input.pickerViewTap, storeButtonTap: input.storeButtonTap)
     }
 }

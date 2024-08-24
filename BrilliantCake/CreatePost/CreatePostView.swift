@@ -303,4 +303,10 @@ final class CreatePostView: BaseView {
             }
         }
     }
+    
+    func storeSelectButtonUI(title: String) {
+        storeSelectButton.setTitle(title, for: .normal)
+        storeSelectButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
+        storeSelectButton.setTitleColor(.black, for: .normal)
+    }
 }
