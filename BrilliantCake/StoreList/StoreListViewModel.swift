@@ -11,6 +11,7 @@ import RxCocoa
 
 final class StoreListViewModel: BaseViewModel {
     
+    var isLikePage = BehaviorSubject(value: false)
     private let disposeBag = DisposeBag()
     
     struct Input {
@@ -27,11 +28,15 @@ final class StoreListViewModel: BaseViewModel {
         let postList = PublishSubject<[PostData]>()
         let isTokenVaild = BehaviorSubject(value: true)
         
-        Single.just(("", "allBCakeStore"))
-            .flatMap{ value in
-                PostNetworkManager.shared.fetchPost(next: value.0, productId: value.1)
+        isLikePage
+            .flatMapLatest { isLikePageValue -> Single<Result<PostModel, PostNetworkError>> in
+                if isLikePageValue {
+                    return PostNetworkManager.shared.fetchLikePost(next: "", limit: "10")
+                } else {
+                    return PostNetworkManager.shared.fetchPost(next: "", productId: "allBCakeStore")
+                }
             }
-            .subscribe(with: self, onSuccess: { owner, value in
+            .subscribe { value in
                 switch value {
                 case .success(let result):
                     postList.onNext(result.data)
@@ -41,12 +46,37 @@ final class StoreListViewModel: BaseViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            }, onFailure: { owner, error in
+            } onError: { error in
                 print(error)
-            }, onDisposed: { owner in
-                print("disposed")
-            })
+            } onCompleted: {
+                print("onCompleted")
+            } onDisposed: {
+                print("onDisposed")
+            }
             .disposed(by: disposeBag)
+
+
+//            Single.just(("", "allBCakeStore"))
+//                .flatMap{ value in
+//                    PostNetworkManager.shared.fetchPost(next: value.0, productId: value.1)
+//                }
+//                .subscribe(with: self, onSuccess: { owner, value in
+//                    switch value {
+//                    case .success(let result):
+//                        postList.onNext(result.data)
+//                    case .failure(let error):
+//                        print("postdata", error)
+//                        if error == .expiredToken {
+//                            isTokenVaild.onNext(false)
+//                        }
+//                    }
+//                }, onFailure: { owner, error in
+//                    print(error)
+//                }, onDisposed: { owner in
+//                    print("disposed")
+//                })
+//                .disposed(by: disposeBag)
+
         
         return Output(postList: postList, modelSelected: input.modelSelected, isTokenVaild: isTokenVaild)
     }

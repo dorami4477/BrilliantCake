@@ -51,6 +51,16 @@ class ProfileViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        mainView.tableView.rx.itemSelected
+            .bind(with: self) { owner, indexPath in
+                if indexPath.row == 2 {
+                    let storeListVC = StoreListViewController(viewModel: StoreListViewModel())
+                    storeListVC.viewModel.isLikePage.onNext(true)
+                    owner.navigationController?.pushViewController(storeListVC, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     private func configureDataSource() {

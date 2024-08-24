@@ -11,7 +11,7 @@ import Alamofire
 
 class NetworkManager {
     
-    static func callRequest2<Model: Codable>(model: Model.Type, request: URLRequest, completion: @escaping (Result<Model, NetworkError>) -> Void) {
+    static func callRequest2<Model: Decodable>(model: Model.Type, request: URLRequest, completion: @escaping (Result<Model, NetworkError>) -> Void) {
         
         AF.request(request, interceptor: AuthInterceptor.shared)
             .responseDecodable(of: model.self) { response in
@@ -20,7 +20,7 @@ class NetworkManager {
                 case .success(let success):
                     completion(.success(success))
                     
-                case .failure(let error):
+                case .failure:
                     
                     guard let response = response.response else { return }
       

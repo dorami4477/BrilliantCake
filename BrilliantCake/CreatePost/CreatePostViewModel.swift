@@ -83,8 +83,8 @@ final class CreatePostViewModel: BaseViewModel {
         let submitButtonActive = BehaviorSubject<Bool>(value: false)
         let storeIDObservable = storeID.map { !$0.isEmpty }
         let storeNameObservable = storeName.map { !$0.isEmpty }
-        let titleTextObservable = input.titleText.map { !$0.isEmpty }
-        let contentTextObservable = input.contentText.map { !$0.isEmpty }
+        let titleTextObservable = input.titleText.map { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        let contentTextObservable = input.contentText.map { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
         let imageDataObservable = imageData.map { !$0.isEmpty }
         
         Observable.combineLatest(
@@ -95,7 +95,6 @@ final class CreatePostViewModel: BaseViewModel {
             imageDataObservable
         )
         .map { storeIDValid, storeNameValid, titleValid, contentValid, imageValid in
-            print(storeIDValid, storeNameValid, titleValid, contentValid, imageValid)
             return storeIDValid && storeNameValid && titleValid && contentValid && imageValid
         }
         .bind(to: submitButtonActive)

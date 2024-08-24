@@ -17,6 +17,7 @@ enum PostRouter {
     case like(id: String, query: LikeQuery)
     case uploadFiles
     case createPost(query: CreatePostQuery)
+    case fetchlike(query: FetchPostQuery)
 }
 
 extension PostRouter: TargetType {
@@ -39,6 +40,8 @@ extension PostRouter: TargetType {
             return .post
         case .createPost:
             return .post
+        case .fetchlike:
+            return .get
         }
     
         
@@ -50,7 +53,7 @@ extension PostRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .fetchPost(let query):
+        case .fetchPost(let query), .fetchlike(let query):
          return [
                 URLQueryItem(name: "next", value: query.next),
                 URLQueryItem(name: "limit", value: query.limit),
@@ -141,56 +144,28 @@ extension PostRouter: TargetType {
             return "/posts/files"
         case .createPost:
             return "/posts"
+        case .fetchlike:
+            return "/posts/likes/me"
         }
     }
     
     var header: [String: String] {
         switch self {
-        case .fetchPost:
+        case .fetchPost, .fetchPostImage, .fetchSpecificPost, .addComment, .like, .createPost:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
-        case .fetchPostImage:
+        case .search, .fetchlike:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.json.rawValue,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .fetchSpecificPost:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.json.rawValue,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .addComment:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.json.rawValue,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .search:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .like:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
         case .uploadFiles:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.contentType.rawValue: Header.multipart.rawValue,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-        case .createPost:
-            return [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
         }

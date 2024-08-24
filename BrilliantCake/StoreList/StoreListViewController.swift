@@ -12,7 +12,7 @@ import RxCocoa
 final class StoreListViewController: BaseViewController {
     
     private let tableView = UITableView()
-    private let viewModel: StoreListViewModel
+    let viewModel: StoreListViewModel
     private let disposeBag = DisposeBag()
 
     init(viewModel: StoreListViewModel) {

@@ -10,5 +10,5 @@ import Foundation
 struct FetchPostQuery: Encodable {
     let next: String
     let limit: String
-    let product_id: String
+    let product_id: String?
 }

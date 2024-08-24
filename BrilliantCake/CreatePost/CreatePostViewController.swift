@@ -72,6 +72,24 @@ class CreatePostViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        mainView.contentTextView.rx.text.orEmpty
+            .bind(with: self) { owner, value in
+                if value.count > 200 {
+                    owner.mainView.contentTextView.text = String(value.prefix(200))
+                }
+                owner.mainView.contentCountLabel.text = "\(min(value.count, 200)) / 200"
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.titleTextField.rx.text.orEmpty
+            .bind(with: self) { owner, value in
+                if value.count > 30 {
+                    owner.mainView.titleTextField.text = String(value.prefix(30))
+                }
+                owner.mainView.titleCountLabel.text = "\(min(value.count, 30)) / 30"
+            }
+            .disposed(by: disposeBag)
+        
         output.submitButtonActive
             .bind(with: self, onNext: { owner, value in
                 owner.mainView.setSubmitButton(value)
@@ -115,6 +133,7 @@ extension CreatePostViewController:PHPickerViewControllerDelegate{
 
         dispatchGroup.notify(queue: .main) { [weak self] in
             self?.mainView.addNewImages(images: selectedImages)
+            self?.mainView.photoCountLabel.text = "\(selectedImages.count) / 3"
             self?.viewModel.imageData.onNext(selectedImageDatas)
         }
     }
