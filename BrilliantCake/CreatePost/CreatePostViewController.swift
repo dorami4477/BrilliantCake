@@ -32,20 +32,16 @@ class CreatePostViewController: BaseViewController {
     }
     
     func bind() {
-//        let image = UIImage(named: "BC_5")!
-//        let jpgImageData = image.jpegData(compressionQuality: 0.2) ?? Data()
-//        let query = CreatePostQuery(title: "hh", content: "eert", content1: "rtyrt", content2: "rttt", product_id: "yyy", files: nil)
-        
-        //mainView.titleTextField.rx.text.orEmpty
-        //mainView.contentTextView.rx.text.orEmpty
-        
-//        let input = CreatePostViewModel.Input(imageData: Observable.just([jpgImageData]), postData: Observable.just(query), pickerViewTap: mainView.addPhotoButton.rx.tap)
-        let input = CreatePostViewModel.Input(storeButtonTap: mainView.storeSelectButton.rx.tap, pickerViewTap: mainView.addPhotoButton.rx.tap)
+        let input = CreatePostViewModel.Input(titleText: mainView.titleTextField.rx.text.orEmpty,
+                                              contentText: mainView.contentTextView.rx.text.orEmpty,
+                                              storeButtonTap: mainView.storeSelectButton.rx.tap,
+                                              pickerViewTap: mainView.addPhotoButton.rx.tap,
+                                              submitButtonTap: mainView.submitButton.rx.tap)
         let output = viewModel.transform(input: input)
        
         output.postResult
             .bind(with: self) { owner, value in
-                print(value)
+                owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
         
@@ -55,6 +51,8 @@ class CreatePostViewController: BaseViewController {
                 storeVC.viewModel.selectedStore
                     .bind(with: self) { owner, value in
                         owner.mainView.storeSelectButtonUI(title: value.title)
+                        owner.viewModel.storeID.onNext(value.id)
+                        owner.viewModel.storeName.onNext(value.title)
                     }
                     .disposed(by: storeVC.viewModel.disposeBag)
                 
@@ -73,6 +71,12 @@ class CreatePostViewController: BaseViewController {
                 owner.present(picker, animated: true)
             }
             .disposed(by: disposeBag)
+        
+        output.submitButtonActive
+            .bind(with: self, onNext: { owner, value in
+                owner.mainView.setSubmitButton(value)
+            })
+            .disposed(by: disposeBag)
     }
 
     override func configureLayout() {
@@ -81,12 +85,13 @@ class CreatePostViewController: BaseViewController {
     }
 }
 
-//델리게이트로 저장
+
 extension CreatePostViewController:PHPickerViewControllerDelegate{
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
         var selectedImages: [UIImage] = []
+        var selectedImageDatas: [Data] = []
         let dispatchGroup = DispatchGroup()
 
         for result in results {
@@ -98,6 +103,8 @@ extension CreatePostViewController:PHPickerViewControllerDelegate{
                     DispatchQueue.main.async {
                         if let loadedImage = image as? UIImage {
                             selectedImages.append(loadedImage)
+                            let jpgImageData = loadedImage.jpegData(compressionQuality: 0.7) ?? Data()
+                            selectedImageDatas.append(jpgImageData)
                         }
                         dispatchGroup.leave()
                     }
@@ -107,6 +114,7 @@ extension CreatePostViewController:PHPickerViewControllerDelegate{
 
         dispatchGroup.notify(queue: .main) { [weak self] in
             self?.mainView.addNewImages(images: selectedImages)
+            self?.viewModel.imageData.onNext(selectedImageDatas)
         }
     }
 

@@ -19,6 +19,7 @@ final class BrowseViewController: BaseViewController {
     private var collectionView: UICollectionView! = nil
     private let searchController = UISearchController(searchResultsController: nil)
     private let createButton = UIButton()
+    let indecate = UIProgressView()
     
     init(viewModel: BrowseViewModel) {
         self.viewModel = viewModel
@@ -29,6 +30,7 @@ final class BrowseViewController: BaseViewController {
         super.viewDidLoad()
         configureDataSource()
         bind()
+        view.addSubview(indecate)
     }
     
     private func configureDataSource() {

@@ -12,7 +12,8 @@ extension UIImageView {
     //큰사이즈 이미지 (프로그레스뷰)
     func setImages(url:String, indicator: UIProgressView, cloure:@escaping (Result<RetrieveImageResult, KingfisherError>) -> Void) {
         DispatchQueue.main.async {
-            self.kf.setImage(with: URL(string: url)) { receivedSize, totalSize in
+            let urlString = APIKey.BaseURL + "v1/" + url
+            self.kf.setImage(with: URL(string: urlString)) { receivedSize, totalSize in
                 let percentage = (Float(receivedSize) / Float(totalSize))
                 indicator.setProgress(percentage, animated: true)
                 

@@ -309,4 +309,11 @@ final class CreatePostView: BaseView {
         storeSelectButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
         storeSelectButton.setTitleColor(.black, for: .normal)
     }
+    
+    func setSubmitButton(_ status: Bool) {
+        print(#function, status)
+        submitButton.isEnabled = status
+        submitButton.backgroundColor = status ? .main : .lightGray
+
+    }
 }
