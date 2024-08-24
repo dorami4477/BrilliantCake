@@ -11,12 +11,31 @@ import RxSwift
 import Kingfisher
 import UIKit
 
-enum NetworkError:Error {
-    case invaildURL
+enum NetworkError:Error, Equatable {
+    case invaildURL 
     case decodingError
     case expiredToken
-    case unknownRefreshTokenError
+    case unknownError(statusCode: Int)
+    case serverError
+    case headerError
+    case exceededRequest
 }
+
+//enum NetworkError:Int, Error {
+//    case invaildURL = 444
+//    case decodingError
+//    case expiredToken = 418
+//    case unknownError(statusCode: Int)
+//    case serverError = 500
+//    case headerError = 420
+//    case exceededRequest = 429
+//}
+
+//enum PostNetworkError:Error, Equatable {
+//    case invailRequest
+//    case
+//    case expiredToken
+//}
 
 final class PostNetworkManager {
     
@@ -119,27 +138,60 @@ final class PostNetworkManager {
         }
     }
     
+//    func likePost(id: String, like: Bool) -> Single<Result<LikeQuery, NetworkError>> {
+//        return Single.create { observer -> Disposable in
+//            do {
+//                let query = LikeQuery(like_status: like)
+//                let request = try PostRouter.like(id: id, query: query).asURLRequest()
+//                
+//                AF.request(request, interceptor: AuthInterceptor.shared)
+//                    .responseDecodable(of: LikeQuery.self) { response in
+//                        switch response.result {
+//                        case .success(let success):
+//                            observer(.success(.success(success)))
+//                        case .failure(let error):
+//                            print(error)
+//                            observer(.success(.failure(.expiredToken)))
+//                        }
+//                    }
+//            } catch {
+//                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+//            }
+//            return Disposables.create()
+//        }
+//    }
+    
     func likePost(id: String, like: Bool) -> Single<Result<LikeQuery, NetworkError>> {
         return Single.create { observer -> Disposable in
             do {
                 let query = LikeQuery(like_status: like)
                 let request = try PostRouter.like(id: id, query: query).asURLRequest()
                 
-                AF.request(request, interceptor: AuthInterceptor.shared)
-                    .responseDecodable(of: LikeQuery.self) { response in
-                        switch response.result {
-                        case .success(let success):
-                            observer(.success(.success(success)))
-                        case .failure(let error):
-                            print(error)
-                            observer(.success(.failure(.expiredToken)))
+                NetworkManager.callRequest2(model: LikeQuery.self, request: request) { result in
+                    switch result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure(let error):
+                        switch error {
+                        case .unknownError(statusCode: 400),
+                             .unknownError(statusCode: 401),
+                             .unknownError(statusCode: 403):
+                            observer(.success(.failure(error)))
+                            
+                        case .unknownError(statusCode: 410):
+                            observer(.success(.failure(error)))
+                            
+                        default:
+                            observer(.success(.failure(error)))
                         }
                     }
+                }
             } catch {
-                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+                print(error, "asURLRequest 로 요청 만드는거 실패")
             }
             return Disposables.create()
         }
+
     }
     
     func uploadImages(imageData: [Data]) -> Single<Result<FilesModel, NetworkError>>{

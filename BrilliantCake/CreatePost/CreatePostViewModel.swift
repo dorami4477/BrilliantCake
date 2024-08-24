@@ -12,8 +12,8 @@ import RxCocoa
 final class CreatePostViewModel: BaseViewModel {
     let disposeBag = DisposeBag()
     
-    var storeID = PublishSubject<String>()
-    var storeName = PublishSubject<String>()
+    var storeID = BehaviorSubject(value: "")
+    var storeName = BehaviorSubject(value: "")
     let imageData = PublishSubject<[Data]>()
     
     struct Input {
@@ -35,20 +35,16 @@ final class CreatePostViewModel: BaseViewModel {
         let postResult = PublishSubject<PostData>()
         
         input.submitButtonTap
-            .withLatestFrom(imageData) { _, imageData in
-                imageData
-            }
+            .withLatestFrom(imageData) // 이미지 데이터를 가져옵니다.
             .flatMap { imageData in
                 PostNetworkManager.shared.uploadImages(imageData: imageData)
             }
             .flatMap { uploadResult in
                 Observable.combineLatest(input.titleText, input.contentText, self.storeID, self.storeName) { title, content, storeID, storeName in
-                    (uploadResult, title, content, storeID, storeName)
+                    return (uploadResult, title, content, storeID, storeName)
                 }
             }
-            .flatMap { [weak self] (uploadResult, title, content, storeID, storeName) in
-                guard let self else { return Single<Result<PostData, NetworkError>>.never() }
-                
+            .flatMap { (uploadResult, title, content, storeID, storeName) in
                 switch uploadResult {
                 case .success(let uploadedFiles):
                     return PostNetworkManager.shared.createPost(
@@ -99,6 +95,7 @@ final class CreatePostViewModel: BaseViewModel {
             imageDataObservable
         )
         .map { storeIDValid, storeNameValid, titleValid, contentValid, imageValid in
+            print(storeIDValid, storeNameValid, titleValid, contentValid, imageValid)
             return storeIDValid && storeNameValid && titleValid && contentValid && imageValid
         }
         .bind(to: submitButtonActive)

@@ -311,7 +311,6 @@ final class CreatePostView: BaseView {
     }
     
     func setSubmitButton(_ status: Bool) {
-        print(#function, status)
         submitButton.isEnabled = status
         submitButton.backgroundColor = status ? .main : .lightGray
 

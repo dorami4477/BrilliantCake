@@ -123,10 +123,10 @@ final class UserNetworkManager {
             
             AF.request(request)
                 .responseDecodable(of: RefreshModel.self) { response in
-                    
-                    if response.response?.statusCode == 418 {
-                        print("refreshToken expiration")
+                    guard let statusCode = response.response?.statusCode else { return }
+                    if statusCode == 418 {
                         handler(.failure(.expiredToken))
+                        
                     } else {
                         switch response.result {
                         case .success(let success):
@@ -134,7 +134,7 @@ final class UserNetworkManager {
                             
                         case .failure(let failure):
                             print(failure)
-                            handler(.failure(.unknownRefreshTokenError))
+                            handler(.failure(.unknownError(statusCode: statusCode)))
                         }
                     }
                 }
