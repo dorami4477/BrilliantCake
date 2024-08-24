@@ -21,21 +21,12 @@ enum NetworkError:Error, Equatable {
     case exceededRequest
 }
 
-//enum NetworkError:Int, Error {
-//    case invaildURL = 444
-//    case decodingError
-//    case expiredToken = 418
-//    case unknownError(statusCode: Int)
-//    case serverError = 500
-//    case headerError = 420
-//    case exceededRequest = 429
-//}
-
-//enum PostNetworkError:Error, Equatable {
-//    case invailRequest
-//    case
-//    case expiredToken
-//}
+enum PostNetworkError:Error, Equatable {
+    case invailRequest
+    case notFoundPost
+    case expiredToken
+    case commonError(error: NetworkError)
+}
 
 final class PostNetworkManager {
     
@@ -161,7 +152,7 @@ final class PostNetworkManager {
 //        }
 //    }
     
-    func likePost(id: String, like: Bool) -> Single<Result<LikeQuery, NetworkError>> {
+    func likePost(id: String, like: Bool) -> Single<Result<LikeQuery, PostNetworkError>> {
         return Single.create { observer -> Disposable in
             do {
                 let query = LikeQuery(like_status: like)
@@ -176,18 +167,21 @@ final class PostNetworkManager {
                         case .unknownError(statusCode: 400),
                              .unknownError(statusCode: 401),
                              .unknownError(statusCode: 403):
-                            observer(.success(.failure(error)))
+                            observer(.success(.failure(.invailRequest)))
                             
                         case .unknownError(statusCode: 410):
-                            observer(.success(.failure(error)))
+                            observer(.success(.failure(.notFoundPost)))
+                            
+                        case .expiredToken :
+                            observer(.success(.failure(.expiredToken)))
                             
                         default:
-                            observer(.success(.failure(error)))
+                            observer(.success(.failure(.commonError(error: error))))
                         }
                     }
                 }
             } catch {
-                print(error, "asURLRequest 로 요청 만드는거 실패")
+                print(error, "asURLRequest 실패")
             }
             return Disposables.create()
         }
