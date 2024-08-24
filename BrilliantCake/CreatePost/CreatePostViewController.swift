@@ -82,6 +82,7 @@ class CreatePostViewController: BaseViewController {
     override func configureLayout() {
         navigationItem.title = "업로드 하기"
         view.backgroundColor = .backgroundGray
+        mainView.contentTextView.delegate = self
     }
 }
 
@@ -118,4 +119,21 @@ extension CreatePostViewController:PHPickerViewControllerDelegate{
         }
     }
 
+}
+
+extension CreatePostViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+           if textView.textColor == UIColor.lightGray {
+               textView.text = nil
+               textView.textColor = UIColor.black
+           }
+           
+       }
+       
+       func textViewDidEndEditing(_ textView: UITextView) {
+           if textView.text.isEmpty {
+               textView.text = "방문하신 스토어에 대한 후기의 내용을 적어주세요."
+               textView.textColor = UIColor.lightGray
+           }
+       }
 }
