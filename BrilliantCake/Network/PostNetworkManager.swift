@@ -312,5 +312,35 @@ final class PostNetworkManager {
         }
     }
     
-    
+    func fetchUserPost(id:String, next: String) -> Single<Result<PostModel, PostNetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let query = FetchPostQuery(next: next, limit: "10", product_id: "allBCake")
+                let request = try PostRouter.fetchUserPost(id: id, query: query).asURLRequestWithQueryString()
+                
+                NetworkManager.callRequest2(model: PostModel.self, request: request) { result in
+                    switch result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure(let error):
+                        switch error {
+                        case .unknownError(statusCode: 400),
+                             .unknownError(statusCode: 401),
+                             .unknownError(statusCode: 403):
+                            observer(.success(.failure(.invailRequest)))
+                            
+                        case .expiredToken :
+                            observer(.success(.failure(.expiredToken)))
+                            
+                        default:
+                            observer(.success(.failure(.commonError(error: error))))
+                        }
+                    }
+                }
+            } catch {
+                print(error, "asURLRequest 실패")
+            }
+            return Disposables.create()
+        }
+    }
 }

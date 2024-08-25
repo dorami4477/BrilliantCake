@@ -33,7 +33,8 @@ final class DetailPostingViewController: BaseViewController {
     private func bind() {
         let input = DetailPostingViewModel.Input(storeButtonTap: mainView.storeButton.rx.tap,
                                                  textField: mainView.commentTextField.rx.text.orEmpty,
-                                                 addCommentButtonTap: mainView.addCommentButton.rx.tap)
+                                                 addCommentButtonTap: mainView.addCommentButton.rx.tap,
+                                                 deleteButtonTap: mainView.deleteButton.rx.tap)
         let output = viewModel.transform(input: input)
         
         output.postData
@@ -81,6 +82,12 @@ final class DetailPostingViewController: BaseViewController {
                                           drawUpDate: commnets.createdAt.convertToDateTime,
                                           comment: commnets.content)
                 owner.mainView.commentTextField.text = ""
+            }
+            .disposed(by: disposeBag)
+        
+        output.isMyPage
+            .bind(with: self) { owner, value in
+                owner.mainView.deleteButton.isHidden = !value
             }
             .disposed(by: disposeBag)
         

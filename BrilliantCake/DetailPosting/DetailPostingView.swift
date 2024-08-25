@@ -61,6 +61,15 @@ final class DetailPostingView: BaseView {
         return label
     }()
     
+    let deleteButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = .lightGray
+        button.layer.cornerRadius = 10
+        return button
+    }()
+    
     let titleLabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -128,6 +137,7 @@ final class DetailPostingView: BaseView {
         contentView1.addSubview(profileImageView)
         contentView1.addSubview(nickNameLabel)
         contentView1.addSubview(dateLabel)
+        contentView1.addSubview(deleteButton)
         contentView1.addSubview(titleLabel)
         contentView1.addSubview(contentStackView)
         contentStackView.addArrangedSubview(descriptionLabel)
@@ -175,6 +185,12 @@ final class DetailPostingView: BaseView {
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(nickNameLabel.snp.bottom)
             make.leading.equalTo(profileImageView.snp.trailing).offset(20)
+        }
+        
+        deleteButton.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(20)
+            make.trailing.equalTo(contentView1).inset(20)
+            make.size.equalTo(40)
         }
         
         titleLabel.snp.makeConstraints { make in

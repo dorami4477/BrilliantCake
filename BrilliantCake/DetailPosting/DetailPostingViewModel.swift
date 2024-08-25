@@ -12,12 +12,14 @@ import RxCocoa
 final class DetailPostingViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
+    var isMyPage = BehaviorSubject(value: false)
     var data:PostData?
     
     struct Input {
         let storeButtonTap: ControlEvent<Void>
         let textField: ControlProperty<String>
         let addCommentButtonTap: ControlEvent<Void>
+        let deleteButtonTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -25,6 +27,7 @@ final class DetailPostingViewModel: BaseViewModel {
         let storeButtonTap: ControlEvent<Void>
         let newCommnet: PublishSubject<Comments>
         let isTokenVaild: Observable<Bool>
+        let isMyPage: BehaviorSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
@@ -60,8 +63,9 @@ final class DetailPostingViewModel: BaseViewModel {
                 print("onDisposed")
             }
             .disposed(by: disposeBag)
+        
 
         
-        return Output(postData: postData, storeButtonTap: input.storeButtonTap, newCommnet: newCommnet, isTokenVaild: isTokenVaild)
+        return Output(postData: postData, storeButtonTap: input.storeButtonTap, newCommnet: newCommnet, isTokenVaild: isTokenVaild, isMyPage: isMyPage)
     }
 }

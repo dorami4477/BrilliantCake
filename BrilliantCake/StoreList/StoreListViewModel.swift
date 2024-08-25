@@ -24,6 +24,7 @@ final class StoreListViewModel: BaseViewModel {
         let postList: PublishSubject<[PostData]>
         let modelSelected: ControlEvent<PostData>
         let isTokenVaild: Observable<Bool>
+        let isLikePage: BehaviorSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
@@ -32,7 +33,6 @@ final class StoreListViewModel: BaseViewModel {
         
         Observable.combineLatest(isLikePage, isLikeButtonTap)
             .flatMapLatest { isLikePageValue -> Single<Result<PostModel, PostNetworkError>> in
-                print(isLikePageValue)
                 if isLikePageValue.0 {
                     return PostNetworkManager.shared.fetchLikePost(next: "", limit: "10")
                     
@@ -85,6 +85,6 @@ final class StoreListViewModel: BaseViewModel {
         .disposed(by: disposeBag)
 
         
-        return Output(postList: postList, modelSelected: input.modelSelected, isTokenVaild: isTokenVaild)
+        return Output(postList: postList, modelSelected: input.modelSelected, isTokenVaild: isTokenVaild, isLikePage: isLikePage)
     }
 }

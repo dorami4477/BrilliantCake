@@ -69,6 +69,12 @@ final class StoreListViewController: BaseViewController {
                 owner.isExpiredToken(value)
             }
             .disposed(by: disposeBag)
+        
+        output.isLikePage
+            .bind(with: self) { owner, value in
+                owner.navigationItem.title = value ? "Favorite Shops" : "CakeShop List"
+            }
+            .disposed(by: disposeBag)
     }
     
     override func configureHierarchy() {

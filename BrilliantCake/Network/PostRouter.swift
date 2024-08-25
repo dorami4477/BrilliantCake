@@ -18,6 +18,7 @@ enum PostRouter {
     case uploadFiles
     case createPost(query: CreatePostQuery)
     case fetchlike(query: FetchPostQuery)
+    case fetchUserPost(id: String, query: FetchPostQuery)
 }
 
 extension PostRouter: TargetType {
@@ -42,6 +43,8 @@ extension PostRouter: TargetType {
             return .post
         case .fetchlike:
             return .get
+        case .fetchUserPost:
+            return .get
         }
     
         
@@ -53,7 +56,7 @@ extension PostRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .fetchPost(let query), .fetchlike(let query):
+        case .fetchPost(let query), .fetchlike(let query), .fetchUserPost(_, let query):
          return [
                 URLQueryItem(name: "next", value: query.next),
                 URLQueryItem(name: "limit", value: query.limit),
@@ -146,6 +149,8 @@ extension PostRouter: TargetType {
             return "/posts"
         case .fetchlike:
             return "/posts/likes/me"
+        case .fetchUserPost(let id, _):
+            return "/posts/users/\(id)"
         }
     }
     
@@ -157,7 +162,7 @@ extension PostRouter: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
-        case .search, .fetchlike:
+        case .search, .fetchlike, .fetchUserPost:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.sesacKey.rawValue: APIKey.key

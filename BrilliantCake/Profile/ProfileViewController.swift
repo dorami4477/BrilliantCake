@@ -53,6 +53,11 @@ class ProfileViewController: BaseViewController {
         
         mainView.tableView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
+                if indexPath.row == 1 {
+                    let browseVC = BrowseViewController(viewModel: BrowseViewModel())
+                    browseVC.viewModel.isMyPage.onNext(true)
+                    owner.navigationController?.pushViewController(browseVC, animated: true)
+                }
                 if indexPath.row == 2 {
                     let storeListVC = StoreListViewController(viewModel: StoreListViewModel())
                     storeListVC.viewModel.isLikePage.onNext(true)

@@ -13,6 +13,7 @@ final class BrowseViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     var data: [PostData] = []
+    var isMyPage = BehaviorSubject(value: false)
     
     struct Input {
         let selectedModel: ControlEvent<PostData>
@@ -27,17 +28,24 @@ final class BrowseViewModel: BaseViewModel {
         let selectedModel: ControlEvent<PostData>
         let isTokenVaild: Observable<Bool>
         let createButtonTap: ControlEvent<Void>
+        let isMyPage: BehaviorSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
         let postList = PublishSubject<[PostData]>()
         let isTokenVaild = BehaviorSubject(value: true)
         
-        Single.just(("", "allBCake"))
-            .flatMap{ value in
-                PostNetworkManager.shared.fetchPost(next: value.0, productId: value.1)
+        
+        isMyPage
+            .flatMapLatest { isMyPage -> Single<Result<PostModel, PostNetworkError>> in
+                if isMyPage {
+                    return PostNetworkManager.shared.fetchUserPost(id: UserDefaultsManager.userID, next: "")
+                    
+                } else {
+                    return PostNetworkManager.shared.fetchPost(next: "", productId: "allBCake")
+                }
             }
-            .subscribe(with: self, onSuccess: { owner, value in
+            .subscribe(with: self, onNext: { owner, value in
                 switch value {
                 case .success(let result):
                     owner.data = result.data
@@ -48,8 +56,10 @@ final class BrowseViewModel: BaseViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            }, onFailure: { owner, error in
+            }, onError: { owner, error in
                 print(error)
+            }, onCompleted: { owner in
+                print("onCompleted")
             }, onDisposed: { owner in
                 print("disposed")
             })
@@ -90,6 +100,6 @@ final class BrowseViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(postList: postList, selectedModel: input.selectedModel, isTokenVaild: isTokenVaild, createButtonTap: input.createButtonTap)
+        return Output(postList: postList, selectedModel: input.selectedModel, isTokenVaild: isTokenVaild, createButtonTap: input.createButtonTap, isMyPage: isMyPage)
     }
 }

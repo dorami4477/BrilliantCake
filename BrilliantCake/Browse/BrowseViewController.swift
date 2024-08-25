@@ -12,7 +12,7 @@ import RxDataSources
 
 final class BrowseViewController: BaseViewController {
     
-    private let viewModel: BrowseViewModel
+    let viewModel: BrowseViewModel
     private let disposeBag = DisposeBag()
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>! = nil
     private var section: PublishSubject<[SectionOfBasicData]> = PublishSubject()
@@ -72,6 +72,7 @@ final class BrowseViewController: BaseViewController {
             .bind(with: self) { owner, value in
                 let detailVC = DetailPostingViewController(viewModel: DetailPostingViewModel())
                 detailVC.viewModel.data = value
+                detailVC.viewModel.isMyPage = output.isMyPage
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
@@ -80,6 +81,16 @@ final class BrowseViewController: BaseViewController {
             .bind(with: self) { owner, value in
                 let createVC = CreatePostViewController(viewModel: CreatePostViewModel())
                 owner.navigationController?.pushViewController(createVC, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.isMyPage
+            .bind(with: self) { owner, value in
+                if value {
+                    owner.navigationItem.searchController = .none
+                    owner.navigationItem.titleView = .none
+                    owner.navigationItem.title = "My Posting"
+                }
             }
             .disposed(by: disposeBag)
         
@@ -120,7 +131,6 @@ final class BrowseViewController: BaseViewController {
         navigationItem.titleView = UIImageView(image: resizedImage)
         
         searchController.searchBar.placeholder = Literal.GuideMessage.search
-        searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.autocorrectionType = .no
         navigationItem.searchController = searchController
@@ -170,15 +180,6 @@ final class BrowseViewController: BaseViewController {
     
 }
 
-
-// MARK: - UISearchBarDelegate
-extension BrowseViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text else { return }
-        print(text)
-
-    }
-}
 
 // MARK: - Section for CollectionView
 struct SectionOfBasicData {
