@@ -11,7 +11,6 @@
 		4857A8B62C79746600BC8F0D /* SelectStoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8B52C79746600BC8F0D /* SelectStoreTableViewCell.swift */; };
 		4857A8B82C7978AD00BC8F0D /* SelectStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8B72C7978AD00BC8F0D /* SelectStoreViewModel.swift */; };
 		4857A8BA2C79B58000BC8F0D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8B92C79B58000BC8F0D /* NetworkManager.swift */; };
-		4857A8BC2C7A0F6800BC8F0D /* LikedStoreListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8BB2C7A0F6800BC8F0D /* LikedStoreListViewModel.swift */; };
 		485BDF432C749E8A006DE214 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF422C749E8A006DE214 /* UIImageView+.swift */; };
 		485BDF452C74CD50006DE214 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF442C74CD50006DE214 /* AuthInterceptor.swift */; };
 		485BDF472C74D735006DE214 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF462C74D735006DE214 /* UserRouter.swift */; };
@@ -97,7 +96,6 @@
 		4857A8B52C79746600BC8F0D /* SelectStoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStoreTableViewCell.swift; sourceTree = "<group>"; };
 		4857A8B72C7978AD00BC8F0D /* SelectStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStoreViewModel.swift; sourceTree = "<group>"; };
 		4857A8B92C79B58000BC8F0D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		4857A8BB2C7A0F6800BC8F0D /* LikedStoreListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedStoreListViewModel.swift; sourceTree = "<group>"; };
 		485BDF422C749E8A006DE214 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		485BDF442C74CD50006DE214 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		485BDF462C74D735006DE214 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -414,7 +412,6 @@
 				48CD162A2C73260D00A7708B /* StoreListViewController.swift */,
 				48CD162E2C733ED700A7708B /* StoreListTableViewCell.swift */,
 				48CD16302C7341E400A7708B /* StoreListViewModel.swift */,
-				4857A8BB2C7A0F6800BC8F0D /* LikedStoreListViewModel.swift */,
 			);
 			path = StoreList;
 			sourceTree = "<group>";
@@ -527,7 +524,6 @@
 			files = (
 				4857A8BA2C79B58000BC8F0D /* NetworkManager.swift in Sources */,
 				48CD15D62C6CB36E00A7708B /* TargetType.swift in Sources */,
-				4857A8BC2C7A0F6800BC8F0D /* LikedStoreListViewModel.swift in Sources */,
 				48CD15EC2C6DC19C00A7708B /* TabBarController.swift in Sources */,
 				48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */,
 				48CD15B82C6CAEAB00A7708B /* LoginViewController.swift in Sources */,

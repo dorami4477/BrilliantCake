@@ -32,19 +32,7 @@ final class StoreListViewController: BaseViewController {
         output.postList
             .bind(to: tableView.rx.items(cellIdentifier: StoreListTableViewCell.identifier, cellType: StoreListTableViewCell.self)){ row, element, cell in
                 
-                guard element.files.count == 3 else {
-                    print("Expected exactly 3 image URLs, but got \(element.files.count)")
-                    return
-                }
-                
-                let imageViews = [cell.storeImageView1, cell.storeImageView2, cell.storeImageView3]
-                
-                for (index, url) in element.files.enumerated() {
-                    imageViews[index].setImage(url: url)
-                }
-                
-                cell.nameLabel.text = element.title
-                cell.detailsLabel.text = element.content
+                cell.configureData(data: element)
                 cell.selectionStyle = .none
             }
             .disposed(by: disposeBag)

@@ -69,6 +69,7 @@ class ProfileViewController: BaseViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
               cell.textLabel?.text = item
               cell.accessoryType = .disclosureIndicator
+              cell.selectionStyle = .none
             return cell
         })
         

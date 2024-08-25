@@ -18,6 +18,13 @@ final class StoreListTableViewCell: UITableViewCell {
         return label
     }()
     
+    let heartButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.tintColor = .black
+        return button
+    }()
+    
     let detailsLabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
@@ -69,6 +76,7 @@ final class StoreListTableViewCell: UITableViewCell {
     
     private func configureHierarchy() {
         contentView.addSubview(nameLabel)
+        contentView.addSubview(heartButton)
         contentView.addSubview(detailsLabel)
         contentView.addSubview(imageBoxStackView)
         imageBoxStackView.addArrangedSubview(storeImageView1)
@@ -78,7 +86,11 @@ final class StoreListTableViewCell: UITableViewCell {
     
     private func configureLayout() {
         nameLabel.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview().inset(20)
+            make.top.leading.equalToSuperview().inset(20)
+        }
+        
+        heartButton.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview().inset(20)
         }
         
         detailsLabel.snp.makeConstraints { make in
@@ -94,4 +106,24 @@ final class StoreListTableViewCell: UITableViewCell {
         }
     }
     
+    func configureData(data: PostData) {
+        guard data.files.count == 3 else {
+            print("Expected exactly 3 image URLs, but got \(data.files.count)")
+            return
+        }
+            
+        let imageViews = [storeImageView1, storeImageView2, storeImageView3]
+        
+        for (index, url) in data.files.enumerated() {
+            imageViews[index].setImage(url: url)
+        }
+        
+        nameLabel.text = data.title
+        detailsLabel.text = data.content
+        
+        guard let isLike = data.likes?.contains(UserDefaultsManager.userID) else { return }
+        heartButton.tintColor = isLike ? .main : .black
+        let image = isLike ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        heartButton.setImage(image, for: .normal)
+    }
 }
