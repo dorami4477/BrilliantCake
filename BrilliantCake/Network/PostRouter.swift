@@ -19,6 +19,7 @@ enum PostRouter {
     case createPost(query: CreatePostQuery)
     case fetchlike(query: FetchPostQuery)
     case fetchUserPost(id: String, query: FetchPostQuery)
+    case deletePost(id: String)
 }
 
 extension PostRouter: TargetType {
@@ -45,6 +46,8 @@ extension PostRouter: TargetType {
             return .get
         case .fetchUserPost:
             return .get
+        case .deletePost:
+            return .delete
         }
     
         
@@ -151,6 +154,8 @@ extension PostRouter: TargetType {
             return "/posts/likes/me"
         case .fetchUserPost(let id, _):
             return "/posts/users/\(id)"
+        case .deletePost(let id):
+            return "posts/\(id)"
         }
     }
     
@@ -162,7 +167,7 @@ extension PostRouter: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.key
             ]
-        case .search, .fetchlike, .fetchUserPost:
+        case .search, .fetchlike, .fetchUserPost, .deletePost:
             return [
                 Header.authorization.rawValue: UserDefaultsManager.token,
                 Header.sesacKey.rawValue: APIKey.key

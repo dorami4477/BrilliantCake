@@ -33,6 +33,20 @@ final class BrowseViewController: BaseViewController {
         view.addSubview(indecate)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(changePost), name: .delete, object: nil)
+    }
+    
+    @objc func changePost() {
+        do {
+            let currentIsLikePageValue = try viewModel.isMyPage.value()
+            viewModel.isMyPage.onNext(currentIsLikePageValue)
+        } catch {
+            print("Error getting value from isLikePage: \(error)")
+        }
+    }
+    
     private func configureDataSource() {
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>(
             configureCell: { _, collectionView, indexPath, item in
@@ -73,6 +87,10 @@ final class BrowseViewController: BaseViewController {
                 let detailVC = DetailPostingViewController(viewModel: DetailPostingViewModel())
                 detailVC.viewModel.data = value
                 detailVC.viewModel.isMyPage = output.isMyPage
+//                detailVC.viewModel.isDelete
+//                    .bind(to: owner.viewModel.isMyPage)
+//                    .disposed(by: owner.disposeBag)
+                
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)

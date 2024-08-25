@@ -34,7 +34,7 @@ final class DetailPostingViewController: BaseViewController {
         let input = DetailPostingViewModel.Input(storeButtonTap: mainView.storeButton.rx.tap,
                                                  textField: mainView.commentTextField.rx.text.orEmpty,
                                                  addCommentButtonTap: mainView.addCommentButton.rx.tap,
-                                                 deleteButtonTap: mainView.deleteButton.rx.tap)
+                                                 deleteButtonTap: PublishSubject<Void>())
         let output = viewModel.transform(input: input)
         
         output.postData
@@ -88,6 +88,15 @@ final class DetailPostingViewController: BaseViewController {
         output.isMyPage
             .bind(with: self) { owner, value in
                 owner.mainView.deleteButton.isHidden = !value
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.deleteButton.rx.tap
+            .bind(with: self) { owner, value in
+                owner.showAlert(title: "삭제하기", message: "정말로 삭제하시겠습니까?", buttonTilte: "삭제") { _ in
+                    input.deleteButtonTap.onNext(())
+                    owner.navigationController?.popViewController(animated: true)
+                }
             }
             .disposed(by: disposeBag)
         

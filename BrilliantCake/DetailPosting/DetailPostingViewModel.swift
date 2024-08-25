@@ -13,13 +13,14 @@ final class DetailPostingViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     var isMyPage = BehaviorSubject(value: false)
+    //var isDelete = PublishSubject<Bool>()
     var data:PostData?
     
     struct Input {
         let storeButtonTap: ControlEvent<Void>
         let textField: ControlProperty<String>
         let addCommentButtonTap: ControlEvent<Void>
-        let deleteButtonTap: ControlEvent<Void>
+        let deleteButtonTap: PublishSubject<Void>
     }
     
     struct Output {
@@ -64,6 +65,31 @@ final class DetailPostingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.deleteButtonTap
+            .withLatestFrom(postData)
+            .flatMapLatest { value in
+                guard let value else { return Single<Result<(), PostNetworkError>>.never() }
+                return PostNetworkManager.shared.deletePost(id:value.id)
+            }
+            .subscribe(with: self, onNext: { owner, result in
+                switch result {
+                case .success:
+                    NotificationCenter.default.post(name: .delete, object: nil)
+                    
+                case .failure(let error):
+                    if error == .expiredToken {
+                        isTokenVaild.onNext(false)
+                    }
+                }
+            }, onError: { owner, error in
+                print(error)
+            }, onCompleted: { owner in
+                print("onCompleted")
+            }, onDisposed: { owner in
+                print("onDisposed")
+            })
+            .disposed(by: disposeBag)
+            
 
         
         return Output(postData: postData, storeButtonTap: input.storeButtonTap, newCommnet: newCommnet, isTokenVaild: isTokenVaild, isMyPage: isMyPage)

@@ -65,7 +65,7 @@ final class PostNetworkManager {
                 let query = FetchPostQuery(next: next, limit: "10", product_id: productId)
                 let request = try PostRouter.fetchPost(query: query).asURLRequestWithQueryString()
                 
-                NetworkManager.callRequest2(model: PostModel.self, request: request) { result in
+                NetworkManager.callRequest(model: PostModel.self, request: request) { result in
                     switch result {
                     case .success(let value):
                         observer(.success(.success(value)))
@@ -190,7 +190,7 @@ final class PostNetworkManager {
                 let query = LikeQuery(like_status: like)
                 let request = try PostRouter.like(id: id, query: query).asURLRequest()
                 
-                NetworkManager.callRequest2(model: LikeQuery.self, request: request) { result in
+                NetworkManager.callRequest(model: LikeQuery.self, request: request) { result in
                     switch result {
                     case .success(let value):
                         observer(.success(.success(value)))
@@ -225,7 +225,7 @@ final class PostNetworkManager {
                 let query = FetchPostQuery(next: next, limit: limit, product_id: nil)
                 let request = try PostRouter.fetchlike(query: query).asURLRequestWithQueryString()
                 
-                NetworkManager.callRequest2(model: PostModel.self, request: request) { result in
+                NetworkManager.callRequest(model: PostModel.self, request: request) { result in
                     switch result {
                     case .success(let value):
                         observer(.success(.success(value)))
@@ -318,7 +318,7 @@ final class PostNetworkManager {
                 let query = FetchPostQuery(next: next, limit: "10", product_id: "allBCake")
                 let request = try PostRouter.fetchUserPost(id: id, query: query).asURLRequestWithQueryString()
                 
-                NetworkManager.callRequest2(model: PostModel.self, request: request) { result in
+                NetworkManager.callRequest(model: PostModel.self, request: request) { result in
                     switch result {
                     case .success(let value):
                         observer(.success(.success(value)))
@@ -337,6 +337,41 @@ final class PostNetworkManager {
                         }
                     }
                 }
+            } catch {
+                print(error, "asURLRequest 실패")
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func deletePost(id:String) -> Single<Result<Void, PostNetworkError>> {
+        return Single.create { observer -> Disposable in
+            do {
+                let request = try PostRouter.deletePost(id: id).asURLRequest()
+                NetworkManager.deleteRequest(request: request) { response in
+                        switch response {
+                        case .success:
+                            observer(.success(.success(())))
+                        case .failure(let error):
+                            switch error {
+                            case .unknownError(statusCode: 400),
+                                 .unknownError(statusCode: 401),
+                                 .unknownError(statusCode: 403):
+                                observer(.success(.failure(.invailRequest)))
+                                
+                            case .unknownError(statusCode: 445) :
+                                observer(.success(.failure(.notFoundPost)))
+                                
+                            case .expiredToken :
+                                observer(.success(.failure(.expiredToken)))
+                                
+                            default:
+                                observer(.success(.failure(.commonError(error: error))))
+                            }
+                        }
+
+                    }
+
             } catch {
                 print(error, "asURLRequest 실패")
             }
