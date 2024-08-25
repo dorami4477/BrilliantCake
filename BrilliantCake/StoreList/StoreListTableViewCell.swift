@@ -10,7 +10,7 @@ import RxSwift
 
 final class StoreListTableViewCell: UITableViewCell {
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     let nameLabel = {
         let label = UILabel()
@@ -74,6 +74,11 @@ final class StoreListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+
     private func configureHierarchy() {
         contentView.addSubview(nameLabel)
         contentView.addSubview(heartButton)

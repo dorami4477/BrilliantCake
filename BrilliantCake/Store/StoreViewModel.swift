@@ -115,6 +115,8 @@ final class StoreViewModel: BaseViewModel {
                 case .success(let result):
                     print("like status", result.like_status)
                     like.onNext(result.like_status)
+                    LikeDataManager.shared.setData(true)
+                    
                 case .failure(let error):
                     print("likeData", error)
                     if error == .expiredToken {

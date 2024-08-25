@@ -13,9 +13,11 @@ final class StoreListViewModel: BaseViewModel {
     
     var isLikePage = BehaviorSubject(value: false)
     private let disposeBag = DisposeBag()
+    var isLikeButtonTap = BehaviorSubject(value: LikeDataManager.shared.getData())
     
     struct Input {
         let modelSelected: ControlEvent<PostData>
+        let likeButtonTapped: PublishSubject<(String, Bool)>
     }
     
     struct Output {
@@ -28,10 +30,12 @@ final class StoreListViewModel: BaseViewModel {
         let postList = PublishSubject<[PostData]>()
         let isTokenVaild = BehaviorSubject(value: true)
         
-        isLikePage
+        Observable.combineLatest(isLikePage, isLikeButtonTap)
             .flatMapLatest { isLikePageValue -> Single<Result<PostModel, PostNetworkError>> in
-                if isLikePageValue {
+                print(isLikePageValue)
+                if isLikePageValue.0 {
                     return PostNetworkManager.shared.fetchLikePost(next: "", limit: "10")
+                    
                 } else {
                     return PostNetworkManager.shared.fetchPost(next: "", productId: "allBCakeStore")
                 }
@@ -55,6 +59,30 @@ final class StoreListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
 
+        input.likeButtonTapped
+        .flatMap{ value in
+            PostNetworkManager.shared.likePost(id: value.0, like: value.1)
+        }
+        .subscribe(with: self, onNext: { owner, value in
+            switch value {
+            case .success:
+                LikeDataManager.shared.setData(true)
+                owner.isLikeButtonTap.onNext(LikeDataManager.shared.getData())
+                
+            case .failure(let error):
+                print("likeData", error)
+                if error == .expiredToken {
+                    isTokenVaild.onNext(false)
+                }
+            }
+        }, onError: { owner, error in
+            print(error)
+        }, onCompleted: { owner in
+            print("onCompleted")
+        }, onDisposed: { owner in
+            print("onDisposed")
+        })
+        .disposed(by: disposeBag)
 
         
         return Output(postList: postList, modelSelected: input.modelSelected, isTokenVaild: isTokenVaild)

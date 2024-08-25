@@ -25,15 +25,33 @@ final class StoreListViewController: BaseViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let data = LikeDataManager.shared.getData() {
+            if data {
+                viewModel.isLikeButtonTap.onNext(true)
+            }
+            LikeDataManager.shared.setData(nil)
+        }
+    }
+    
     private func bind() {
-        let input = StoreListViewModel.Input(modelSelected: tableView.rx.modelSelected(PostData.self))
+        let input = StoreListViewModel.Input(modelSelected: tableView.rx.modelSelected(PostData.self),
+                                             likeButtonTapped: PublishSubject<(String, Bool)>())
         let output = viewModel.transform(input: input)
-        
+       
         output.postList
             .bind(to: tableView.rx.items(cellIdentifier: StoreListTableViewCell.identifier, cellType: StoreListTableViewCell.self)){ row, element, cell in
                 
                 cell.configureData(data: element)
                 cell.selectionStyle = .none
+                guard let isLike = element.likes?.contains(UserDefaultsManager.userID) else { return }
+                               
+                cell.heartButton.rx.tap
+                    .map { (element.id, !isLike) }
+                    .bind(to: input.likeButtonTapped)
+                    .disposed(by: cell.disposeBag)
+                
             }
             .disposed(by: disposeBag)
         
@@ -44,6 +62,7 @@ final class StoreListViewController: BaseViewController {
                 owner.navigationController?.pushViewController(storeVC, animated: true)
             }
             .disposed(by: disposeBag)
+    
         
         output.isTokenVaild
             .bind(with: self) { owner, value in
