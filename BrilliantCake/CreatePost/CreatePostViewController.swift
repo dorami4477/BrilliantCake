@@ -114,22 +114,31 @@ extension CreatePostViewController:PHPickerViewControllerDelegate{
         let dispatchGroup = DispatchGroup()
 
         for result in results {
-            let itemProvider = result.itemProvider
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                dispatchGroup.enter()
+                let itemProvider = result.itemProvider
+                if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                    dispatchGroup.enter()
 
-                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    DispatchQueue.main.async {
-                        if let loadedImage = image as? UIImage {
-                            selectedImages.append(loadedImage)
-                            let jpgImageData = loadedImage.jpegData(compressionQuality: 0.7) ?? Data()
-                            selectedImageDatas.append(jpgImageData)
+                    itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                        DispatchQueue.main.async {
+                            if let loadedImage = image as? UIImage {
+                                selectedImages.append(loadedImage)
+                                
+                                var compressionQuality: CGFloat = 0.9
+                                var jpgImageData = loadedImage.jpegData(compressionQuality: compressionQuality) ?? Data()
+
+                                let maxFileSize: Int = 5 * 1024 * 1024
+                                while jpgImageData.count > maxFileSize && compressionQuality > 0.1 {
+                                    compressionQuality -= 0.1
+                                    jpgImageData = loadedImage.jpegData(compressionQuality: compressionQuality) ?? Data()
+                                }
+
+                                selectedImageDatas.append(jpgImageData)
+                                dispatchGroup.leave()
+                            }
                         }
-                        dispatchGroup.leave()
                     }
                 }
             }
-        }
 
         dispatchGroup.notify(queue: .main) { [weak self] in
             self?.mainView.addNewImages(images: selectedImages)
