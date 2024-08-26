@@ -15,6 +15,7 @@ final class CreatePostViewModel: BaseViewModel {
     var storeID = BehaviorSubject(value: "")
     var storeName = BehaviorSubject(value: "")
     let imageData = PublishSubject<[Data]>()
+    let createdNewPost = PublishSubject<Bool>()
     
     struct Input {
         let titleText: ControlProperty<String>
@@ -35,7 +36,7 @@ final class CreatePostViewModel: BaseViewModel {
         let postResult = PublishSubject<PostData>()
         
         input.submitButtonTap
-            .withLatestFrom(imageData) // 이미지 데이터를 가져옵니다.
+            .withLatestFrom(imageData)
             .flatMap { imageData in
                 PostNetworkManager.shared.uploadImages(imageData: imageData)
             }
@@ -62,9 +63,9 @@ final class CreatePostViewModel: BaseViewModel {
             }
             .subscribe(with: self) { owner, postCreateResult in
                 switch postCreateResult {
-                case .success(let uploadedFiles):
-                    print(uploadedFiles)
-                    postResult.onNext(uploadedFiles)
+                case .success(let postData):
+                    owner.createdNewPost.onNext(false)
+                    postResult.onNext(postData)
                     
                 case .failure(let error):
                     print(error)

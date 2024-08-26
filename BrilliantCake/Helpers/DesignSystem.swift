@@ -19,5 +19,7 @@ enum ImageName {
     static let button = "BC_13"
     static let currentLocation = "BC_n03_22"
     static let logo = "cakeLogo"
+    static let heart = "heart"
+    static let heartFill = "heart.fill"
 }
 

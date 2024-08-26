@@ -38,6 +38,10 @@ final class BrowseViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(changePost), name: .delete, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .delete, object: nil)
+    }
+    
     @objc func changePost() {
         do {
             let currentIsLikePageValue = try viewModel.isMyPage.value()
@@ -98,6 +102,9 @@ final class BrowseViewController: BaseViewController {
         output.createButtonTap
             .bind(with: self) { owner, value in
                 let createVC = CreatePostViewController(viewModel: CreatePostViewModel())
+                createVC.viewModel.createdNewPost
+                    .bind(to: owner.viewModel.isMyPage)
+                    .disposed(by: owner.disposeBag)
                 owner.navigationController?.pushViewController(createVC, animated: true)
             }
             .disposed(by: disposeBag)

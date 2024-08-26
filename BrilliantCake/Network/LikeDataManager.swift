@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LikeDataManager {
+final class LikeDataManager {
     static let shared = LikeDataManager()
     
     private init() {}

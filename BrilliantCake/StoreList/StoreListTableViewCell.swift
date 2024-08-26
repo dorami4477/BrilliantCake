@@ -20,7 +20,7 @@ final class StoreListTableViewCell: UITableViewCell {
     
     let heartButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setImage(UIImage(systemName: ImageName.heart), for: .normal)
         button.tintColor = .black
         return button
     }()
@@ -128,7 +128,7 @@ final class StoreListTableViewCell: UITableViewCell {
         
         guard let isLike = data.likes?.contains(UserDefaultsManager.userID) else { return }
         heartButton.tintColor = isLike ? .main : .black
-        let image = isLike ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        let image = isLike ? UIImage(systemName: ImageName.heartFill) : UIImage(systemName: ImageName.heart)
         heartButton.setImage(image, for: .normal)
     }
 }

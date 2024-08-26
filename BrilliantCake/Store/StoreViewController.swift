@@ -100,7 +100,7 @@ final class StoreViewController: BaseViewController {
         
         output.like
             .bind(with: self) { owner, value in
-                owner.navigationItem.rightBarButtonItem?.image = value ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+                owner.navigationItem.rightBarButtonItem?.image = value ? UIImage(systemName: ImageName.heartFill) : UIImage(systemName: ImageName.heart)
                 owner.navigationItem.rightBarButtonItem?.tintColor = value ? .main : .black
             }
             .disposed(by: disposeBag)
@@ -113,7 +113,7 @@ final class StoreViewController: BaseViewController {
     }
 
     override func configureNavigation() {
-        let likeButton = UIBarButtonItem(image: UIImage(systemName: "heart"))
+        let likeButton = UIBarButtonItem(image: UIImage(systemName: ImageName.heart))
         navigationItem.rightBarButtonItem = likeButton
     }
     
