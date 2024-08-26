@@ -13,6 +13,7 @@
 		4857A8BA2C79B58000BC8F0D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8B92C79B58000BC8F0D /* NetworkManager.swift */; };
 		4857A8BE2C7B1A3800BC8F0D /* LikeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8BD2C7B1A3800BC8F0D /* LikeDataManager.swift */; };
 		4857A8C02C7B606000BC8F0D /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8BF2C7B606000BC8F0D /* Notification+.swift */; };
+		4857A8C62C7CAB4E00BC8F0D /* BrowseViewModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8C52C7CAB4E00BC8F0D /* BrowseViewModel2.swift */; };
 		485BDF432C749E8A006DE214 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF422C749E8A006DE214 /* UIImageView+.swift */; };
 		485BDF452C74CD50006DE214 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF442C74CD50006DE214 /* AuthInterceptor.swift */; };
 		485BDF472C74D735006DE214 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF462C74D735006DE214 /* UserRouter.swift */; };
@@ -100,6 +101,7 @@
 		4857A8B92C79B58000BC8F0D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		4857A8BD2C7B1A3800BC8F0D /* LikeDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeDataManager.swift; sourceTree = "<group>"; };
 		4857A8BF2C7B606000BC8F0D /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
+		4857A8C52C7CAB4E00BC8F0D /* BrowseViewModel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewModel2.swift; sourceTree = "<group>"; };
 		485BDF422C749E8A006DE214 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		485BDF442C74CD50006DE214 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		485BDF462C74D735006DE214 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				48CD158A2C6CA23900A7708B /* BrowseViewController.swift */,
 				48CD15ED2C6DCD5000A7708B /* BrowseCollectionViewCell.swift */,
 				48CD15F12C6EDAE400A7708B /* BrowseViewModel.swift */,
+				4857A8C52C7CAB4E00BC8F0D /* BrowseViewModel2.swift */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4857A8BA2C79B58000BC8F0D /* NetworkManager.swift in Sources */,
+				4857A8C62C7CAB4E00BC8F0D /* BrowseViewModel2.swift in Sources */,
 				48CD15D62C6CB36E00A7708B /* TargetType.swift in Sources */,
 				48CD15EC2C6DC19C00A7708B /* TabBarController.swift in Sources */,
 				48CD15F92C6F5B6800A7708B /* DetailPostingViewController.swift in Sources */,

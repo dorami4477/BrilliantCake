@@ -91,10 +91,6 @@ final class BrowseViewController: BaseViewController {
                 let detailVC = DetailPostingViewController(viewModel: DetailPostingViewModel())
                 detailVC.viewModel.data = value
                 detailVC.viewModel.isMyPage = output.isMyPage
-//                detailVC.viewModel.isDelete
-//                    .bind(to: owner.viewModel.isMyPage)
-//                    .disposed(by: owner.disposeBag)
-                
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
@@ -103,8 +99,14 @@ final class BrowseViewController: BaseViewController {
             .bind(with: self) { owner, value in
                 let createVC = CreatePostViewController(viewModel: CreatePostViewModel())
                 createVC.viewModel.createdNewPost
-                    .bind(to: owner.viewModel.isMyPage)
+                    .bind(with: self, onNext: { owner, value in
+                        owner.viewModel.isMyPage.onNext(value)
+                        owner.viewModel.firstLoad = !value
+                        owner.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+                    })
                     .disposed(by: owner.disposeBag)
+                
+                
                 owner.navigationController?.pushViewController(createVC, animated: true)
             }
             .disposed(by: disposeBag)
@@ -130,6 +132,7 @@ final class BrowseViewController: BaseViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.register(BrowseCollectionViewCell.self, forCellWithReuseIdentifier: BrowseCollectionViewCell.identifier)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.prefetchDataSource = self
         view.addSubview(collectionView)
         view.addSubview(createButton)
     }
@@ -205,6 +208,20 @@ final class BrowseViewController: BaseViewController {
     
 }
 
+// MARK: - CollectionViewPrefetching
+extension BrowseViewController:UICollectionViewDataSourcePrefetching{
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        
+        guard let nextCursor = viewModel.data1?.next_cursor else { return }
+        for item in indexPaths{
+            if viewModel.data.count - 3 == item.item && nextCursor != "0" {
+                print("new Cursor")
+                viewModel.nextCursor.onNext(nextCursor)
+            }
+        }
+    }
+    
+}
 
 // MARK: - Section for CollectionView
 struct SectionOfBasicData {

@@ -62,7 +62,7 @@ final class PostNetworkManager {
     func fetchPost(next: String, productId: String) -> Single<Result<PostModel, PostNetworkError>> {
         return Single.create { observer -> Disposable in
             do {
-                let query = FetchPostQuery(next: next, limit: "10", product_id: productId)
+                let query = FetchPostQuery(next: next, limit: "15", product_id: productId)
                 let request = try PostRouter.fetchPost(query: query).asURLRequestWithQueryString()
                 
                 NetworkManager.callRequest(model: PostModel.self, request: request) { result in
@@ -139,23 +139,54 @@ final class PostNetworkManager {
 
     }
     
-    func searchWithHashTag(query: SearchQuery) -> Single<Result<PostModel, NetworkError>> {
+//    func searchWithHashTag(query: SearchQuery) -> Single<Result<PostModel, NetworkError>> {
+//        return Single.create { observer -> Disposable in
+//            do {
+//                let request = try PostRouter.search(query: query).asURLRequestWithQueryString()
+//                
+//                AF.request(request, interceptor: AuthInterceptor.shared)
+//                    .responseDecodable(of: PostModel.self) { response in
+//                        switch response.result {
+//                        case .success(let success):
+//                            observer(.success(.success(success)))
+//                        case .failure(let error):
+//                            print(error)
+//                            observer(.success(.failure(.expiredToken)))
+//                        }
+//                    }
+//            } catch {
+//                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+//            }
+//            return Disposables.create()
+//        }
+//    }
+    
+    func searchWithHashTag(query: SearchQuery) -> Single<Result<PostModel, PostNetworkError>> {
         return Single.create { observer -> Disposable in
             do {
                 let request = try PostRouter.search(query: query).asURLRequestWithQueryString()
                 
-                AF.request(request, interceptor: AuthInterceptor.shared)
-                    .responseDecodable(of: PostModel.self) { response in
-                        switch response.result {
-                        case .success(let success):
-                            observer(.success(.success(success)))
-                        case .failure(let error):
-                            print(error)
+                NetworkManager.callRequest(model: PostModel.self, request: request) { result in
+                    switch result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure(let error):
+                        switch error {
+                        case .unknownError(statusCode: 400),
+                             .unknownError(statusCode: 401),
+                             .unknownError(statusCode: 403):
+                            observer(.success(.failure(.invailRequest)))
+                            
+                        case .expiredToken :
                             observer(.success(.failure(.expiredToken)))
+                            
+                        default:
+                            observer(.success(.failure(.commonError(error: error))))
                         }
                     }
+                }
             } catch {
-                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+                print(error, "asURLRequest 실패")
             }
             return Disposables.create()
         }
