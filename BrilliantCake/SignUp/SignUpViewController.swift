@@ -27,7 +27,7 @@ final class SignUpViewController: BaseViewController {
         UserNetworkManager.shared.createAccount(nickname: signUpView.nickNameTextField.text!,
                                                 email: signUpView.emailTextField.text!,
                                                 password: signUpView.passwordTextField.text!) { [weak self] in
-            self?.showAlert(title: "환영합니다.", message: "회원가입이 완료 되었습니다. 로그인해주세요!:)", buttonTilte: "확인", completionHandler: { _ in
+            self?.showAlert(title: Literal.GuideMessage.welcome, message: Literal.GuideMessage.welcomeMSG, buttonTilte: Literal.ButtonName.comform, completionHandler: { _ in
                 self?.dismiss(animated: true)
             })
         }

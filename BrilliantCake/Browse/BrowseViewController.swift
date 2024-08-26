@@ -14,8 +14,8 @@ final class BrowseViewController: BaseViewController {
     
     let viewModel: BrowseViewModel
     private let disposeBag = DisposeBag()
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfBasicData>! = nil
-    private var section: PublishSubject<[SectionOfBasicData]> = PublishSubject()
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfBasicData<PostData>>! = nil
+    private var section: PublishSubject<[SectionOfBasicData<PostData>]> = PublishSubject()
     private var collectionView: UICollectionView! = nil
     private let searchController = UISearchController(searchResultsController: nil)
     private let createButton = UIButton()
@@ -155,7 +155,7 @@ final class BrowseViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        let resizedImage = view.resizeImage(image: UIImage(named: ImageName.logo)!, targetSize: CGSize(width: 30, height: 30))
+        let resizedImage = view.resizeImage(image: UIImage(named: ImageName.cakeLogo)!, targetSize: CGSize(width: 30, height: 30))
         navigationItem.titleView = UIImageView(image: resizedImage)
         
         searchController.searchBar.placeholder = Literal.GuideMessage.search
@@ -223,17 +223,5 @@ extension BrowseViewController:UICollectionViewDataSourcePrefetching{
     
 }
 
-// MARK: - Section for CollectionView
-struct SectionOfBasicData {
-    var header: String
-    var items: [Item]
-}
 
-extension SectionOfBasicData: SectionModelType {
-    typealias Item = PostData
-    
-    init(original: SectionOfBasicData, items: [Item]) {
-        self = original
-        self.items = items
-    }
-}
+

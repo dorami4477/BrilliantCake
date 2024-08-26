@@ -10,10 +10,9 @@ import RxSwift
 import RxCocoa
 
 final class StoreListViewController: BaseViewController {
-    
     private let tableView = UITableView()
-    let viewModel: StoreListViewModel
     private let disposeBag = DisposeBag()
+    let viewModel: StoreListViewModel
 
     init(viewModel: StoreListViewModel) {
         self.viewModel = viewModel
@@ -72,7 +71,7 @@ final class StoreListViewController: BaseViewController {
         
         output.isLikePage
             .bind(with: self) { owner, value in
-                owner.navigationItem.title = value ? "Favorite Shops" : "CakeShop List"
+                owner.navigationItem.title = value ? Literal.viewTitle.favorite : Literal.viewTitle.storeList
             }
             .disposed(by: disposeBag)
     }

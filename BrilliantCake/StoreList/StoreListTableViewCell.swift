@@ -8,8 +8,7 @@
 import UIKit
 import RxSwift
 
-final class StoreListTableViewCell: UITableViewCell {
-    
+final class StoreListTableViewCell: BaseTableViewCell {
     var disposeBag = DisposeBag()
     
     let nameLabel = {
@@ -64,22 +63,12 @@ final class StoreListTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureHierarchy()
-        configureLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
 
-    private func configureHierarchy() {
+    override func configureHierarchy() {
         contentView.addSubview(nameLabel)
         contentView.addSubview(heartButton)
         contentView.addSubview(detailsLabel)
@@ -89,7 +78,7 @@ final class StoreListTableViewCell: UITableViewCell {
         imageBoxStackView.addArrangedSubview(storeImageView3)
     }
     
-    private func configureLayout() {
+    override func configureLayout() {
         nameLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(20)
         }

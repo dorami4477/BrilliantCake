@@ -9,42 +9,42 @@ import UIKit
 import SnapKit
 
 final class SignUpView: BaseView {
-    private let titleLabel: UILabel = {
+    private let titleLabel = {
         let label = UILabel()
-        label.text = "회원가입"
+        label.text = Literal.GuideMessage.signUp
         label.font = .systemFont(ofSize: 24, weight: .bold)
         return label
     }()
     
-    let nickNameTextField: UITextField = {
+    let nickNameTextField = {
         let textField = UITextField()
-        textField.placeholder = "닉네임"
+        textField.placeholder = Literal.GuideMessage.nickName
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField
     }()
     
-    let emailTextField: UITextField = {
+    let emailTextField = {
         let textField = UITextField()
-        textField.placeholder = "이메일"
+        textField.placeholder = Literal.GuideMessage.email
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField
     }()
     
-    let passwordTextField: UITextField = {
+    let passwordTextField = {
         let textField = UITextField()
-        textField.placeholder = "비밀번호"
+        textField.placeholder = Literal.GuideMessage.password
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
         return textField
     }()
     
-    let signUpButton: UIButton = {
+    let signUpButton = {
         let button = UIButton(type: .system)
-        button.setTitle("가입하기", for: .normal)
+        button.setTitle(Literal.ButtonName.signUp, for: .normal)
         button.backgroundColor = .main
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5

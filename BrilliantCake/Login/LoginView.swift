@@ -9,49 +9,49 @@ import UIKit
 import SnapKit
 
 final class LoginView: BaseView {
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "로그인 화면"
-        label.font = .systemFont(ofSize: 24, weight: .bold)
-        return label
+    private let logoImage = {
+        let image = UIImageView()
+        image.image = UIImage(named: ImageName.logo)
+        image.contentMode = .scaleAspectFit
+        return image
     }()
     
-    let emailTextField: UITextField = {
+    let emailTextField = {
         let textField = UITextField()
-        textField.placeholder = "이메일"
+        textField.placeholder = Literal.GuideMessage.email
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField
     }()
     
-    let passwordTextField: UITextField = {
+    let passwordTextField = {
         let textField = UITextField()
-        textField.placeholder = "비밀번호"
+        textField.placeholder = Literal.GuideMessage.password
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
         return textField
     }()
     
-    let loginButton: UIButton = {
+    let loginButton = {
         let button = UIButton(type: .system)
-        button.setTitle("로그인", for: .normal)
+        button.setTitle(Literal.ButtonName.login, for: .normal)
         button.backgroundColor = .main
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         return button
     }()
     
-    let signButton: UIButton = {
+    let signButton = {
         let button = UIButton(type: .system)
-        button.setTitle("회원가입하러가기", for: .normal)
+        button.setTitle(Literal.ButtonName.goSignUp, for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 5
         return button
     }()
     
     override func configureHierarchy() {
-        addSubview(titleLabel)
+        addSubview(logoImage)
         addSubview(emailTextField)
         addSubview(passwordTextField)
         addSubview(loginButton)
@@ -59,13 +59,13 @@ final class LoginView: BaseView {
     }
     
     override func configureLayout() {
-        titleLabel.snp.makeConstraints { make in
+        logoImage.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(20)
-            make.centerX.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(40)
         }
         
         emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(40)
+            make.top.equalTo(logoImage.snp.bottom).offset(40)
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(44)
         }

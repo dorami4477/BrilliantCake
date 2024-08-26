@@ -6,12 +6,10 @@
 //
 
 import UIKit
-
+import SnapKit
 
 final class ProfileView: BaseView {
-    
-    // 프로필 이미지 뷰
-    let profileImageView: UIImageView = {
+    let profileImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 50
@@ -20,33 +18,27 @@ final class ProfileView: BaseView {
         return imageView
     }()
     
-    // 이름 레이블
-    let nameLabel: UILabel = {
+    let nameLabel = {
         let label = UILabel()
-        label.text = "Nick Name"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         return label
     }()
     
-    // 사용자 이름 레이블
-    let emailLabel: UILabel = {
+    let emailLabel = {
         let label = UILabel()
-        label.text = "rrrr@gdg.com"
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .gray
         label.textAlignment = .center
         return label
     }()
     
-    // 테이블뷰
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = .clear
         tableView.backgroundView = nil
         return tableView
     }()
-    
     
     override func configureHierarchy() {
         addSubview(profileImageView)
@@ -56,7 +48,6 @@ final class ProfileView: BaseView {
     }
     
     override func configureLayout() {
-        
         profileImageView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(20)
             make.centerX.equalToSuperview()
@@ -77,8 +68,6 @@ final class ProfileView: BaseView {
             make.top.equalTo(emailLabel.snp.bottom).offset(20)
             make.horizontalEdges.bottom.equalToSuperview()
         }
-        
-        
     }
     
 }

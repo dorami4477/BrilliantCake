@@ -11,13 +11,12 @@ import RxCocoa
 import RxDataSources
 
 class ProfileViewController: BaseViewController {
-
-    let mainView = ProfileView()
+    private let mainView = ProfileView()
     private let disposeBag = DisposeBag()
-    private var dataSource: RxTableViewSectionedReloadDataSource<SectionOfData>! = nil
+    private var dataSource: RxTableViewSectionedReloadDataSource<SectionOfBasicData<String>>! = nil
     private lazy var sections = BehaviorRelay(value: sectionData)
     private let sectionData = [
-        SectionOfData(header: "1", items: ["프로필 수정", "내가 작성한 글", "좋아요 한 케이크샵"])
+        SectionOfBasicData(header: "1", items: ["프로필 수정", "내가 작성한 글", "좋아요 한 케이크샵"])
     ]
     private let viewModel: ProfileViewModel
     
@@ -69,34 +68,20 @@ class ProfileViewController: BaseViewController {
     }
     
     private func configureDataSource() {
-        dataSource = RxTableViewSectionedReloadDataSource<SectionOfData>(
-          configureCell: { dataSource, tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-              cell.textLabel?.text = item
-              cell.accessoryType = .disclosureIndicator
-              cell.selectionStyle = .none
-            return cell
-        })
+        dataSource = RxTableViewSectionedReloadDataSource<SectionOfBasicData>(
+            configureCell: { dataSource, tableView, indexPath, item in
+                let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+                cell.textLabel?.text = item
+                cell.accessoryType = .disclosureIndicator
+                cell.selectionStyle = .none
+                return cell
+            })
         
     }
-
+    
     override func configureLayout() {
         view.backgroundColor = .systemGroupedBackground
-        mainView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        mainView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
     }
-
-}
-
-struct SectionOfData {
-    var header: String
-    var items: [Item]
-}
-
-extension SectionOfData: SectionModelType {
-    typealias Item = String
     
-    init(original: SectionOfData, items: [Item]) {
-        self = original
-        self.items = items
-    }
 }
