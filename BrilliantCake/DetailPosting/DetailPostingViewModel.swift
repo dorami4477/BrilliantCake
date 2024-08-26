@@ -41,7 +41,7 @@ final class DetailPostingViewModel: BaseViewModel {
             .withLatestFrom(input.textField)
             .distinctUntilChanged()
             .flatMap { value in
-                guard let data = self.data else { return Single<Result<Comments, NetworkError>>.never() }
+                guard let data = self.data else { return Single<Result<Comments, PostNetworkError>>.never() }
                 let result = PostNetworkManager.shared.addComment(id: data.id, comment: value)
                 return result
             }

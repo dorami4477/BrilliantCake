@@ -9,7 +9,17 @@ import Foundation
 import RxSwift
 import Alamofire
 
-class NetworkManager {
+enum NetworkError:Error, Equatable {
+    case invaildURL
+    case decodingError
+    case expiredToken
+    case unknownError(statusCode: Int)
+    case serverError
+    case headerError
+    case exceededRequest
+}
+
+enum NetworkManager {
     
     static func callRequest<Model: Decodable>(model: Model.Type, request: URLRequest, completion: @escaping (Result<Model, NetworkError>) -> Void) {
         
