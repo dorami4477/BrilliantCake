@@ -45,20 +45,20 @@ final class CreatePostView: BaseView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.title
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.font = AppFont.size14
         return label
     }()
     
     let titleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Literal.GuideMessage.titlePlaceholder
-        textField.font = UIFont.systemFont(ofSize: 14)
+        textField.font = AppFont.size14
         return textField
     }()
     
     let titleCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = AppFont.size12
         label.textAlignment = .right
         label.textColor = .lightGray
         return label
@@ -68,13 +68,13 @@ final class CreatePostView: BaseView {
     let contentLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.content
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.font = AppFont.size14
         return label
     }()
     
     let contentTextView: UITextView = {
         let textView = UITextView()
-        textView.font = UIFont.systemFont(ofSize: 14)
+        textView.font = AppFont.size14
         textView.text = Literal.GuideMessage.contentPlaceholder
         textView.textColor = .lightGray
         return textView
@@ -82,7 +82,7 @@ final class CreatePostView: BaseView {
     
     let contentCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = AppFont.size12
         label.textAlignment = .right
         label.textColor = .lightGray
         return label
@@ -92,14 +92,14 @@ final class CreatePostView: BaseView {
     let storeLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.store
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.font = AppFont.size14
         return label
     }()
     
     let storeSelectButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(Literal.GuideMessage.storePlaceholder, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.titleLabel?.font = AppFont.size14
         button.contentHorizontalAlignment = .left
         button.backgroundColor = .white
         button.setTitleColor(.lightGray, for: .normal)
@@ -119,7 +119,7 @@ final class CreatePostView: BaseView {
     let photoLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.photo
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.font = AppFont.size14
         return label
     }()
     
@@ -303,7 +303,7 @@ final class CreatePostView: BaseView {
     
     func storeSelectButtonUI(title: String) {
         storeSelectButton.setTitle(title, for: .normal)
-        storeSelectButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
+        storeSelectButton.titleLabel?.font = AppFont.size17Bold
         storeSelectButton.setTitleColor(.black, for: .normal)
     }
     

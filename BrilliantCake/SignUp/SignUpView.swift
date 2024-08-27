@@ -12,7 +12,7 @@ final class SignUpView: BaseView {
     private let titleLabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.signUp
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.font = AppFont.size24Bold
         return label
     }()
     

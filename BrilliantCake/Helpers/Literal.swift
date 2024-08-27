@@ -25,6 +25,7 @@ enum Literal {
         static let storePlaceholder = "방문하신 스토어를 선택해 주세요."
         static let delete = "정말로 삭제하시겠습니까?"
         static let expiredToken = "토근이 만료되었습니다! 다시 로그인해주세요 :)"
+        static let addComment = "댓글을 입력해보세요!"
     }
     
     enum ButtonName {

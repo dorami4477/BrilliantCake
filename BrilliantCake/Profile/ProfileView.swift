@@ -20,14 +20,14 @@ final class ProfileView: BaseView {
     
     let nameLabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = AppFont.size20Bold
         label.textAlignment = .center
         return label
     }()
     
     let emailLabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = AppFont.size14
         label.textColor = .gray
         label.textAlignment = .center
         return label

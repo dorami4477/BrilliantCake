@@ -13,7 +13,7 @@ final class StoreListTableViewCell: BaseTableViewCell {
     
     let nameLabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = AppFont.size18Bold
         return label
     }()
     
@@ -26,7 +26,7 @@ final class StoreListTableViewCell: BaseTableViewCell {
     
     let detailsLabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = AppFont.size14
         label.textColor = .gray
         label.numberOfLines = 0
         return label

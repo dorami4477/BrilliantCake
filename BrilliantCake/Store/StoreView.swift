@@ -46,21 +46,21 @@ final class StoreView: BaseView {
 
     var titleLabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.font = AppFont.size24Bold
         label.numberOfLines = 2
         return label
     }()
 
     var descriptionLabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
+        label.font = AppFont.size16
         label.numberOfLines = 0
         return label
     }()
 
     var contactLabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = AppFont.size14
         label.numberOfLines = 0
         return label
     }()

@@ -13,7 +13,7 @@ class CommentLabel: UILabel {
     convenience init(padding: UIEdgeInsets) {
         self.init()
         self.padding = padding
-        self.font = UIFont.systemFont(ofSize: 17)
+        self.font = AppFont.size17
         self.backgroundColor = .backgroundGray
         self.layer.cornerRadius = 10
         self.clipsToBounds = true

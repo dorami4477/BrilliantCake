@@ -50,13 +50,13 @@ final class DetailPostingView: BaseView {
     
     let nickNameLabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = AppFont.size17Bold
         return label
     }()
     
     let dateLabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = AppFont.size13
         label.textColor = .gray
         return label
     }()
@@ -105,7 +105,7 @@ final class DetailPostingView: BaseView {
     
     let commentTextField = {
         let textField = UITextField()
-        textField.placeholder = "댓글을 입력해보세요!"
+        textField.placeholder = Literal.GuideMessage.addComment
         return textField
     }()
     
@@ -240,14 +240,14 @@ final class DetailPostingView: BaseView {
         let userLabel: UILabel = {
             let label = UILabel()
             label.text = user
-            label.font = UIFont.boldSystemFont(ofSize: 14)
+            label.font = AppFont.size14Bold
             return label
         }()
         
         let drawUpDateLabel: UILabel = {
             let label = UILabel()
             label.text = drawUpDate
-            label.font = UIFont.systemFont(ofSize: 14)
+            label.font = AppFont.size14
             label.textColor = .gray
             return label
         }()
@@ -297,7 +297,7 @@ final class DetailPostingView: BaseView {
         configuration.imagePadding = 8
         
         storeButton.configuration = configuration
-        storeButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        storeButton.titleLabel?.font = AppFont.size18Bold
         collectionView.isPagingEnabled = true
     }
 }

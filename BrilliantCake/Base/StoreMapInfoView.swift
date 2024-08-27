@@ -19,7 +19,7 @@ class StoreMapInfoView: BaseView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = AppFont.size22Bold
         label.textColor = .black
         return label
     }()
@@ -27,7 +27,7 @@ class StoreMapInfoView: BaseView {
     private let addressLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = AppFont.size14
         label.numberOfLines = 0
         label.textColor = .darkGray
         return label

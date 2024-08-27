@@ -45,7 +45,7 @@ class BaseViewController: UIViewController {
             toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.8)
             toastLabel.textColor = UIColor.white
             toastLabel.numberOfLines = 0
-            toastLabel.font = UIFont.systemFont(ofSize: 14)
+            toastLabel.font = AppFont.size14
             toastLabel.textAlignment = .center;
             toastLabel.text = message
             toastLabel.alpha = 1.0
