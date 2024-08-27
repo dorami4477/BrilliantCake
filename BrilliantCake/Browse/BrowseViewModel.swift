@@ -16,7 +16,7 @@ final class BrowseViewModel: BaseViewModel {
     var data1: PostModel?
     let isMyPage = BehaviorSubject(value: false)
     let nextCursor = BehaviorSubject(value: "")
-    var firstLoad = false
+    var firstLoad = true
 
     let isSearchMode = BehaviorRelay(value: false)
     
@@ -45,13 +45,12 @@ final class BrowseViewModel: BaseViewModel {
                 .filter { !$0.2 } // isSearchMode가 false일 때만
                 .flatMapLatest { isMyPage, cursor, _ -> Single<Result<PostModel, PostNetworkError>> in
                     if isMyPage {
-                        print("마이페지이")
                         return PostNetworkManager.shared.fetchUserPost(id: UserDefaultsManager.userID, next: cursor)
+                        
                     } else {
-                        print("마이페이지 아님")
-                        return PostNetworkManager.shared.fetchPost(next: cursor, productId: "allBCake")
+                        return PostNetworkManager.shared.fetchPost(next: cursor, limit: "15", productId: "allBCake")
                     }
-                }
+                }.debug()
 
             // 검색 스트림
             let searchStream = input.searchButtonTap

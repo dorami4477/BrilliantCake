@@ -25,10 +25,10 @@ final class PostNetworkManager {
     
     private init() { }
     
-    func fetchPost(next: String, productId: String) -> Single<Result<PostModel, PostNetworkError>> {
+    func fetchPost(next: String, limit:String, productId: String) -> Single<Result<PostModel, PostNetworkError>> {
         return Single.create { observer -> Disposable in
             do {
-                let query = FetchPostQuery(next: next, limit: "15", product_id: productId)
+                let query = FetchPostQuery(next: next, limit: limit, product_id: productId)
                 let request = try PostRouter.fetchPost(query: query).asURLRequestWithQueryString()
                 
                 NetworkManager.callRequest(model: PostModel.self, request: request) { result in
@@ -297,7 +297,7 @@ final class PostNetworkManager {
     func fetchUserPost(id:String, next: String) -> Single<Result<PostModel, PostNetworkError>> {
         return Single.create { observer -> Disposable in
             do {
-                let query = FetchPostQuery(next: next, limit: "10", product_id: "allBCake")
+                let query = FetchPostQuery(next: next, limit: "13", product_id: "allBCake")
                 let request = try PostRouter.fetchUserPost(id: id, query: query).asURLRequestWithQueryString()
                 
                 NetworkManager.callRequest(model: PostModel.self, request: request) { result in

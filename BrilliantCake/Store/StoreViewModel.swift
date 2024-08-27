@@ -37,7 +37,7 @@ final class StoreViewModel: BaseViewModel {
         
         let fetchPostObservable = Single.just(("", "allBCake"))
             .flatMap { value in
-                PostNetworkManager.shared.fetchPost(next: value.0, productId: value.1)
+                PostNetworkManager.shared.fetchPost(next: value.0, limit: "100", productId: value.1)
             }
             .asObservable()
         

@@ -19,7 +19,6 @@ final class BrowseViewController: BaseViewController {
     private var collectionView: UICollectionView! = nil
     private let searchController = UISearchController(searchResultsController: nil)
     private let createButton = UIButton()
-    let indecate = UIProgressView()
     
     init(viewModel: BrowseViewModel) {
         self.viewModel = viewModel
@@ -30,7 +29,6 @@ final class BrowseViewController: BaseViewController {
         super.viewDidLoad()
         configureDataSource()
         bind()
-        view.addSubview(indecate)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,8 +43,15 @@ final class BrowseViewController: BaseViewController {
     @objc func changePost() {
         do {
             let currentIsLikePageValue = try viewModel.isMyPage.value()
-            viewModel.firstLoad = true
-            viewModel.isMyPage.onNext(currentIsLikePageValue)
+            Observable.zip(viewModel.isMyPage, viewModel.nextCursor)
+                .take(1)
+                .observe(on:MainScheduler.asyncInstance)
+                .subscribe(with: self, onNext: { owner, _ in
+                    owner.viewModel.firstLoad = true
+                    owner.viewModel.isMyPage.onNext(currentIsLikePageValue)
+                    owner.viewModel.nextCursor.onNext("")
+                })
+                .disposed(by: disposeBag)
             
         } catch {
             print("Error getting value from isLikePage: \(error)")
@@ -218,7 +223,7 @@ extension BrowseViewController:UICollectionViewDataSourcePrefetching{
         guard let nextCursor = viewModel.data1?.next_cursor else { return }
         for item in indexPaths{
             if viewModel.data.count - 3 == item.item && nextCursor != "0" {
-                print("new Cursor")
+                print("new Cursor", nextCursor)
                 viewModel.nextCursor.onNext(nextCursor)
             }
         }
