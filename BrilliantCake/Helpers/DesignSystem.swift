@@ -22,8 +22,8 @@ enum ImageName {
     static let logo = "logo"
     static let heart = "heart"
     static let heartFill = "heart.fill"
-    static let phone = "phone.fill"
-    static let location = "map.fill"
+    static let phone = "phone"
+    static let location = "map"
     static let plus = "plus"
     static let arrowRight = "chevron.right"
     static let trash = "trash"
@@ -41,6 +41,7 @@ enum AppFont{
     static let size16Bold = UIFont.boldSystemFont(ofSize: 16)
     static let size17 = UIFont.systemFont(ofSize: 17)
     static let size17Bold = UIFont.boldSystemFont(ofSize: 17)
+    static let size17heavy = UIFont.systemFont(ofSize: 17, weight: .heavy)
     static let size18 = UIFont.systemFont(ofSize: 18)
     static let size18Bold = UIFont.boldSystemFont(ofSize: 18)
     static let size19 = UIFont.systemFont(ofSize: 19)

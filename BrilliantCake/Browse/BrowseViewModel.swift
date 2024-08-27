@@ -45,8 +45,10 @@ final class BrowseViewModel: BaseViewModel {
                 .filter { !$0.2 } // isSearchMode가 false일 때만
                 .flatMapLatest { isMyPage, cursor, _ -> Single<Result<PostModel, PostNetworkError>> in
                     if isMyPage {
+                        print("마이페지이")
                         return PostNetworkManager.shared.fetchUserPost(id: UserDefaultsManager.userID, next: cursor)
                     } else {
+                        print("마이페이지 아님")
                         return PostNetworkManager.shared.fetchPost(next: cursor, productId: "allBCake")
                     }
                 }
@@ -79,6 +81,7 @@ final class BrowseViewModel: BaseViewModel {
                         if owner.firstLoad {
                             owner.data = value.data
                             owner.firstLoad = false
+                            
                         } else {
                             owner.data.append(contentsOf: value.data)
                         }

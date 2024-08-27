@@ -77,6 +77,17 @@ final class StoreView: BaseView {
     var locationButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: ImageName.location), for: .normal)
+        button.setTitle(" 위치보기", for: .normal)
+        button.tintColor = .black
+        button.backgroundColor = .main
+        button.layer.cornerRadius = 10
+        return button
+    }()
+    
+    var purchaseButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("주문하기", for: .normal)
+        button.titleLabel?.font = AppFont.size17heavy
         button.tintColor = .black
         button.backgroundColor = .main
         button.layer.cornerRadius = 10
@@ -106,6 +117,7 @@ final class StoreView: BaseView {
         contentView.addSubview(contactLabel)
         contentView.addSubview(callButton)
         contentView.addSubview(locationButton)
+        contentView.addSubview(purchaseButton)
         contentView.addSubview(collectionView)
     }
     
@@ -171,9 +183,15 @@ final class StoreView: BaseView {
             make.height.equalTo(50)
             make.width.equalTo(callButton)
         }
+        
+        purchaseButton.snp.makeConstraints { make in
+            make.top.equalTo(locationButton.snp.bottom).offset(10)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(44)
+        }
 
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(locationButton.snp.bottom).offset(20)
+            make.top.equalTo(purchaseButton.snp.bottom).offset(20)
             make.leading.trailing.equalTo(contentView)
             make.height.equalTo(collectionView.contentSize.height)
             make.bottom.equalToSuperview().offset(-20)

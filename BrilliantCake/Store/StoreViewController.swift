@@ -23,6 +23,7 @@ final class StoreViewController: BaseViewController {
     override func loadView() {
         view = mainView
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
@@ -46,7 +47,7 @@ final class StoreViewController: BaseViewController {
                 owner.mainView.titleLabel.text = value.title
                 owner.mainView.descriptionLabel.text = value.content
                 owner.mainView.contactLabel.text = value.content1
-                owner.mainView.callButton.setTitle(value.content2, for: .normal)
+                owner.mainView.callButton.setTitle(" \(value.content2)", for: .normal)
             }
             .disposed(by: disposeBag)
         
@@ -92,7 +93,8 @@ final class StoreViewController: BaseViewController {
             .bind(with: self) { owner, value in
                 let mapVC = StoreMapMarkerViewController()
                 mapVC.coord = value.0
-                mapVC.storeInfo = (value.1.title, value.1.content)
+                guard let address = value.1.content4 else { return }
+                mapVC.storeInfo = (value.1.title, address)
                 owner.navigationController?.pushViewController(mapVC, animated: true)
             }
             .disposed(by: disposeBag)
@@ -120,5 +122,12 @@ final class StoreViewController: BaseViewController {
     
     override func configureLayout() {
         mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: DetailPostingCVCell.identifier)
+    }
+    
+    func touchUpForCalling(number: String) {
+        if let url = NSURL(string: "tel://0" + "\(number)"),
+           UIApplication.shared.canOpenURL(url as URL) {
+            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+        }
     }
 }

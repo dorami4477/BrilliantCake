@@ -45,7 +45,9 @@ final class BrowseViewController: BaseViewController {
     @objc func changePost() {
         do {
             let currentIsLikePageValue = try viewModel.isMyPage.value()
+            viewModel.firstLoad = true
             viewModel.isMyPage.onNext(currentIsLikePageValue)
+            
         } catch {
             print("Error getting value from isLikePage: \(error)")
         }
