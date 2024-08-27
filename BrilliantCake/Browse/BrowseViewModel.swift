@@ -66,7 +66,7 @@ final class BrowseViewModel: BaseViewModel {
             let searchMoreStream = Observable.combineLatest(isSearchMode.asObservable(), nextCursor, input.textField)
                 .filter { $0.0 && $0.1 != "" } // isSearchMode가 true이고 cursor가 비어있지 않을 때
                 .flatMap { _, cursor, inputText -> Single<Result<PostModel, PostNetworkError>> in
-                    let query = SearchQuery(next: cursor, limit: "15", product_id: "allBCake", hashTag: inputText)
+                    let query = SearchQuery(next: cursor, limit: "13", product_id: "allBCake", hashTag: inputText)
                     return PostNetworkManager.shared.searchWithHashTag(query: query)
                 }
 

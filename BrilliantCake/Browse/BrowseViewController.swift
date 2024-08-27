@@ -102,6 +102,7 @@ final class BrowseViewController: BaseViewController {
                     .bind(with: self, onNext: { owner, value in
                         owner.viewModel.isMyPage.onNext(value)
                         owner.viewModel.firstLoad = !value
+                        owner.viewModel.nextCursor.onNext("")
                         owner.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
                     })
                     .disposed(by: owner.disposeBag)
