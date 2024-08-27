@@ -22,5 +22,10 @@ enum ImageName {
     static let logo = "logo"
     static let heart = "heart"
     static let heartFill = "heart.fill"
+    static let phone = "phone.fill"
+    static let location = "map.fill"
+    static let plus = "plus"
+    static let arrowRight = "chevron.right"
+    static let trash = "trash"
 }
 

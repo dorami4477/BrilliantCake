@@ -63,7 +63,7 @@ final class DetailPostingView: BaseView {
     
     let deleteButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.setImage(UIImage(systemName: ImageName.trash), for: .normal)
         button.tintColor = .white
         button.backgroundColor = .lightGray
         button.layer.cornerRadius = 10

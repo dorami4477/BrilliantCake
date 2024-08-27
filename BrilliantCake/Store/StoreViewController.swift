@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class StoreViewController: BaseViewController {
-
     private let mainView = StoreView()
     private let viewModel: StoreViewModel
     private let disposeBag = DisposeBag()

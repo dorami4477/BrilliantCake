@@ -93,7 +93,7 @@ final class DetailPostingViewController: BaseViewController {
         
         mainView.deleteButton.rx.tap
             .bind(with: self) { owner, value in
-                owner.showAlert(title: "삭제하기", message: "정말로 삭제하시겠습니까?", buttonTilte: "삭제") { _ in
+                owner.showAlert(title: Literal.ButtonName.delete, message: Literal.GuideMessage.delete, buttonTilte: Literal.ButtonName.delete) { _ in
                     input.deleteButtonTap.onNext(())
                     owner.navigationController?.popViewController(animated: true)
                 }

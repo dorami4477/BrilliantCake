@@ -13,7 +13,6 @@ final class DetailPostingViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     var isMyPage = BehaviorSubject(value: false)
-    //var isDelete = PublishSubject<Bool>()
     var data:PostData?
     
     struct Input {

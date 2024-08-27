@@ -116,7 +116,7 @@ final class BrowseViewController: BaseViewController {
                 if value {
                     owner.navigationItem.searchController = .none
                     owner.navigationItem.titleView = .none
-                    owner.navigationItem.title = "My Posting"
+                    owner.navigationItem.title = Literal.viewTitle.myPosting
                 }
             }
             .disposed(by: disposeBag)
@@ -148,7 +148,7 @@ final class BrowseViewController: BaseViewController {
             make.width.equalTo(180)
             make.height.equalTo(44)
         }
-        createButton.setTitle("글 작성하기", for: .normal)
+        createButton.setTitle(Literal.ButtonName.createPost, for: .normal)
         createButton.setTitleColor(.black, for: .normal)
         createButton.backgroundColor = .main
         createButton.layer.cornerRadius = 20

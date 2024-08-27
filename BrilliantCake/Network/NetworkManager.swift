@@ -11,12 +11,28 @@ import Alamofire
 
 enum NetworkError:Error, Equatable {
     case invaildURL
-    case decodingError
     case expiredToken
     case unknownError(statusCode: Int)
     case serverError
     case headerError
     case exceededRequest
+    
+    var statusCode: Int {
+        switch self {
+        case .invaildURL:
+            return 444
+        case .expiredToken:
+            return 418
+        case .unknownError(let statusCode):
+            return statusCode
+        case .serverError:
+            return 500
+        case .headerError:
+            return 420
+        case .exceededRequest:
+            return 429
+        }
+    }   
 }
 
 enum NetworkManager {
@@ -35,19 +51,19 @@ enum NetworkManager {
                     guard let response = response.response else { return }
       
                     switch response.statusCode {
-                    case 418:
+                    case NetworkError.expiredToken.statusCode:
                         completion(.failure(.expiredToken))
                            
-                    case 420:
+                    case NetworkError.headerError.statusCode:
                         completion(.failure(.headerError))
                         
-                    case 429:
+                    case NetworkError.exceededRequest.statusCode:
                         completion(.failure(.exceededRequest))
                         
-                    case 444:
+                    case NetworkError.invaildURL.statusCode:
                         completion(.failure(.invaildURL))
                         
-                    case 500:
+                    case NetworkError.serverError.statusCode:
                         completion(.failure(.serverError))
                         
                     default:
@@ -71,19 +87,19 @@ enum NetworkManager {
                     guard let response = response.response else { return }
       
                     switch response.statusCode {
-                    case 418:
+                    case NetworkError.expiredToken.statusCode:
                         completion(.failure(.expiredToken))
                            
-                    case 420:
+                    case NetworkError.headerError.statusCode:
                         completion(.failure(.headerError))
                         
-                    case 429:
+                    case NetworkError.exceededRequest.statusCode:
                         completion(.failure(.exceededRequest))
                         
-                    case 444:
+                    case NetworkError.invaildURL.statusCode:
                         completion(.failure(.invaildURL))
                         
-                    case 500:
+                    case NetworkError.serverError.statusCode:
                         completion(.failure(.serverError))
                         
                     default:

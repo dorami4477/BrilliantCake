@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 final class StoreView: BaseView {
-
     private var scrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
@@ -68,7 +67,7 @@ final class StoreView: BaseView {
 
     var callButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "phone.fill"), for: .normal)
+        button.setImage(UIImage(systemName: ImageName.phone), for: .normal)
         button.tintColor = .black
         button.backgroundColor = .main
         button.layer.cornerRadius = 10
@@ -77,7 +76,7 @@ final class StoreView: BaseView {
     
     var locationButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "map.fill"), for: .normal)
+        button.setImage(UIImage(systemName: ImageName.location), for: .normal)
         button.tintColor = .black
         button.backgroundColor = .main
         button.layer.cornerRadius = 10

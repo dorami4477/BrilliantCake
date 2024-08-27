@@ -10,10 +10,10 @@ import RxSwift
 import RxCocoa
 import PhotosUI
 
-class CreatePostViewController: BaseViewController {
+final class CreatePostViewController: BaseViewController {
 
-    let mainView = CreatePostView()
-    let disposeBag = DisposeBag()
+    private let mainView = CreatePostView()
+    private let disposeBag = DisposeBag()
     let viewModel: CreatePostViewModel
     
     init(viewModel: CreatePostViewModel) {
@@ -98,7 +98,7 @@ class CreatePostViewController: BaseViewController {
     }
 
     override func configureLayout() {
-        navigationItem.title = "업로드 하기"
+        navigationItem.title = Literal.viewTitle.createPost
         view.backgroundColor = .backgroundGray
         mainView.contentTextView.delegate = self
     }
@@ -155,12 +155,11 @@ extension CreatePostViewController: UITextViewDelegate {
                textView.text = nil
                textView.textColor = UIColor.black
            }
-           
        }
        
        func textViewDidEndEditing(_ textView: UITextView) {
            if textView.text.isEmpty {
-               textView.text = "방문하신 스토어에 대한 후기의 내용을 적어주세요."
+               textView.text = Literal.GuideMessage.contentPlaceholder
                textView.textColor = UIColor.lightGray
            }
        }

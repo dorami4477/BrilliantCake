@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import SnapKit
 
 final class SelectStoreTableViewCell: UITableViewCell {
-    
     let nameLabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
@@ -23,7 +23,6 @@ final class SelectStoreTableViewCell: UITableViewCell {
         return label
     }()
 
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureHierarchy()

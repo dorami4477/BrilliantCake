@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class SelectStoreViewController: BaseViewController {
-    let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     let viewModel: SelectStoreViewModel
     private let disposeBag = DisposeBag()
 

@@ -63,7 +63,7 @@ class BaseViewController: UIViewController {
     func showAlert(title:String, message:String?, buttonTilte:String, completionHandler:@escaping (UIAlertAction) -> Void){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirm = UIAlertAction(title: buttonTilte, style: .destructive, handler: completionHandler)
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let cancel = UIAlertAction(title: Literal.ButtonName.cancel, style: .cancel)
         alert.addAction(confirm)
         alert.addAction(cancel)
         present(alert, animated: true)
@@ -78,7 +78,7 @@ class BaseViewController: UIViewController {
     
     func isExpiredToken(_ value: Bool){
         if !value {
-            showAlert(title: "토근만료", message: "토근이 만료되었습니다! 다시 로그인해주세요 :)", buttonTilte: "확인") { [weak self] _ in
+            showAlert(title: Literal.ButtonName.expiredToken, message: Literal.GuideMessage.expiredToken, buttonTilte: Literal.ButtonName.comform) { [weak self] _ in
                 let loginVC = LoginViewController()
                 self?.changeRootVC(loginVC)
             }

@@ -44,21 +44,20 @@ final class CreatePostView: BaseView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "제목"
+        label.text = Literal.GuideMessage.title
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     
     let titleTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "방문하신 스토어에 대한 후기의 제목을 적어주세요."
+        textField.placeholder = Literal.GuideMessage.titlePlaceholder
         textField.font = UIFont.systemFont(ofSize: 14)
         return textField
     }()
     
     let titleCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "0/30"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .right
         label.textColor = .lightGray
@@ -68,7 +67,7 @@ final class CreatePostView: BaseView {
     // 내용 입력 필드
     let contentLabel: UILabel = {
         let label = UILabel()
-        label.text = "내용"
+        label.text = Literal.GuideMessage.content
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label
     }()
@@ -76,14 +75,13 @@ final class CreatePostView: BaseView {
     let contentTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 14)
-        textView.text = "방문하신 스토어에 대한 후기의 내용을 적어주세요."
+        textView.text = Literal.GuideMessage.contentPlaceholder
         textView.textColor = .lightGray
         return textView
     }()
     
     let contentCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "0/200"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .right
         label.textColor = .lightGray
@@ -93,21 +91,21 @@ final class CreatePostView: BaseView {
     // 스토어 선택 필드
     let storeLabel: UILabel = {
         let label = UILabel()
-        label.text = "스토어"
+        label.text = Literal.GuideMessage.store
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     
     let storeSelectButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("방문하신 스토어를 선택해 주세요.", for: .normal)
+        button.setTitle(Literal.GuideMessage.storePlaceholder, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.contentHorizontalAlignment = .left
         button.backgroundColor = .white
         button.setTitleColor(.lightGray, for: .normal)
         
         // 오른쪽에 화살표 아이콘 추가
-        let arrowIcon = UIImageView(image: UIImage(systemName: "chevron.right"))
+        let arrowIcon = UIImageView(image: UIImage(systemName: ImageName.arrowRight))
         button.addSubview(arrowIcon)
         arrowIcon.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -120,14 +118,14 @@ final class CreatePostView: BaseView {
     // 사진 등록 필드
     let photoLabel: UILabel = {
         let label = UILabel()
-        label.text = "사진 등록"
+        label.text = Literal.GuideMessage.photo
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     
     let addPhotoButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "plus")
+        let image = UIImage(systemName: ImageName.plus)
         button.setImage(image, for: .normal)
         button.tintColor = .darkGray
         button.backgroundColor = .lightGray
@@ -144,7 +142,6 @@ final class CreatePostView: BaseView {
     
     let photoCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "0/3"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .right
         label.textColor = .lightGray
@@ -154,7 +151,7 @@ final class CreatePostView: BaseView {
     // 등록하기 버튼
     let submitButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("등록하기", for: .normal)
+        button.setTitle(Literal.ButtonName.upload, for: .normal)
         button.backgroundColor = .main
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 8
