@@ -26,6 +26,10 @@ enum Literal {
         static let delete = "정말로 삭제하시겠습니까?"
         static let expiredToken = "토근이 만료되었습니다! 다시 로그인해주세요 :)"
         static let addComment = "댓글을 입력해보세요!"
+        static let completePayingTitle = "결제완료"
+        static let completePaying = "결제가 완료되었습니다. 감사합니다."
+        static let paymentErrorTitle = "미승인"
+        static let paymentError = "결제가 정상적으로 처리되지 않았습니다. 재시도 부탁드립니다."
     }
     
     enum ButtonName {
