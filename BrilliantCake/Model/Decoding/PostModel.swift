@@ -21,6 +21,7 @@ struct PostData: Decodable{
     let content2: String
     let content3: String?
     let content4: String?
+    let price: Int?
     let createdAt: String
     let creator: Creator
     let files: [String]
@@ -39,6 +40,7 @@ struct PostData: Decodable{
         case content2
         case content3
         case content4
+        case price
         case createdAt
         case creator
         case files

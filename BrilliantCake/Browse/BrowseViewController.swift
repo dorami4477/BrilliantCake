@@ -102,6 +102,16 @@ final class BrowseViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        
+//        output.createButtonTap
+//            .bind(with: self) { owner, _ in
+//                let resultVC = PaymentResultViewController(viewModel: PaymentViewModel())
+//                resultVC.temp.onNext("imp_887017161023")
+//                resultVC.viewModel.productID = "66c300d17b29628187181413"
+//                owner.navigationController?.pushViewController(resultVC, animated: true)
+//            }
+//            .disposed(by: disposeBag)
+        
         output.createButtonTap
             .bind(with: self) { owner, value in
                 let createVC = CreatePostViewController(viewModel: CreatePostViewModel())
@@ -124,7 +134,8 @@ final class BrowseViewController: BaseViewController {
                 if value {
                     owner.navigationItem.searchController = .none
                     owner.navigationItem.titleView = .none
-                    owner.navigationItem.title = Literal.viewTitle.myPosting
+                    owner.navigationItem.title = Literal.ViewTitle.myPosting
+                    owner.createButton.isHidden = true
                 }
             }
             .disposed(by: disposeBag)

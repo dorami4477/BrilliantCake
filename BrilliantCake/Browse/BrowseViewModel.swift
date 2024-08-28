@@ -48,9 +48,9 @@ final class BrowseViewModel: BaseViewModel {
                         return PostNetworkManager.shared.fetchUserPost(id: UserDefaultsManager.userID, next: cursor)
                         
                     } else {
-                        return PostNetworkManager.shared.fetchPost(next: cursor, limit: "15", productId: "allBCake")
+                        return PostNetworkManager.shared.fetchPost(next: cursor, limit: "15", productId: ProductId.allBCake.rawValue)
                     }
-                }.debug()
+                }
 
             // 검색 스트림
             let searchStream = input.searchButtonTap
@@ -59,7 +59,7 @@ final class BrowseViewModel: BaseViewModel {
                 .do(onNext: { [weak self] _ in self?.isSearchMode.accept(true) })
                 .flatMap { value -> Single<Result<PostModel, PostNetworkError>> in
                     self.firstLoad = true
-                    let query = SearchQuery(next: "", limit: "13", product_id: "allBCake", hashTag: value)
+                    let query = SearchQuery(next: "", limit: "13", product_id: ProductId.allBCake.rawValue, hashTag: value)
                     return PostNetworkManager.shared.searchWithHashTag(query: query)
                 }
 
@@ -67,7 +67,7 @@ final class BrowseViewModel: BaseViewModel {
             let searchMoreStream = Observable.combineLatest(isSearchMode.asObservable(), nextCursor, input.textField)
                 .filter { $0.0 && $0.1 != "" } // isSearchMode가 true이고 cursor가 비어있지 않을 때
                 .flatMap { _, cursor, inputText -> Single<Result<PostModel, PostNetworkError>> in
-                    let query = SearchQuery(next: cursor, limit: "13", product_id: "allBCake", hashTag: inputText)
+                    let query = SearchQuery(next: cursor, limit: "13", product_id: ProductId.allBCake.rawValue, hashTag: inputText)
                     return PostNetworkManager.shared.searchWithHashTag(query: query)
                 }
 

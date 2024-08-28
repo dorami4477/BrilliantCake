@@ -21,6 +21,10 @@ final class CreatePostViewController: BaseViewController {
         super.init()
     }
     
+    deinit {
+        print(self)
+    }
+    
     override func loadView() {
         view = mainView
     }
@@ -28,7 +32,6 @@ final class CreatePostViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
-        
     }
     
     func bind() {
@@ -63,7 +66,7 @@ final class CreatePostViewController: BaseViewController {
         output.pickerViewTap
             .bind(with: self) { owner, _ in
                 var configuration = PHPickerConfiguration()
-                configuration.selectionLimit = 3
+                configuration.selectionLimit = 4
                 configuration.filter = .any(of: [.screenshots, .images])
 
                 let picker = PHPickerViewController(configuration: configuration)
@@ -98,7 +101,7 @@ final class CreatePostViewController: BaseViewController {
     }
 
     override func configureLayout() {
-        navigationItem.title = Literal.viewTitle.createPost
+        navigationItem.title = Literal.ViewTitle.createPost
         view.backgroundColor = .backgroundGray
         mainView.contentTextView.delegate = self
     }
@@ -141,9 +144,10 @@ extension CreatePostViewController:PHPickerViewControllerDelegate{
             }
 
         dispatchGroup.notify(queue: .main) { [weak self] in
-            self?.mainView.addNewImages(images: selectedImages)
-            self?.mainView.photoCountLabel.text = "\(selectedImages.count) / 3"
-            self?.viewModel.imageData.onNext(selectedImageDatas)
+            guard let self else { return }
+            self.mainView.addNewImages(images: selectedImages)
+            self.mainView.photoCountLabel.text = "\(selectedImages.count) / 3"
+            self.viewModel.imageData.onNext(selectedImageDatas)
         }
     }
 
@@ -164,3 +168,4 @@ extension CreatePostViewController: UITextViewDelegate {
            }
        }
 }
+

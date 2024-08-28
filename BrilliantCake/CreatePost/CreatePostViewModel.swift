@@ -11,7 +11,9 @@ import RxCocoa
 
 final class CreatePostViewModel: BaseViewModel {
     let disposeBag = DisposeBag()
-    
+    deinit{
+        print(self)
+    }
     var storeID = BehaviorSubject(value: "")
     var storeName = BehaviorSubject(value: "")
     let imageData = PublishSubject<[Data]>()
@@ -23,7 +25,7 @@ final class CreatePostViewModel: BaseViewModel {
         let storeButtonTap: ControlEvent<Void>
         let pickerViewTap: ControlEvent<Void>
         let submitButtonTap: ControlEvent<Void>
-    }
+    }   
     
     struct Output {
         let postResult: PublishSubject<PostData>
@@ -36,16 +38,22 @@ final class CreatePostViewModel: BaseViewModel {
         let postResult = PublishSubject<PostData>()
         
         input.submitButtonTap
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .withLatestFrom(imageData)
             .flatMap { imageData in
                 PostNetworkManager.shared.uploadImages(imageData: imageData)
             }
-            .flatMap { uploadResult in
-                Observable.combineLatest(input.titleText, input.contentText, self.storeID, self.storeName) { title, content, storeID, storeName in
-                    return (uploadResult, title, content, storeID, storeName)
-                }
+            .withUnretained(self)
+            .flatMap {  owner, uploadResult in
+                Observable.combineLatest(input.titleText.distinctUntilChanged(),
+                                         input.contentText.distinctUntilChanged(),
+                                         owner.storeID.distinctUntilChanged(),
+                                         owner.storeName.distinctUntilChanged())
+                    { title, content, storeID, storeName in
+                        return (uploadResult, title, content, storeID, storeName)
+                    }
             }
-            .flatMap { (uploadResult, title, content, storeID, storeName) in
+            .flatMapLatest { (uploadResult, title, content, storeID, storeName) in
                 switch uploadResult {
                 case .success(let uploadedFiles):
                     return PostNetworkManager.shared.createPost(
@@ -53,7 +61,7 @@ final class CreatePostViewModel: BaseViewModel {
                         content: content,
                         content1: storeID,
                         content2: storeName,
-                        productId: "allBCake",
+                        productId: ProductId.allBCake.rawValue,
                         files: uploadedFiles.files
                     )
                 case .failure(let error):
@@ -71,7 +79,6 @@ final class CreatePostViewModel: BaseViewModel {
                     print(error)
                 }
             } onError: { owner, error in
-                // 에러 처리
                 print("Error 발생: \(error)")
             } onCompleted: { owner in
                 print("통신 완료")

@@ -18,7 +18,7 @@ final class SelectStoreViewController: BaseViewController {
         self.viewModel = viewModel
         super.init()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()

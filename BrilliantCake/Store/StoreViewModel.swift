@@ -8,15 +8,18 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import iamport_ios
 
 final class StoreViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
+    let response = PublishSubject<IamportResponse>()
 
     struct Input {
         let storeId: Observable<String>
         let modelSelected: ControlEvent<PostData>
         let mapButtonTap: ControlEvent<Void>
         let likeButtonTap: ControlEvent<()>?
+        let purchaseButtonTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -26,6 +29,7 @@ final class StoreViewModel: BaseViewModel {
         let isTokenVaild: Observable<Bool>
         let mapCoord: Observable<[Double]>
         let like: Observable<Bool>
+        let purchaseButtonTap: ControlEvent<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -35,7 +39,7 @@ final class StoreViewModel: BaseViewModel {
         let mapCoord = PublishSubject<[Double]>()
         let like = BehaviorSubject(value: false)
         
-        let fetchPostObservable = Single.just(("", "allBCake"))
+        let fetchPostObservable = Single.just(("", ProductId.allBCake.rawValue))
             .flatMap { value in
                 PostNetworkManager.shared.fetchPost(next: value.0, limit: "100", productId: value.1)
             }
@@ -139,7 +143,8 @@ final class StoreViewModel: BaseViewModel {
                       modelSelected: input.modelSelected,
                       isTokenVaild: isTokenVaild,
                       mapCoord: mapCoord, 
-                      like: like)
+                      like: like, 
+                      purchaseButtonTap: input.purchaseButtonTap)
 
     }
     

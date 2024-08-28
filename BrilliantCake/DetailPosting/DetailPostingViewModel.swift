@@ -21,7 +21,7 @@ final class DetailPostingViewModel: BaseViewModel {
         let addCommentButtonTap: ControlEvent<Void>
         let deleteButtonTap: PublishSubject<Void>
     }
-    
+
     struct Output {
         let postData: BehaviorSubject<PostData?>
         let storeButtonTap: ControlEvent<Void>

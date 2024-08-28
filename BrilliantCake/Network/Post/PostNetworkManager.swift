@@ -297,7 +297,7 @@ final class PostNetworkManager {
     func fetchUserPost(id:String, next: String) -> Single<Result<PostModel, PostNetworkError>> {
         return Single.create { observer -> Disposable in
             do {
-                let query = FetchPostQuery(next: next, limit: "13", product_id: "allBCake")
+                let query = FetchPostQuery(next: next, limit: "13", product_id: ProductId.allBCake.rawValue)
                 let request = try PostRouter.fetchUserPost(id: id, query: query).asURLRequestWithQueryString()
                 
                 NetworkManager.callRequest(model: PostModel.self, request: request) { result in

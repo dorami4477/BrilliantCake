@@ -16,7 +16,7 @@ class ProfileViewController: BaseViewController {
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionOfBasicData<String>>! = nil
     private lazy var sections = BehaviorRelay(value: sectionData)
     private let sectionData = [
-        SectionOfBasicData(header: "1", items: ["프로필 수정", "내가 작성한 글", "좋아요 한 케이크샵"])
+        SectionOfBasicData(header: "1", items: ["프로필 수정", "구매 리스트", "내가 작성한 글", "좋아요 한 케이크샵"])
     ]
     private let viewModel: ProfileViewModel
     
@@ -53,11 +53,13 @@ class ProfileViewController: BaseViewController {
         mainView.tableView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
                 if indexPath.row == 1 {
+                    let paymentVC = PaymentListViewController(viewModel: PaymemtListViewModel())
+                    owner.navigationController?.pushViewController(paymentVC, animated: true)
+                } else if indexPath.row == 2 {
                     let browseVC = BrowseViewController(viewModel: BrowseViewModel())
                     browseVC.viewModel.isMyPage.onNext(true)
                     owner.navigationController?.pushViewController(browseVC, animated: true)
-                }
-                if indexPath.row == 2 {
+                } else if indexPath.row == 3 {
                     let storeListVC = StoreListViewController(viewModel: StoreListViewModel())
                     storeListVC.viewModel.isLikePage.onNext(true)
                     owner.navigationController?.pushViewController(storeListVC, animated: true)

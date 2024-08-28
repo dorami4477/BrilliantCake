@@ -71,7 +71,7 @@ final class StoreListViewController: BaseViewController {
         
         output.isLikePage
             .bind(with: self) { owner, value in
-                owner.navigationItem.title = value ? Literal.viewTitle.favorite : Literal.viewTitle.storeList
+                owner.navigationItem.title = value ? Literal.ViewTitle.favorite : Literal.ViewTitle.storeList
             }
             .disposed(by: disposeBag)
     }

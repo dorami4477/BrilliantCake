@@ -13,7 +13,7 @@ final class SelectStoreViewModel: BaseViewModel {
     let selectedStore = PublishSubject<PostData>()
     
     let disposeBag = DisposeBag()
-    
+
     struct Input {
         let modelSelected: ControlEvent<PostData>
     }
@@ -28,7 +28,7 @@ final class SelectStoreViewModel: BaseViewModel {
         let postList = PublishSubject<[PostData]>()
         let isTokenVaild = BehaviorSubject(value: true)
         
-        Single.just(("", "allBCakeStore"))
+        Single.just(("", ProductId.allBCakeStore.rawValue))
             .flatMap{ value in
                 PostNetworkManager.shared.fetchPost(next: value.0, limit: "15", productId: value.1)
             }

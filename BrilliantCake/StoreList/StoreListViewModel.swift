@@ -37,7 +37,7 @@ final class StoreListViewModel: BaseViewModel {
                     return PostNetworkManager.shared.fetchLikePost(next: "", limit: "10")
                     
                 } else {
-                    return PostNetworkManager.shared.fetchPost(next: "", limit: "15", productId: "allBCakeStore")
+                    return PostNetworkManager.shared.fetchPost(next: "", limit: "15", productId: ProductId.allBCakeStore.rawValue)
                 }
             }
             .subscribe { value in

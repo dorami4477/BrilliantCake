@@ -23,7 +23,7 @@ final class DetailPostingViewController: BaseViewController {
     override func loadView() {
         view = mainView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -93,7 +93,7 @@ final class DetailPostingViewController: BaseViewController {
         
         mainView.deleteButton.rx.tap
             .bind(with: self) { owner, value in
-                owner.showAlert(title: Literal.ButtonName.delete, message: Literal.GuideMessage.delete, buttonTilte: Literal.ButtonName.delete) { _ in
+                owner.showAlertWithCancel(title: Literal.ButtonName.delete, message: Literal.GuideMessage.delete, buttonTilte: Literal.ButtonName.delete) { _ in
                     input.deleteButtonTap.onNext(())
                     owner.navigationController?.popViewController(animated: true)
                 }

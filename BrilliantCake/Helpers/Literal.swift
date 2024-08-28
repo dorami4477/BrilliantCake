@@ -43,11 +43,12 @@ enum Literal {
         static let expiredToken = "토큰 만료"
     }
     
-    enum viewTitle {
+    enum ViewTitle {
         static let favorite = "Favorite Shops"
         static let storeList = "CakeShop List"
         static let createPost = "업로드 하기"
         static let myPosting = "My Posting"
+        static let paymentList = "구매 내역"
     }
 }
 

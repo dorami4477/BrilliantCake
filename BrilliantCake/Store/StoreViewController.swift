@@ -8,6 +8,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import iamport_ios
+import WebKit
 
 final class StoreViewController: BaseViewController {
     private let mainView = StoreView()
@@ -15,11 +17,17 @@ final class StoreViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     var storeId: String = ""
     
+    lazy var wkWebView: WKWebView = {
+        var view = WKWebView()
+        view.backgroundColor = UIColor.clear
+        return view
+    }()
+    
     init(viewModel: StoreViewModel) {
         self.viewModel = viewModel
         super.init()
     }
-    
+
     override func loadView() {
         view = mainView
     }
@@ -33,7 +41,9 @@ final class StoreViewController: BaseViewController {
         let input = StoreViewModel.Input(storeId: Observable.just(storeId),
                                          modelSelected: mainView.collectionView.rx.modelSelected(PostData.self), 
                                          mapButtonTap: mainView.locationButton.rx.tap, 
-                                         likeButtonTap: navigationItem.rightBarButtonItem?.rx.tap)
+                                         likeButtonTap: navigationItem.rightBarButtonItem?.rx.tap,
+                                         purchaseButtonTap: mainView.purchaseButton.rx.tap
+        )
         let output = viewModel.transform(input: input)
 
         output.postList
@@ -111,8 +121,58 @@ final class StoreViewController: BaseViewController {
                 owner.isExpiredToken(value)
             }
             .disposed(by: disposeBag)
+        
+        output.purchaseButtonTap
+            .withLatestFrom(output.storeData)
+            .bind(with: self, onNext: { owner, value in
+                guard let price = value.price else { return }
+                owner.payment(productName: value.title, amount: "\(price)")
+            })
+            .disposed(by: disposeBag)
     }
 
+    func payment(productName: String, amount: String) {
+        let payment = IamportPayment(
+                pg: PG.html5_inicis.makePgRawName(pgId: "INIpayTest"),
+                merchant_uid: "ios_\(APIKey.key)_\(Int(Date().timeIntervalSince1970))",
+                amount: amount).then {
+        $0.pay_method = PayMethod.card.rawValue 
+        $0.name = productName
+        $0.buyer_name = "박다현"
+        $0.app_scheme = "sesac"
+        }
+        
+        Iamport.shared.paymentWebView(
+            webViewMode: wkWebView,
+            userCode: PaymentKey.userCode,
+            payment: payment) { [weak self] iamportResponse in
+                self?.paymentCallback(iamportResponse)
+            }
+        
+        setupWebView()
+    }
+    
+    private func setupWebView() {
+        view.addSubview(wkWebView)
+        navigationController?.navigationBar.isHidden = true
+        wkWebView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func paymentCallback(_ response: IamportResponse?) {
+        print("------------------------------------------")
+        print("결과 왔습니다~~")
+        print("Iamport Payment response: \(String(describing: response))")
+        print("------------------------------------------")
+        guard let response else { return }
+        let resultVC = PaymentResultViewController(viewModel: PaymentViewModel())
+        resultVC.impResponseRelay.accept(response)
+        resultVC.viewModel.productID = storeId
+        navigationController?.pushViewController(resultVC, animated: true)
+    }
+
+    
     override func configureNavigation() {
         let likeButton = UIBarButtonItem(image: UIImage(systemName: ImageName.heart))
         navigationItem.rightBarButtonItem = likeButton
