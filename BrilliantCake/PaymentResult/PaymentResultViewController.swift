@@ -35,7 +35,18 @@ class PaymentResultViewController: BaseViewController {
             .subscribe(onNext: { [weak self] value in
                  guard let self = self else { return }
                  self.showAlert(title: "결제완료", message: "결제가 완료되었습니다. 감사합니다.", buttonTilte: "확인") { _ in
-                     self.changeRootVC(PaymentListViewController(viewModel: PaymemtListViewModel()))
+                     let myTabBar = TabBarController()
+                     myTabBar.selectedIndex = 3
+
+                     if let navController = myTabBar.viewControllers?[3] as? UINavigationController {
+                         let paymentListVC = ProfileViewController(viewModel: ProfileViewModel())
+                         navController.setViewControllers([paymentListVC], animated: false)
+                         
+                         let detailVC = PaymentListViewController(viewModel: PaymemtListViewModel())
+                         navController.pushViewController(detailVC, animated: true)
+                     }
+                     
+                     self.changeRootVC(myTabBar)
                  }
              })
             .disposed(by: disposeBag)
@@ -61,5 +72,4 @@ class PaymentResultViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
 
-   
 }

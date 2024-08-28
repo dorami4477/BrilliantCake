@@ -10,23 +10,31 @@ import SnapKit
 
 class PaymentListTableViewCell: BaseTableViewCell {
     
+    let contentBack: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        return view
+    }()
+    
     let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = AppFont.size15Bold
         label.textColor = .black
         return label
     }()
     
     let amountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = AppFont.size15
         label.textColor = .darkGray
         return label
     }()
     
     let storeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = AppFont.size15
         label.textColor = .darkGray
         return label
     }()
@@ -36,50 +44,53 @@ class PaymentListTableViewCell: BaseTableViewCell {
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = UIColor.systemYellow
         button.layer.cornerRadius = 10
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.font = AppFont.size17Bold
         return button
     }()
     
     override func configureHierarchy() {
-        contentView.addSubview(dateLabel)
-        contentView.addSubview(amountLabel)
-        contentView.addSubview(storeLabel)
-        contentView.addSubview(storeButton)
+        contentView.backgroundColor = .systemGroupedBackground
+        contentView.addSubview(contentBack)
+        contentBack.addSubview(dateLabel)
+        contentBack.addSubview(amountLabel)
+        contentBack.addSubview(storeLabel)
+        contentBack.addSubview(storeButton)
     }
     
     override func configureLayout() {
-        // 날짜 라벨 제약
+        
+        contentBack.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(10)
+        }
+        
         dateLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
-            make.leading.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(20)
         }
         
-        // 결제 금액 라벨 제약
         amountLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(8)
-            make.leading.equalTo(dateLabel)
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalTo(dateLabel.snp.trailing).offset(10)
         }
         
-        // 스토어 라벨 제약
         storeLabel.snp.makeConstraints { make in
-            make.top.equalTo(amountLabel.snp.bottom).offset(4)
-            make.leading.equalTo(amountLabel)
+            make.top.equalTo(amountLabel.snp.bottom).offset(5)
+            make.leading.equalTo(dateLabel.snp.trailing).offset(10)
         }
         
-        // 스토어 버튼 제약
         storeButton.snp.makeConstraints { make in
             make.top.equalTo(storeLabel.snp.bottom).offset(12)
-            make.leading.equalTo(storeLabel)
+            make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(40)
             make.bottom.equalToSuperview().inset(16)
         }
     }
     
-    // 데이터 설정 함수
     func configure(date: String, amount: String, store: String, buttonText: String) {
-        dateLabel.text = date
-        amountLabel.text = "결제 금액: \(amount)"
+        dateLabel.text = date.convertToDateTime
+        amountLabel.text = "결제 금액: \(amount)원"
         storeLabel.text = "스토어: \(store)"
         storeButton.setTitle(buttonText, for: .normal)
     }
+    
 }

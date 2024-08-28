@@ -42,7 +42,7 @@ final class PostNetworkManager {
                              .unknownError(statusCode: 403):
                             observer(.success(.failure(.invailRequest)))
                             
-                        case .expiredToken :
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:

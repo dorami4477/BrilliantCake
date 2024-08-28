@@ -60,6 +60,7 @@ class PaymentListViewController: BaseViewController {
     
     override func configureLayout() {
         tableView.backgroundColor = .systemGroupedBackground
+        tableView.separatorStyle = .none
         title = Literal.ViewTitle.paymentList
         tableView.register(PaymentListTableViewCell.self, forCellReuseIdentifier: PaymentListTableViewCell.identifier)
         view.addSubview(tableView)

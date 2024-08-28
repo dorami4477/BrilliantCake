@@ -29,7 +29,7 @@ final class PaymentNetworkManager {
             do {
                 let query = ValidationQuery(imp_uid: impId, post_id: postId)
                 let request = try PaymentRouter.validation(query: query).asURLRequest()
-                print(query)
+               
                 NetworkManager.callRequest(model: ValidationModel.self, request: request) { result in
                     switch result {
                     case .success(let value):
