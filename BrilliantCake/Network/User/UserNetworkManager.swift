@@ -76,13 +76,14 @@ final class UserNetworkManager {
                         switch response.result {
                         case .success(let success):
                             observer(.success(.success(success)))
+                            
                         case .failure(let error):
                             print(error)
                             observer(.success(.failure(.expiredToken)))
                         }
                     }
             } catch {
-                print(error, "URLRequestConvertible 에서 asURLRequest 로 요청 만드는거 실패")
+                print(error)
             }
             return Disposables.create()
         }

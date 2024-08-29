@@ -21,4 +21,16 @@ extension String {
         
         return formatter.string(from: tempDate)
     }
+    
+    var convertCSVStringToArray:[Double] {
+            let components = self
+                .trimmingCharacters(in: .whitespaces)
+                .components(separatedBy: ",")
+            
+            let array = components.compactMap { component -> Double? in
+                return Double(component.trimmingCharacters(in: .whitespaces))
+            }
+            
+            return array
+    }
 }

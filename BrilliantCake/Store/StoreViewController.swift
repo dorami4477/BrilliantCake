@@ -161,10 +161,6 @@ final class StoreViewController: BaseViewController {
     }
     
     func paymentCallback(_ response: IamportResponse?) {
-        print("------------------------------------------")
-        print("결과 왔습니다~~")
-        print("Iamport Payment response: \(String(describing: response))")
-        print("------------------------------------------")
         guard let response else { return }
         let resultVC = PaymentResultViewController(viewModel: PaymentViewModel())
         resultVC.impResponseRelay.accept(response)

@@ -40,12 +40,6 @@ final class PaymemtListViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            } onError: { error in
-                print(error)
-            } onCompleted: {
-                print("onCompleted")
-            } onDisposed: {
-                print("onDisposed")
             }
             .disposed(by: disposeBag)
         

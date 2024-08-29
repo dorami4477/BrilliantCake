@@ -96,10 +96,8 @@ final class StoreViewModel: BaseViewModel {
                 guard let value = value.content3 else { return "" }
                 return value
             }
-            .map { [weak self] csvString in
-                guard let self else { return [1] }
-                print(self.convertCSVStringToArray(csvString))
-                return self.convertCSVStringToArray(csvString)
+            .map { csvString in
+                return csvString.convertCSVStringToArray
             }
             .subscribe(onNext: { array in
                 mapCoord.onNext(array)

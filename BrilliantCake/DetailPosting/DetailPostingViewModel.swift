@@ -55,12 +55,6 @@ final class DetailPostingViewModel: BaseViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            } onError: { error in
-                print(error)
-            } onCompleted: {
-                print("onCompleted")
-            } onDisposed: {
-                print("onDisposed")
             }
             .disposed(by: disposeBag)
         
@@ -70,7 +64,7 @@ final class DetailPostingViewModel: BaseViewModel {
                 guard let value else { return Single<Result<(), PostNetworkError>>.never() }
                 return PostNetworkManager.shared.deletePost(id:value.id)
             }
-            .subscribe(with: self, onNext: { owner, result in
+            .subscribe(with: self) { owner, result in
                 switch result {
                 case .success:
                     NotificationCenter.default.post(name: .delete, object: nil)
@@ -80,13 +74,7 @@ final class DetailPostingViewModel: BaseViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            }, onError: { owner, error in
-                print(error)
-            }, onCompleted: { owner in
-                print("onCompleted")
-            }, onDisposed: { owner in
-                print("onDisposed")
-            })
+            }
             .disposed(by: disposeBag)
             
 

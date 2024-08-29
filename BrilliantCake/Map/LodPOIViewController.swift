@@ -7,19 +7,28 @@
 //
 
 import UIKit
+import RxSwift
 import KakaoMapsSDK
 
-class LodPOISample: MapViewController {
+
+class LodPOIViewController: MapViewController {
+    private let lodViewModel: LodPOIViewModel
+    var _radius: Float = 20.0
+    let _layerNames: [String] = ["korea", "seoul", "busan"]
+    let lodDisposeBag = DisposeBag()
+    
+    init(lodViewModel: LodPOIViewModel) {
+        self.lodViewModel = lodViewModel
+    }
     
     override func addViews() {
-        let defaultPosition: MapPoint = MapPoint(longitude: 127.108678, latitude: 37.402001)
+        let defaultPosition: MapPoint = MapPoint(longitude: 127.028759, latitude: 37.498061)
         let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 15)
         
         mapController?.addView(mapviewInfo)
     }
     
     override func viewInit(viewName: String) {
-        print("OK")
         createPoiStyle()
         createLodLabelLayer()
         createLodPois()
@@ -30,11 +39,11 @@ class LodPOISample: MapViewController {
         let manager = view.getLabelManager()
         // LodLabelLayer를 생성하기 위한 Option.
         // LodLayer에서는 효율적인 계산을 위해 POI의 중심에서 일정 반경(radius, 단위 : pixel)의 원으로 겹치는지를 확인한다.
-        let seoul = LodLabelLayerOptions(layerID: "seoul", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10000, radius: _radius)
+        let kangnam = LodLabelLayerOptions(layerID: "cakeShop", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10000, radius: _radius)
         let busan = LodLabelLayerOptions(layerID: "busan", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001, radius: _radius)
         let korea = LodLabelLayerOptions(layerID: "korea", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10002, radius: _radius)
 
-        let _ = manager.addLodLabelLayer(option: seoul)
+        let _ = manager.addLodLabelLayer(option: kangnam)
         let _ = manager.addLodLabelLayer(option: busan)
         let _ = manager.addLodLabelLayer(option: korea)
     }
@@ -42,15 +51,16 @@ class LodPOISample: MapViewController {
     func createPoiStyle() {
         let view = mapController?.getView("mapview") as! KakaoMap
         let manager = view.getLabelManager()
+        let resizedImage = resizeImage(image: UIImage(named: ImageName.mapPointer)!, targetSize: CGSize(width: 45, height: 45))
         
         let symbols = [
-            UIImage(named: ImageName.mapPointer),
-            UIImage(named: ImageName.mapPointer),
-            UIImage(named: ImageName.mapPointer)
+            resizedImage,
+            resizedImage,
+            resizedImage
         ]
         
         // 같은 그룹내 경쟁속성이 들어갔을 경우, radius는 symbol width 혹은 height의 1/2로 권장.
-        _radius = Float(symbols[0]!.size.width / 2.0)
+        _radius = Float(symbols[0].size.width / 2.0)
         let anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         let textLineStyles = [
@@ -72,51 +82,48 @@ class LodPOISample: MapViewController {
         }
     }
     
+ 
     func createLodPois() {
         let view = mapController?.getView("mapview") as! KakaoMap
         let manager = view.getLabelManager()
-        
-        for index in 0 ... (_layerNames.count - 1) {
-            let datas = testLodDatas(layerIndex: index)
-            let layer = manager.getLodLabelLayer(layerID: _layerNames[index])
-            
-            let _ = layer?.addLodPois(options: datas.0, at: datas.1)    // 대량의 POI를 add할때는 개별로 add하기 보다는 addPois를 사용하는 것이 효율적이다.
-            layer?.showAllLodPois()
+
+        for index in 0 ..< _layerNames.count {
+            storeDatas(layerIndex: index) { options, points in
+                let layer = manager.getLodLabelLayer(layerID: self._layerNames[index])
+                let _ = layer?.addLodPois(options: options, at: points)
+                layer?.showAllLodPois()
+            }
         }
     }
     
-    func testLodDatas(layerIndex: Int) -> ([PoiOptions], [MapPoint]) {
+    
+    func storeDatas(layerIndex: Int, completion: @escaping ([PoiOptions], [MapPoint]) -> Void) {
+        let input = LodPOIViewModel.Input()
+        let output = lodViewModel.transform(input: input)
+        
         var datas = [PoiOptions]()
         var positions = [MapPoint]()
-        
-        var coords = [MapPoint]()
-        var boundary = [GeoCoordinate]()
 
-        coords.append(MapPoint(longitude: 126.627459, latitude: 35.129776))
-        coords.append(MapPoint(longitude: 126.875658, latitude: 37.492889))
-        coords.append(MapPoint(longitude: 128.774832, latitude: 35.126031))
-
-        boundary.append(GeoCoordinate(longitude: 2.694945, latitude: 3.590908))
-        boundary.append(GeoCoordinate(longitude: 0.269494, latitude: 0.179662))
-        boundary.append(GeoCoordinate(longitude: 0.359326, latitude: 0.628808))
-
-        for index in 1 ... 1000 {
-            let options = PoiOptions(styleID: "customStyle" + String(layerIndex))
-            options.rank = Int(index)
-            let coord = coords[layerIndex].wgsCoord
-            
-            options.transformType = .decal
-            options.clickable = true
-            options.addText(PoiText(text: _layerNames[layerIndex], styleIndex: 0))
-            options.addText(PoiText(text: String(index), styleIndex: 1))
-
-            datas.append(options)
-            positions.append(MapPoint(longitude: coord.longitude + Double.random(in: 0...boundary[layerIndex].longitude),
-                                      latitude: coord.latitude + Double.random(in: 0...boundary[layerIndex].latitude)))
-        }
-        
-        return (datas, positions)
+        output.postList
+            .subscribe(onNext: { value in
+                value.forEach { data in
+                    let options = PoiOptions(styleID: "customStyle" + String(layerIndex))
+                    
+                    options.transformType = .decal
+                    options.clickable = true
+                    options.addText(PoiText(text: data.title, styleIndex: 0))
+                    
+                    datas.append(options)
+                    if let coordi = data.content3?.convertCSVStringToArray {
+                        positions.append(MapPoint(longitude: coordi[0], latitude: coordi[1]))
+                    }
+                }
+                completion(datas, positions)
+            })
+            .disposed(by: lodDisposeBag)
     }
+
+    
     
     override func containerDidResized(_ size: CGSize) {
         let mapView: KakaoMap? = mapController?.getView("mapview") as? KakaoMap
@@ -124,6 +131,5 @@ class LodPOISample: MapViewController {
     }
     
     
-    var _radius: Float = 20.0
-    let _layerNames: [String] = ["korea", "seoul", "busan"]
+
 }

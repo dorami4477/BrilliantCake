@@ -64,21 +64,7 @@ final class StoreMapMarkerViewController: MapViewController {
         showPointInfo(title: storeInfo.0, subtitle: storeInfo.1)
     }
     
-    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-        let size = image.size
-        let widthRatio  = targetSize.width  / image.size.width
-        let heightRatio = targetSize.height / image.size.height
-        let ratio = min(widthRatio, heightRatio)
-        
-        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        image.draw(in: CGRect(origin: .zero, size: newSize))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
-    }
+ 
     
     func showPointInfo(title: String, subtitle: String) {
         let infoView = StoreMapInfoView(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-300, width: 300, height: 130), title: title, address: subtitle)

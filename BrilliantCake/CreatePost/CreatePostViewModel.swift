@@ -78,13 +78,7 @@ final class CreatePostViewModel: BaseViewModel {
                 case .failure(let error):
                     print(error)
                 }
-            } onError: { owner, error in
-                print("Error 발생: \(error)")
-            } onCompleted: { owner in
-                print("통신 완료")
-            } onDisposed: { owner in
-                print("구독 종료")
-            }
+            } 
             .disposed(by: disposeBag)
         
         
