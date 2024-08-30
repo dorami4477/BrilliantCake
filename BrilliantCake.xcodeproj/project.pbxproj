@@ -28,6 +28,7 @@
 		4857A8FD2C7F1E1300BC8F0D /* PaymentListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8FC2C7F1E1300BC8F0D /* PaymentListTableViewCell.swift */; };
 		4857A8FF2C7F230300BC8F0D /* PaymemtListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8FE2C7F230300BC8F0D /* PaymemtListViewModel.swift */; };
 		4857A90C2C809E0100BC8F0D /* LodPOIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A90B2C809E0100BC8F0D /* LodPOIViewModel.swift */; };
+		4857A90E2C80C07D00BC8F0D /* StoreMapInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A90D2C80C07D00BC8F0D /* StoreMapInfoViewController.swift */; };
 		485BDF432C749E8A006DE214 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF422C749E8A006DE214 /* UIImageView+.swift */; };
 		485BDF452C74CD50006DE214 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF442C74CD50006DE214 /* AuthInterceptor.swift */; };
 		485BDF472C74D735006DE214 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485BDF462C74D735006DE214 /* UserRouter.swift */; };
@@ -129,6 +130,7 @@
 		4857A8FC2C7F1E1300BC8F0D /* PaymentListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListTableViewCell.swift; sourceTree = "<group>"; };
 		4857A8FE2C7F230300BC8F0D /* PaymemtListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymemtListViewModel.swift; sourceTree = "<group>"; };
 		4857A90B2C809E0100BC8F0D /* LodPOIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodPOIViewModel.swift; sourceTree = "<group>"; };
+		4857A90D2C80C07D00BC8F0D /* StoreMapInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMapInfoViewController.swift; sourceTree = "<group>"; };
 		485BDF422C749E8A006DE214 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		485BDF442C74CD50006DE214 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		485BDF462C74D735006DE214 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -472,10 +474,11 @@
 			isa = PBXGroup;
 			children = (
 				485BDF6A2C75B6F9006DE214 /* LodPOIViewController.swift */,
-				48CD16082C709D9900A7708B /* MapViewModel.swift */,
-				485BDF662C75ADAC006DE214 /* MapViewController.swift */,
-				485BDF682C75ADCC006DE214 /* StoreMapMarkerViewController.swift */,
 				4857A90B2C809E0100BC8F0D /* LodPOIViewModel.swift */,
+				485BDF662C75ADAC006DE214 /* MapViewController.swift */,
+				48CD16082C709D9900A7708B /* MapViewModel.swift */,
+				485BDF682C75ADCC006DE214 /* StoreMapMarkerViewController.swift */,
+				4857A90D2C80C07D00BC8F0D /* StoreMapInfoViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -646,6 +649,7 @@
 				48CD15B22C6CADC700A7708B /* SignUpViewController.swift in Sources */,
 				48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */,
 				4857A8FD2C7F1E1300BC8F0D /* PaymentListTableViewCell.swift in Sources */,
+				4857A90E2C80C07D00BC8F0D /* StoreMapInfoViewController.swift in Sources */,
 				4857A8DA2C7DCF8800BC8F0D /* test.swift in Sources */,
 				48CD15D82C6CB3B900A7708B /* UserDefaultsManager.swift in Sources */,
 				485BDF9D2C7828B0006DE214 /* ProfileViewModel.swift in Sources */,

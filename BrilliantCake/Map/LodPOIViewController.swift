@@ -17,6 +17,7 @@ class LodPOIViewController: MapViewController {
     let _layerNames: [String] = ["korea", "seoul", "busan"]
     let lodDisposeBag = DisposeBag()
     
+    
     init(lodViewModel: LodPOIViewModel) {
         self.lodViewModel = lodViewModel
     }
@@ -77,7 +78,7 @@ class LodPOIViewController: MapViewController {
                 PerLevelPoiStyle(iconStyle: iconStyle, textStyle: textStyle, padding: -2.0, level: 0)
             ])
             
-            
+    
             manager.addPoiStyle(poiStyle)
         }
     }
@@ -88,24 +89,50 @@ class LodPOIViewController: MapViewController {
         let manager = view.getLabelManager()
 
         for index in 0 ..< _layerNames.count {
-            storeDatas(layerIndex: index) { options, points in
+            storeDatas(layerIndex: index) { storeDatas, options, points in
                 let layer = manager.getLodLabelLayer(layerID: self._layerNames[index])
-                let _ = layer?.addLodPois(options: options, at: points)
+                let lodPois = layer?.addLodPois(options: options, at: points)
+                lodPois?.enumerated().forEach{ index, poi in
+                    poi.userObject = storeMapData(id: storeDatas[index].id, title: storeDatas[index].title, address: storeDatas[index].content4 ?? "")
+                    let _ = poi.addPoiTappedEventHandler(target: self, handler: LodPOIViewController.poiTappedHandler)
+                }
                 layer?.showAllLodPois()
             }
         }
     }
     
+
+    //마커 탭 이벤트
+    func poiTappedHandler(_ param: PoiInteractionEventParam) {
+        guard let userObject = param.poiItem.userObject, let data = userObject as? storeMapData else { return }
+        let vc = StoreMapInfoViewController()
+        vc.configureData(id: data.id, title: data.title, address: data.address)
+        if let sheet = vc.sheetPresentationController {
+             if #available(iOS 16.0, *) {
+                 sheet.detents = [
+                     .custom { _ in
+                         return 180
+                     }
+                 ]
+             } else {
+                 sheet.detents = [.medium()]
+             }
+         }
+        self.present(vc, animated: true)
+        
+    }
     
-    func storeDatas(layerIndex: Int, completion: @escaping ([PoiOptions], [MapPoint]) -> Void) {
+    func storeDatas(layerIndex: Int, completion: @escaping ([PostData], [PoiOptions], [MapPoint]) -> Void) {
         let input = LodPOIViewModel.Input()
         let output = lodViewModel.transform(input: input)
         
+        var storeDatas:[PostData] = []
         var datas = [PoiOptions]()
         var positions = [MapPoint]()
 
         output.postList
             .subscribe(onNext: { value in
+                storeDatas = value
                 value.forEach { data in
                     let options = PoiOptions(styleID: "customStyle" + String(layerIndex))
                     
@@ -118,7 +145,7 @@ class LodPOIViewController: MapViewController {
                         positions.append(MapPoint(longitude: coordi[0], latitude: coordi[1]))
                     }
                 }
-                completion(datas, positions)
+                completion(storeDatas, datas, positions)
             })
             .disposed(by: lodDisposeBag)
     }
@@ -133,3 +160,18 @@ class LodPOIViewController: MapViewController {
     
 
 }
+
+class storeMapData {
+    let id: String
+    let title: String
+    let address: String
+
+    init(id: String, title: String, address: String) {
+        self.id = id
+        self.title = title
+        self.address = address
+    }
+}
+
+
+

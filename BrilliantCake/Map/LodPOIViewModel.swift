@@ -21,7 +21,6 @@ final class LodPOIViewModel: BaseViewModel {
     
     func transform(input: Input) -> Output {
         let postList = PublishSubject<[PostData]>()
-        let mapCoord = PublishSubject<[Double]>()
         let isTokenVaild = BehaviorSubject(value: true)
         
     Observable.just("")
