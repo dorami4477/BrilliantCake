@@ -11,11 +11,37 @@ import RxSwift
 import Kingfisher
 import UIKit
 
+//enum PostNetworkError:Error, Equatable {
+//    case invailRequest
+//    case notFoundPost
+//    case expiredToken
+//    case commonError(error: NetworkError)
+//}
+
 enum PostNetworkError:Error, Equatable {
-    case invailRequest
+    case invalidRequest
+    case unauthorizedToken
+    case forbidden
     case notFoundPost
     case expiredToken
     case commonError(error: NetworkError)
+    
+    var statusCode: Int {
+        switch self {
+        case .invalidRequest:
+            return 400
+        case .unauthorizedToken:
+            return 401
+        case .forbidden:
+            return 403
+        case .notFoundPost:
+            return 410
+        case .expiredToken:
+            return 419
+        case .commonError(let error):
+            return 000
+        }
+    }
 }
 
 final class PostNetworkManager {
@@ -37,10 +63,14 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
                             
                         case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
@@ -51,7 +81,7 @@ final class PostNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -68,12 +98,16 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
                             
-                        case .expiredToken :
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
@@ -82,7 +116,7 @@ final class PostNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -100,15 +134,19 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
                             
-                        case .unknownError(statusCode: 410):
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.notFoundPost.statusCode):
                             observer(.success(.failure(.notFoundPost)))
                             
-                        case .expiredToken :
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
@@ -117,7 +155,7 @@ final class PostNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -134,12 +172,16 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
                             
-                        case .expiredToken :
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
@@ -148,7 +190,7 @@ final class PostNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -166,15 +208,19 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
                             
-                        case .unknownError(statusCode: 410):
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.notFoundPost.statusCode):
                             observer(.success(.failure(.notFoundPost)))
                             
-                        case .expiredToken :
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
@@ -183,7 +229,7 @@ final class PostNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -201,15 +247,19 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
                             
-                        case .unknownError(statusCode: 410):
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.notFoundPost.statusCode):
                             observer(.success(.failure(.notFoundPost)))
                             
-                        case .expiredToken :
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
@@ -218,7 +268,7 @@ final class PostNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -271,15 +321,19 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
-                        
-                        case .unknownError(statusCode: 410):
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.notFoundPost.statusCode):
                             observer(.success(.failure(.notFoundPost)))
                             
-                        case .expiredToken :
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
@@ -288,7 +342,7 @@ final class PostNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -309,7 +363,7 @@ final class PostNetworkManager {
                         case .unknownError(statusCode: 400),
                              .unknownError(statusCode: 401),
                              .unknownError(statusCode: 403):
-                            observer(.success(.failure(.invailRequest)))
+                            observer(.success(.failure(.invalidRequest)))
                             
                         case .expiredToken :
                             observer(.success(.failure(.expiredToken)))
@@ -339,7 +393,7 @@ final class PostNetworkManager {
                             case .unknownError(statusCode: 400),
                                  .unknownError(statusCode: 401),
                                  .unknownError(statusCode: 403):
-                                observer(.success(.failure(.invailRequest)))
+                                observer(.success(.failure(.invalidRequest)))
                                 
                             case .unknownError(statusCode: 445) :
                                 observer(.success(.failure(.notFoundPost)))

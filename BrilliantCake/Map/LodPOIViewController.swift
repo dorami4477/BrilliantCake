@@ -14,7 +14,7 @@ import KakaoMapsSDK
 class LodPOIViewController: MapViewController {
     private let lodViewModel: LodPOIViewModel
     var _radius: Float = 20.0
-    let _layerNames: [String] = ["korea", "seoul", "busan"]
+    let _layerNames: [String] = ["kangnam"]
     let lodDisposeBag = DisposeBag()
     
     
@@ -38,15 +38,9 @@ class LodPOIViewController: MapViewController {
     func createLodLabelLayer() {
         let view = mapController?.getView("mapview") as! KakaoMap
         let manager = view.getLabelManager()
-        // LodLabelLayer를 생성하기 위한 Option.
-        // LodLayer에서는 효율적인 계산을 위해 POI의 중심에서 일정 반경(radius, 단위 : pixel)의 원으로 겹치는지를 확인한다.
         let kangnam = LodLabelLayerOptions(layerID: "cakeShop", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10000, radius: _radius)
-        let busan = LodLabelLayerOptions(layerID: "busan", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001, radius: _radius)
-        let korea = LodLabelLayerOptions(layerID: "korea", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10002, radius: _radius)
 
         let _ = manager.addLodLabelLayer(option: kangnam)
-        let _ = manager.addLodLabelLayer(option: busan)
-        let _ = manager.addLodLabelLayer(option: korea)
     }
     
     func createPoiStyle() {
@@ -60,7 +54,6 @@ class LodPOIViewController: MapViewController {
             resizedImage
         ]
         
-        // 같은 그룹내 경쟁속성이 들어갔을 경우, radius는 symbol width 혹은 height의 1/2로 권장.
         _radius = Float(symbols[0].size.width / 2.0)
         let anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
@@ -102,7 +95,6 @@ class LodPOIViewController: MapViewController {
     }
     
 
-    //마커 탭 이벤트
     func poiTappedHandler(_ param: PoiInteractionEventParam) {
         guard let userObject = param.poiItem.userObject, let data = userObject as? storeMapData else { return }
         let vc = StoreMapInfoViewController()
