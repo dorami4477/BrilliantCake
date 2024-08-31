@@ -32,11 +32,10 @@ enum Literal {
         static let paymentError = "결제가 정상적으로 처리되지 않았습니다. 재시도 부탁드립니다."
         static let locationTitle = "위치 권한 필요"
         static let location = "현재 위치를 확인하려면 위치 권한이 필요합니다."
+        static let logOut = "정말 로그아웃 하시겠습니까?"
     }
     
     enum ButtonName {
-        static let withdrawal = "회원탈퇴"
-        static let withdraw = "탈퇴"
         static let save = "저장"
         static let cancel = "취소"
         static let login = "로그인"
@@ -51,6 +50,7 @@ enum Literal {
         static let moveToStore = "스토어 구경가기"
         static let order = "주문하기"
         static let location = " 위치보기"
+        static let logOut = "로그아웃"
     }
     
     enum ViewTitle {

@@ -13,12 +13,13 @@ final class ProfileViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        
+        let itemSelected: ControlEvent<IndexPath>
     }
     
     struct Output {
         let profileData: Observable<ProfileModel>
         let isTokenVaild: Observable<Bool>
+        let itemSelected: ControlEvent<IndexPath>
     }
     
     func transform(input: Input) -> Output {
@@ -43,6 +44,7 @@ final class ProfileViewModel: BaseViewModel {
             })
             .disposed(by: disposeBag)
         
-        return Output(profileData: profileData, isTokenVaild: isTokenVaild)
+        
+        return Output(profileData: profileData, isTokenVaild: isTokenVaild, itemSelected: input.itemSelected)
     }
 }

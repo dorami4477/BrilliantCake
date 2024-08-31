@@ -16,7 +16,7 @@ final class ProfileViewController: BaseViewController {
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionOfBasicData<String>>! = nil
     private lazy var sections = BehaviorRelay(value: sectionData)
     private let sectionData = [
-        SectionOfBasicData(header: "1", items: ["구매 리스트", "내가 작성한 글", "좋아요 한 케이크샵"])
+        SectionOfBasicData(header: "1", items: ["구매 리스트", "내가 작성한 글", "좋아요 한 케이크샵", "로그아웃"])
     ]
     private let viewModel: ProfileViewModel
     
@@ -35,7 +35,7 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func bind() {
-        let input = ProfileViewModel.Input()
+        let input = ProfileViewModel.Input(itemSelected: mainView.tableView.rx.itemSelected)
         let output = viewModel.transform(input: input)
         
         sections
@@ -50,21 +50,30 @@ final class ProfileViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        mainView.tableView.rx.itemSelected
+        output.itemSelected
             .bind(with: self) { owner, indexPath in
-                if indexPath.row == 0 {
+                switch indexPath.row {
+                case 0:
                     let paymentVC = PaymentListViewController(viewModel: PaymemtListViewModel())
                     owner.navigationController?.pushViewController(paymentVC, animated: true)
                     
-                } else if indexPath.row == 1 {
+                case 1:
                     let browseVC = BrowseViewController(viewModel: BrowseViewModel())
                     browseVC.viewModel.isMyPage.onNext(true)
                     owner.navigationController?.pushViewController(browseVC, animated: true)
                     
-                } else if indexPath.row == 2 {
+                case 2:
                     let storeListVC = StoreListViewController(viewModel: StoreListViewModel())
                     storeListVC.viewModel.isLikePage.onNext(true)
                     owner.navigationController?.pushViewController(storeListVC, animated: true)
+                    
+                case 3:
+                    owner.showAlertWithCancel(title: Literal.ButtonName.logOut, message: Literal.GuideMessage.logOut, buttonTilte: Literal.ButtonName.comform) { _ in
+                        UserDefaultsManager.deleteAllData()
+                        let loginVC = LoginViewController()
+                        owner.changeRootVC(loginVC)
+                    }
+                default: break
                 }
             }
             .disposed(by: disposeBag)
