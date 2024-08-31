@@ -49,7 +49,7 @@ extension PostRouter: TargetType {
         case .deletePost:
             return .delete
         }
-    
+        
         
     }
     
@@ -60,13 +60,13 @@ extension PostRouter: TargetType {
     var queryItems: [URLQueryItem]? {
         switch self {
         case .fetchPost(let query), .fetchlike(let query), .fetchUserPost(_, let query):
-         return [
+            return [
                 URLQueryItem(name: "next", value: query.next),
                 URLQueryItem(name: "limit", value: query.limit),
                 URLQueryItem(name: "product_id", value: query.product_id)
             ]
         case .search(let query):
-         return [
+            return [
                 URLQueryItem(name: "next", value: query.next),
                 URLQueryItem(name: "limit", value: query.limit),
                 URLQueryItem(name: "product_id", value: query.product_id),
@@ -78,17 +78,6 @@ extension PostRouter: TargetType {
     
     var body: Data? {
         switch self {
-        case .fetchPost(let query):
-            let encoder = JSONEncoder()
-            
-            do {
-                let data = try encoder.encode(query)
-                print("data \(data)")
-                return data
-            } catch {
-                print(error)
-                return nil
-            }
         case .addComment(_, let query):
             let encoder = JSONEncoder()
             

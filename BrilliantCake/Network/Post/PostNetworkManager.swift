@@ -8,15 +8,8 @@
 import Foundation
 import Alamofire
 import RxSwift
-import Kingfisher
-import UIKit
 
-//enum PostNetworkError:Error, Equatable {
-//    case invailRequest
-//    case notFoundPost
-//    case expiredToken
-//    case commonError(error: NetworkError)
-//}
+import UIKit
 
 enum PostNetworkError:Error, Equatable {
     case invalidRequest
@@ -38,7 +31,7 @@ enum PostNetworkError:Error, Equatable {
             return 410
         case .expiredToken:
             return 419
-        case .commonError(let error):
+        case .commonError:
             return 000
         }
     }
@@ -72,7 +65,7 @@ final class PostNetworkManager {
                         case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
                             observer(.success(.failure(.forbidden)))
                             
-                        case .expiredToken:
+                        case .expiredToken, .unknownError(statusCode: PostNetworkError.expiredToken.statusCode):
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
@@ -277,14 +270,6 @@ final class PostNetworkManager {
     func uploadImages(imageData: [Data]) -> Single<Result<FilesModel, NetworkError>>{
         return Single.create { observer -> Disposable in
             
-            let url = URL(string: PostRouter.uploadFiles.baseURL + PostRouter.uploadFiles.path)!
-            
-            let headers: HTTPHeaders = [
-                Header.authorization.rawValue: UserDefaultsManager.token,
-                Header.contentType.rawValue: Header.multipart.rawValue,
-                Header.sesacKey.rawValue: APIKey.key
-            ]
-            
             AF.upload(multipartFormData: { MultipartFormData in
                 imageData.forEach { image in
                     
@@ -293,7 +278,7 @@ final class PostNetworkManager {
                                              fileName: "iamge.jpg",
                                              mimeType: "image/jpg")
                 }
-            }, to: url, method: .post, headers: headers)
+            }, with: PostRouter.uploadFiles)
             .validate()
             .responseDecodable(of: FilesModel.self) { reponse in
                 switch reponse.result {
@@ -360,21 +345,26 @@ final class PostNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400),
-                             .unknownError(statusCode: 401),
-                             .unknownError(statusCode: 403):
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
                             observer(.success(.failure(.invalidRequest)))
                             
-                        case .expiredToken :
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .expiredToken:
                             observer(.success(.failure(.expiredToken)))
                             
                         default:
                             observer(.success(.failure(.commonError(error: error))))
                         }
+
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -385,31 +375,36 @@ final class PostNetworkManager {
             do {
                 let request = try PostRouter.deletePost(id: id).asURLRequest()
                 NetworkManager.deleteRequest(request: request) { response in
-                        switch response {
-                        case .success:
-                            observer(.success(.success(())))
-                        case .failure(let error):
-                            switch error {
-                            case .unknownError(statusCode: 400),
-                                 .unknownError(statusCode: 401),
-                                 .unknownError(statusCode: 403):
-                                observer(.success(.failure(.invalidRequest)))
-                                
-                            case .unknownError(statusCode: 445) :
-                                observer(.success(.failure(.notFoundPost)))
-                                
-                            case .expiredToken :
-                                observer(.success(.failure(.expiredToken)))
-                                
-                            default:
-                                observer(.success(.failure(.commonError(error: error))))
-                            }
+                    switch response {
+                    case .success:
+                        observer(.success(.success(())))
+                    case .failure(let error):
+                        switch error {
+                        case .unknownError(statusCode: PostNetworkError.invalidRequest.statusCode):
+                            observer(.success(.failure(.invalidRequest)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.unauthorizedToken.statusCode):
+                            observer(.success(.failure(.unauthorizedToken)))
+                            
+                        case .unknownError(statusCode: PostNetworkError.forbidden.statusCode):
+                            observer(.success(.failure(.forbidden)))
+                            
+                        case .unknownError(statusCode: 445):
+                            observer(.success(.failure(.notFoundPost)))
+                            
+                        case .expiredToken:
+                            observer(.success(.failure(.expiredToken)))
+                            
+                        default:
+                            observer(.success(.failure(.commonError(error: error))))
                         }
 
                     }
-
+                    
+                }
+                
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }

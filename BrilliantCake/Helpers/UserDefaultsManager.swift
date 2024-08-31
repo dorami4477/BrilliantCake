@@ -34,7 +34,7 @@ enum UserDefaultsManager{
     
     @UserDefault(key: "userID", defaultValue: "")
     static var userID:String
-
+    
     static func deleteAllData() {
         for key in UserDefaults.standard.dictionaryRepresentation().keys {
             UserDefaults.standard.removeObject(forKey: key.description)

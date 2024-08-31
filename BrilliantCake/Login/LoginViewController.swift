@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Alamofire
-import Toast
 
 final class LoginViewController: BaseViewController {
     private let loginView = LoginView()

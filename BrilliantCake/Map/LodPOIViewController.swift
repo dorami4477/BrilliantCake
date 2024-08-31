@@ -14,7 +14,7 @@ import KakaoMapsSDK
 class LodPOIViewController: MapViewController {
     private let lodViewModel: LodPOIViewModel
     var _radius: Float = 20.0
-    let _layerNames: [String] = ["kangnam"]
+    let _layerNames: [String] = ["korea", "seoul", "busan"]
     let lodDisposeBag = DisposeBag()
     
     
@@ -39,8 +39,12 @@ class LodPOIViewController: MapViewController {
         let view = mapController?.getView("mapview") as! KakaoMap
         let manager = view.getLabelManager()
         let kangnam = LodLabelLayerOptions(layerID: "cakeShop", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10000, radius: _radius)
+        let busan = LodLabelLayerOptions(layerID: "busan", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001, radius: _radius)
+        let korea = LodLabelLayerOptions(layerID: "korea", competitionType: .sameLower, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10002, radius: _radius)
 
         let _ = manager.addLodLabelLayer(option: kangnam)
+        let _ = manager.addLodLabelLayer(option: busan)
+        let _ = manager.addLodLabelLayer(option: korea)
     }
     
     func createPoiStyle() {
@@ -53,7 +57,7 @@ class LodPOIViewController: MapViewController {
             resizedImage,
             resizedImage
         ]
-        
+
         _radius = Float(symbols[0].size.width / 2.0)
         let anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
@@ -67,7 +71,6 @@ class LodPOIViewController: MapViewController {
             let textStyle = PoiTextStyle(textLineStyles: textLineStyles)
             textStyle.textLayouts = [.bottom]
             let poiStyle = PoiStyle(styleID: "customStyle" + String(index), styles: [
-                // padding을 -2로 설정하면 패닝시 깜빡거리는 현상을 최소화 할 수 있다.
                 PerLevelPoiStyle(iconStyle: iconStyle, textStyle: textStyle, padding: -2.0, level: 0)
             ])
             

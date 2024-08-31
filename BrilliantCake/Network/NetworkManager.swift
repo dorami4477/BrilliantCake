@@ -32,7 +32,7 @@ enum NetworkError:Error, Equatable {
         case .exceededRequest:
             return 429
         }
-    }   
+    }
 }
 
 enum NetworkManager {
@@ -49,11 +49,11 @@ enum NetworkManager {
                 case .failure:
                     
                     guard let response = response.response else { return }
-      
+                    
                     switch response.statusCode {
                     case NetworkError.expiredToken.statusCode:
                         completion(.failure(.expiredToken))
-                           
+                        
                     case NetworkError.headerError.statusCode:
                         completion(.failure(.headerError))
                         
@@ -85,11 +85,11 @@ enum NetworkManager {
                 case .failure:
                     
                     guard let response = response.response else { return }
-      
+                    
                     switch response.statusCode {
                     case NetworkError.expiredToken.statusCode:
                         completion(.failure(.expiredToken))
-                           
+                        
                     case NetworkError.headerError.statusCode:
                         completion(.failure(.headerError))
                         

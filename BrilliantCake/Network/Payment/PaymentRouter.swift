@@ -45,7 +45,7 @@ extension PaymentRouter: TargetType {
                 print(error)
                 return nil
             }
-
+            
         default: return nil
             
         }

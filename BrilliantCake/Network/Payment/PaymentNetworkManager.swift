@@ -8,13 +8,30 @@
 import Foundation
 import RxSwift
 
-enum PaymentNetworkError:Error, Equatable {
+enum PaymentNetworkError: Error, Equatable {
     case invalid
     case unknownAccessToken
     case forbidden
     case alreadyDone
     case expiredToken
     case commonError(error: NetworkError)
+    
+    var statusCode: Int {
+        switch self {
+        case .invalid:
+            return 400
+        case .unknownAccessToken:
+            return 401
+        case .forbidden:
+            return 403
+        case .alreadyDone:
+            return 409
+        case .expiredToken:
+            return 418
+        case .commonError:
+            return 000
+        }
+    }
 }
 
 
@@ -24,28 +41,28 @@ final class PaymentNetworkManager {
     private init() {}
     
     func validation(impId:String, postId: String) -> Single<Result<ValidationModel, PaymentNetworkError>> {
-       
+        
         return Single.create { observer -> Disposable in
             do {
                 let query = ValidationQuery(imp_uid: impId, post_id: postId)
                 let request = try PaymentRouter.validation(query: query).asURLRequest()
-               
+                
                 NetworkManager.callRequest(model: ValidationModel.self, request: request) { result in
                     switch result {
                     case .success(let value):
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 400):
+                        case .unknownError(statusCode: PaymentNetworkError.invalid.statusCode):
                             observer(.success(.failure(.invalid)))
                             
-                        case .unknownError(statusCode: 401):
+                        case .unknownError(statusCode: PaymentNetworkError.unknownAccessToken.statusCode):
                             observer(.success(.failure(.unknownAccessToken)))
                             
-                        case .unknownError(statusCode: 403):
+                        case .unknownError(statusCode: PaymentNetworkError.forbidden.statusCode):
                             observer(.success(.failure(.forbidden)))
                             
-                        case .unknownError(statusCode: 409):
+                        case .unknownError(statusCode: PaymentNetworkError.alreadyDone.statusCode):
                             observer(.success(.failure(.alreadyDone)))
                             
                         case .expiredToken :
@@ -57,7 +74,7 @@ final class PaymentNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
@@ -75,10 +92,10 @@ final class PaymentNetworkManager {
                         observer(.success(.success(value)))
                     case .failure(let error):
                         switch error {
-                        case .unknownError(statusCode: 401):
+                        case .unknownError(statusCode: PaymentNetworkError.unknownAccessToken.statusCode):
                             observer(.success(.failure(.unknownAccessToken)))
                             
-                        case .unknownError(statusCode: 403):
+                        case .unknownError(statusCode: PaymentNetworkError.forbidden.statusCode):
                             observer(.success(.failure(.forbidden)))
                             
                         case .expiredToken :
@@ -90,7 +107,7 @@ final class PaymentNetworkManager {
                     }
                 }
             } catch {
-                print(error, "asURLRequest 실패")
+                print(error)
             }
             return Disposables.create()
         }
