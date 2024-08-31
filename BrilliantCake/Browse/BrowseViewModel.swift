@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class BrowseViewModel: BaseViewModel {
-    
     private let disposeBag = DisposeBag()
     var data: [PostData] = []
     var data1: PostModel?
@@ -40,7 +39,6 @@ final class BrowseViewModel: BaseViewModel {
         let postList = PublishSubject<[PostData]>()
         let isTokenVaild = BehaviorSubject(value: true)
         
-        // 일반 포스트 로딩 스트림
             let normalPostStream = Observable.combineLatest(isMyPage, nextCursor, isSearchMode)
                 .filter { !$0.2 } // isSearchMode가 false일 때만
                 .flatMapLatest { isMyPage, cursor, _ -> Single<Result<PostModel, PostNetworkError>> in
@@ -52,7 +50,6 @@ final class BrowseViewModel: BaseViewModel {
                     }
                 }
 
-            // 검색 스트림
             let searchStream = input.searchButtonTap
                 .debounce(.seconds(1), scheduler: MainScheduler.instance)
                 .withLatestFrom(input.textField)
@@ -63,7 +60,6 @@ final class BrowseViewModel: BaseViewModel {
                     return PostNetworkManager.shared.searchWithHashTag(query: query)
                 }
 
-            // 검색 결과 더 로딩 스트림
             let searchMoreStream = Observable.combineLatest(isSearchMode.asObservable(), nextCursor, input.textField)
                 .filter { $0.0 && $0.1 != "" } // isSearchMode가 true이고 cursor가 비어있지 않을 때
                 .flatMap { _, cursor, inputText -> Single<Result<PostModel, PostNetworkError>> in
@@ -71,7 +67,6 @@ final class BrowseViewModel: BaseViewModel {
                     return PostNetworkManager.shared.searchWithHashTag(query: query)
                 }
 
-            // 모든 스트림 병합
             Observable.merge(normalPostStream, searchStream, searchMoreStream)
                 .subscribe(with: self, onNext: { owner, result in
                     switch result {

@@ -20,6 +20,7 @@ final class StoreViewModel: BaseViewModel {
         let mapButtonTap: ControlEvent<Void>
         let likeButtonTap: ControlEvent<()>?
         let purchaseButtonTap: ControlEvent<Void>
+        let callButtonTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -30,6 +31,7 @@ final class StoreViewModel: BaseViewModel {
         let mapCoord: Observable<[Double]>
         let like: Observable<Bool>
         let purchaseButtonTap: ControlEvent<Void>
+        let callButtonTap: ControlEvent<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -82,12 +84,6 @@ final class StoreViewModel: BaseViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            }, onError: { owner, error in
-                print(error)
-            }, onCompleted: { owner in
-                print("onCompleted")
-            }, onDisposed: { owner in
-                print("onDisposed")
             })
             .disposed(by: disposeBag)
         
@@ -125,12 +121,6 @@ final class StoreViewModel: BaseViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            }, onError: { owner, error in
-                print(error)
-            }, onCompleted: { owner in
-                print("onCompleted")
-            }, onDisposed: { owner in
-                print("onDisposed")
             })
             .disposed(by: disposeBag)
         }
@@ -142,23 +132,9 @@ final class StoreViewModel: BaseViewModel {
                       isTokenVaild: isTokenVaild,
                       mapCoord: mapCoord, 
                       like: like, 
-                      purchaseButtonTap: input.purchaseButtonTap)
+                      purchaseButtonTap: input.purchaseButtonTap, 
+                      callButtonTap: input.callButtonTap)
 
     }
-    
-    
-    func convertCSVStringToArray(_ csvString: String) -> [Double] {
-            let components = csvString
-                .trimmingCharacters(in: .whitespaces)
-                .components(separatedBy: ",")
-            
-            // 각 문자열을 정수로 변환
-            let array = components.compactMap { component -> Double? in
-                return Double(component.trimmingCharacters(in: .whitespaces))
-            }
-            
-            return array
-        }
-    
 
 }

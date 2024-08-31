@@ -77,7 +77,7 @@ final class StoreView: BaseView {
     var locationButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: ImageName.location), for: .normal)
-        button.setTitle(" 위치보기", for: .normal)
+        button.setTitle(Literal.ButtonName.location, for: .normal)
         button.tintColor = .black
         button.backgroundColor = .main
         button.layer.cornerRadius = 10
@@ -86,7 +86,7 @@ final class StoreView: BaseView {
     
     var purchaseButton = {
         let button = UIButton(type: .system)
-        button.setTitle("주문하기", for: .normal)
+        button.setTitle(Literal.ButtonName.order, for: .normal)
         button.titleLabel?.font = AppFont.size17heavy
         button.tintColor = .black
         button.backgroundColor = .main

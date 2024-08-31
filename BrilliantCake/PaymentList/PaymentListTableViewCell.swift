@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-class PaymentListTableViewCell: BaseTableViewCell {
+final class PaymentListTableViewCell: BaseTableViewCell {
     
-    let contentBack: UIView = {
+    private let contentBack: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
@@ -18,21 +18,21 @@ class PaymentListTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = AppFont.size15Bold
         label.textColor = .black
         return label
     }()
     
-    let amountLabel: UILabel = {
+    private let amountLabel: UILabel = {
         let label = UILabel()
         label.font = AppFont.size15
         label.textColor = .darkGray
         return label
     }()
     
-    let storeLabel: UILabel = {
+    private let storeLabel: UILabel = {
         let label = UILabel()
         label.font = AppFont.size15
         label.textColor = .darkGray

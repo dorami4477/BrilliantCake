@@ -15,7 +15,6 @@
 		4857A8C02C7B606000BC8F0D /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8BF2C7B606000BC8F0D /* Notification+.swift */; };
 		4857A8CA2C7CCF5300BC8F0D /* SectionOfData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8C92C7CCF5300BC8F0D /* SectionOfData.swift */; };
 		4857A8CC2C7CD66500BC8F0D /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8CB2C7CD66500BC8F0D /* BaseTableViewCell.swift */; };
-		4857A8DA2C7DCF8800BC8F0D /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8D92C7DCF8800BC8F0D /* test.swift */; };
 		4857A8DC2C7E19E100BC8F0D /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8DB2C7E19E100BC8F0D /* Parameters.swift */; };
 		4857A8E82C7EE8EB00BC8F0D /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 4857A8E72C7EE8EB00BC8F0D /* iamport-ios */; };
 		4857A8EA2C7F042000BC8F0D /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A8E92C7F042000BC8F0D /* PaymentResultViewController.swift */; };
@@ -116,7 +115,6 @@
 		4857A8BF2C7B606000BC8F0D /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		4857A8C92C7CCF5300BC8F0D /* SectionOfData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfData.swift; sourceTree = "<group>"; };
 		4857A8CB2C7CD66500BC8F0D /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
-		4857A8D92C7DCF8800BC8F0D /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		4857A8DB2C7E19E100BC8F0D /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		4857A8E92C7F042000BC8F0D /* PaymentResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
 		4857A8EB2C7F08AA00BC8F0D /* PaymentNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentNetworkManager.swift; sourceTree = "<group>"; };
@@ -291,6 +289,41 @@
 			path = PaymentList;
 			sourceTree = "<group>";
 		};
+		4857A9112C834CAF00BC8F0D /* StoreMapInfo */ = {
+			isa = PBXGroup;
+			children = (
+				4857A90D2C80C07D00BC8F0D /* StoreMapInfoViewController.swift */,
+				485BDF702C76275E006DE214 /* StoreMapInfoView.swift */,
+			);
+			path = StoreMapInfo;
+			sourceTree = "<group>";
+		};
+		4857A9122C834CD000BC8F0D /* LodMap */ = {
+			isa = PBXGroup;
+			children = (
+				4857A90F2C833A4100BC8F0D /* LodMapViewController.swift */,
+				4857A90B2C809E0100BC8F0D /* LodPOIViewModel.swift */,
+			);
+			path = LodMap;
+			sourceTree = "<group>";
+		};
+		4857A9132C834CE500BC8F0D /* BaseMap */ = {
+			isa = PBXGroup;
+			children = (
+				485BDF662C75ADAC006DE214 /* MapViewController.swift */,
+				48CD16082C709D9900A7708B /* MapViewModel.swift */,
+			);
+			path = BaseMap;
+			sourceTree = "<group>";
+		};
+		4857A9142C834CFC00BC8F0D /* StoreMapMarker */ = {
+			isa = PBXGroup;
+			children = (
+				485BDF682C75ADCC006DE214 /* StoreMapMarkerViewController.swift */,
+			);
+			path = StoreMapMarker;
+			sourceTree = "<group>";
+		};
 		485BDF932C77716F006DE214 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,7 +425,6 @@
 				48CD15AC2C6CAB0200A7708B /* BaseView.swift */,
 				48CD15AE2C6CAB2400A7708B /* BaseCollectionVIewCell.swift */,
 				48CD161B2C71B3F200A7708B /* CommentLabel.swift */,
-				485BDF702C76275E006DE214 /* StoreMapInfoView.swift */,
 				4857A8CB2C7CD66500BC8F0D /* BaseTableViewCell.swift */,
 			);
 			path = Base;
@@ -467,12 +499,10 @@
 		48CD15FA2C6F5DFA00A7708B /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				4857A90F2C833A4100BC8F0D /* LodMapViewController.swift */,
-				4857A90B2C809E0100BC8F0D /* LodPOIViewModel.swift */,
-				485BDF662C75ADAC006DE214 /* MapViewController.swift */,
-				48CD16082C709D9900A7708B /* MapViewModel.swift */,
-				485BDF682C75ADCC006DE214 /* StoreMapMarkerViewController.swift */,
-				4857A90D2C80C07D00BC8F0D /* StoreMapInfoViewController.swift */,
+				4857A9142C834CFC00BC8F0D /* StoreMapMarker */,
+				4857A9122C834CD000BC8F0D /* LodMap */,
+				4857A9112C834CAF00BC8F0D /* StoreMapInfo */,
+				4857A9132C834CE500BC8F0D /* BaseMap */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -495,7 +525,6 @@
 				48CD16192C7198F800A7708B /* StoreViewController.swift */,
 				48CD161D2C71CF0400A7708B /* StoreView.swift */,
 				48CD161F2C72048800A7708B /* StoreViewModel.swift */,
-				4857A8D92C7DCF8800BC8F0D /* test.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -642,7 +671,6 @@
 				48CD15D42C6CB32F00A7708B /* LoginQuery.swift in Sources */,
 				4857A8FD2C7F1E1300BC8F0D /* PaymentListTableViewCell.swift in Sources */,
 				4857A90E2C80C07D00BC8F0D /* StoreMapInfoViewController.swift in Sources */,
-				4857A8DA2C7DCF8800BC8F0D /* test.swift in Sources */,
 				48CD15D82C6CB3B900A7708B /* UserDefaultsManager.swift in Sources */,
 				485BDF9D2C7828B0006DE214 /* ProfileViewModel.swift in Sources */,
 				485BDF452C74CD50006DE214 /* AuthInterceptor.swift in Sources */,

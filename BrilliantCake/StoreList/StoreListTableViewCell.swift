@@ -11,7 +11,7 @@ import RxSwift
 final class StoreListTableViewCell: BaseTableViewCell {
     var disposeBag = DisposeBag()
     
-    let nameLabel = {
+    private let nameLabel = {
         let label = UILabel()
         label.font = AppFont.size18Bold
         return label
@@ -24,7 +24,7 @@ final class StoreListTableViewCell: BaseTableViewCell {
         return button
     }()
     
-    let detailsLabel = {
+    private let detailsLabel = {
         let label = UILabel()
         label.font = AppFont.size14
         label.textColor = .gray
@@ -42,21 +42,21 @@ final class StoreListTableViewCell: BaseTableViewCell {
         return stackView
     }()
     
-    let storeImageView1 = {
+    private let storeImageView1 = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    let storeImageView2 = {
+    private let storeImageView2 = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    let storeImageView3 = {
+    private let storeImageView3 = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true

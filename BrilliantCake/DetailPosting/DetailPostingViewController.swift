@@ -10,10 +10,9 @@ import RxSwift
 import RxCocoa
 
 final class DetailPostingViewController: BaseViewController {
-
     let mainView = DetailPostingView()
-    let viewModel: DetailPostingViewModel
     private let disposeBag = DisposeBag()
+    let viewModel: DetailPostingViewModel
     
     init(viewModel: DetailPostingViewModel) {
         self.viewModel = viewModel
@@ -23,7 +22,7 @@ final class DetailPostingViewController: BaseViewController {
     override func loadView() {
         view = mainView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -40,7 +39,6 @@ final class DetailPostingViewController: BaseViewController {
         output.postData
             .bind(with: self) { owner, value in
                 guard let value else { return }
-                print("포스팅id", value.id)
                 owner.mainView.nickNameLabel.text = value.creator.nick
                 owner.mainView.dateLabel.text = value.createdAt.convertToDateTime
                 owner.mainView.titleLabel.text = value.title
@@ -50,7 +48,7 @@ final class DetailPostingViewController: BaseViewController {
                     owner.mainView.addComment(user: comments.creator.nick,
                                               drawUpDate: comments.createdAt.convertToDateTime,
                                               comment: comments.content)
-                }                
+                }
             }
             .disposed(by: disposeBag)
         

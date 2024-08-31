@@ -1,5 +1,5 @@
 //
-//  TestMapViewController.swift
+//  BaseMapViewController.swift
 //  BrilliantCake
 //
 //  Created by 박다현 on 8/21/24.
@@ -10,7 +10,7 @@ import CoreLocation
 import KakaoMapsSDK
 import RxSwift
 
-class MapViewController: BaseViewController, MapControllerDelegate {
+class BaseMapViewController: BaseViewController, MapControllerDelegate {
     
     var mapContainer: KMViewContainer?
     var mapController: KMController?
@@ -195,7 +195,7 @@ class MapViewController: BaseViewController, MapControllerDelegate {
 }
 
 
-extension MapViewController: CLLocationManagerDelegate {
+extension BaseMapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
             print(coordinate)

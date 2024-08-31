@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class StoreMapInfoView: BaseView {
+final class StoreMapInfoView: BaseView {
     
     private let iconView: UIImageView = {
         let imageView = UIImageView()

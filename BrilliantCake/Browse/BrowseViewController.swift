@@ -54,7 +54,7 @@ final class BrowseViewController: BaseViewController {
                 .disposed(by: disposeBag)
             
         } catch {
-            print("Error getting value from isLikePage: \(error)")
+            print(error)
         }
     }
     
@@ -101,16 +101,6 @@ final class BrowseViewController: BaseViewController {
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
-        
-        
-//        output.createButtonTap
-//            .bind(with: self) { owner, _ in
-//                let resultVC = PaymentResultViewController(viewModel: PaymentViewModel())
-//                resultVC.temp.onNext("imp_887017161023")
-//                resultVC.viewModel.productID = "66c300d17b29628187181413"
-//                owner.navigationController?.pushViewController(resultVC, animated: true)
-//            }
-//            .disposed(by: disposeBag)
         
         output.createButtonTap
             .bind(with: self) { owner, value in
@@ -234,7 +224,6 @@ extension BrowseViewController:UICollectionViewDataSourcePrefetching{
         guard let nextCursor = viewModel.data1?.next_cursor else { return }
         for item in indexPaths{
             if viewModel.data.count - 3 == item.item && nextCursor != "0" {
-                print("new Cursor", nextCursor)
                 viewModel.nextCursor.onNext(nextCursor)
             }
         }

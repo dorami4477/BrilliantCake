@@ -21,10 +21,6 @@ final class CreatePostViewController: BaseViewController {
         super.init()
     }
     
-    deinit {
-        print(self)
-    }
-    
     override func loadView() {
         view = mainView
     }
@@ -34,7 +30,7 @@ final class CreatePostViewController: BaseViewController {
         bind()
     }
     
-    func bind() {
+    private func bind() {
         let input = CreatePostViewModel.Input(titleText: mainView.titleTextField.rx.text.orEmpty,
                                               contentText: mainView.contentTextView.rx.text.orEmpty,
                                               storeButtonTap: mainView.storeSelectButton.rx.tap,

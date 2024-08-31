@@ -10,10 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class CreatePostViewModel: BaseViewModel {
-    let disposeBag = DisposeBag()
-    deinit{
-        print(self)
-    }
+    private let disposeBag = DisposeBag()
     var storeID = BehaviorSubject(value: "")
     var storeName = BehaviorSubject(value: "")
     let imageData = PublishSubject<[Data]>()
@@ -25,7 +22,7 @@ final class CreatePostViewModel: BaseViewModel {
         let storeButtonTap: ControlEvent<Void>
         let pickerViewTap: ControlEvent<Void>
         let submitButtonTap: ControlEvent<Void>
-    }   
+    }
     
     struct Output {
         let postResult: PublishSubject<PostData>
@@ -49,9 +46,9 @@ final class CreatePostViewModel: BaseViewModel {
                                          input.contentText.distinctUntilChanged(),
                                          owner.storeID.distinctUntilChanged(),
                                          owner.storeName.distinctUntilChanged())
-                    { title, content, storeID, storeName in
-                        return (uploadResult, title, content, storeID, storeName)
-                    }
+                { title, content, storeID, storeName in
+                    return (uploadResult, title, content, storeID, storeName)
+                }
             }
             .flatMapLatest { (uploadResult, title, content, storeID, storeName) in
                 switch uploadResult {
@@ -78,7 +75,7 @@ final class CreatePostViewModel: BaseViewModel {
                 case .failure(let error):
                     print(error)
                 }
-            } 
+            }
             .disposed(by: disposeBag)
         
         

@@ -42,10 +42,6 @@ final class SelectStoreViewModel: BaseViewModel {
                         isTokenVaild.onNext(false)
                     }
                 }
-            }, onFailure: { owner, error in
-                print(error)
-            }, onDisposed: { owner in
-                print("disposed")
             })
             .disposed(by: disposeBag)
         

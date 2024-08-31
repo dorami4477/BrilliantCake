@@ -42,7 +42,8 @@ final class StoreViewController: BaseViewController {
                                          modelSelected: mainView.collectionView.rx.modelSelected(PostData.self), 
                                          mapButtonTap: mainView.locationButton.rx.tap, 
                                          likeButtonTap: navigationItem.rightBarButtonItem?.rx.tap,
-                                         purchaseButtonTap: mainView.purchaseButton.rx.tap
+                                         purchaseButtonTap: mainView.purchaseButton.rx.tap, 
+                                         callButtonTap: mainView.callButton.rx.tap
         )
         let output = viewModel.transform(input: input)
 
@@ -129,6 +130,13 @@ final class StoreViewController: BaseViewController {
                 owner.payment(productName: value.title, amount: "\(price)")
             })
             .disposed(by: disposeBag)
+        
+        output.callButtonTap
+            .bind(with: self) { owner, value in
+                guard let number = owner.mainView.callButton.currentTitle else { return }
+                owner.touchUpForCalling(number: number)
+            }
+            .disposed(by: disposeBag)
     }
 
     func payment(productName: String, amount: String) {
@@ -160,7 +168,7 @@ final class StoreViewController: BaseViewController {
         }
     }
     
-    func paymentCallback(_ response: IamportResponse?) {
+    private func paymentCallback(_ response: IamportResponse?) {
         guard let response else { return }
         let resultVC = PaymentResultViewController(viewModel: PaymentViewModel())
         resultVC.impResponseRelay.accept(response)
@@ -175,13 +183,12 @@ final class StoreViewController: BaseViewController {
     }
     
 
-    
     override func configureLayout() {
         mainView.collectionView.register(DetailPostingCVCell.self, forCellWithReuseIdentifier: DetailPostingCVCell.identifier)
     }
     
     func touchUpForCalling(number: String) {
-        if let url = NSURL(string: "tel://0" + "\(number)"),
+        if let url = NSURL(string: "tel://" + "\(number)"),
            UIApplication.shared.canOpenURL(url as URL) {
             UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
         }

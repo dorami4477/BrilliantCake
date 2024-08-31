@@ -10,7 +10,7 @@ import RxSwift
 import KakaoMapsSDK
 
 
-final class LodMapViewController: MapViewController {
+final class LodMapViewController: BaseMapViewController {
     private let lodViewModel: LodPOIViewModel
     var _radius: Float = 20.0
     let _layerNames: [String] = ["korea", "seoul", "busan"]

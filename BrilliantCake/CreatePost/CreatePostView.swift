@@ -64,7 +64,6 @@ final class CreatePostView: BaseView {
         return label
     }()
     
-    // 내용 입력 필드
     let contentLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.content
@@ -88,7 +87,6 @@ final class CreatePostView: BaseView {
         return label
     }()
     
-    // 스토어 선택 필드
     let storeLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.store
@@ -104,7 +102,6 @@ final class CreatePostView: BaseView {
         button.backgroundColor = .white
         button.setTitleColor(.lightGray, for: .normal)
         
-        // 오른쪽에 화살표 아이콘 추가
         let arrowIcon = UIImageView(image: UIImage(systemName: ImageName.arrowRight))
         button.addSubview(arrowIcon)
         arrowIcon.snp.makeConstraints { make in
@@ -115,7 +112,6 @@ final class CreatePostView: BaseView {
         return button
     }()
     
-    // 사진 등록 필드
     let photoLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.GuideMessage.photo
@@ -148,7 +144,6 @@ final class CreatePostView: BaseView {
         return label
     }()
     
-    // 등록하기 버튼
     let submitButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(Literal.ButtonName.upload, for: .normal)
@@ -204,7 +199,6 @@ final class CreatePostView: BaseView {
             make.bottom.equalToSuperview().inset(5)
         }
                 
-        // 내용 관련 레이아웃
         contentBackView.snp.makeConstraints { make in
             make.top.equalTo(titleView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
@@ -226,7 +220,6 @@ final class CreatePostView: BaseView {
             make.bottom.equalToSuperview().inset(5)
         }
         
-        // 스토어 선택 레이아웃
         storeView.snp.makeConstraints { make in
             make.top.equalTo(contentBackView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
@@ -250,7 +243,6 @@ final class CreatePostView: BaseView {
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
-        // 사진 등록 레이아웃
         photoLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
         }

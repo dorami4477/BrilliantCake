@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 final class PaymemtListViewModel {
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     struct Input {
         

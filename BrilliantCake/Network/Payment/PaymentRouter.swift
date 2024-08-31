@@ -39,8 +39,8 @@ extension PaymentRouter: TargetType {
             
             do {
                 let data = try encoder.encode(query)
-                print("data \(data)")
                 return data
+                
             } catch {
                 print(error)
                 return nil

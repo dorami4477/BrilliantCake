@@ -49,6 +49,8 @@ enum Literal {
         static let expiredToken = "토큰 만료"
         static let moveToConfigure = "설정으로 이동"
         static let moveToStore = "스토어 구경가기"
+        static let order = "주문하기"
+        static let location = " 위치보기"
     }
     
     enum ViewTitle {

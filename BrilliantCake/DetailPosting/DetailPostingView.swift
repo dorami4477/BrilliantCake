@@ -37,6 +37,7 @@ final class DetailPostingView: BaseView {
         view.layer.cornerRadius = 20
         return view
     }()
+    
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     let profileImageView = {

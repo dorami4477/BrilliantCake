@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class PaymentListViewController: BaseViewController {
-
+final class PaymentListViewController: BaseViewController {
+    
     private let tableView = UITableView()
     private let disposeBag = DisposeBag()
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionOfBasicData<ValidationModel>>! = nil
@@ -33,7 +33,7 @@ class PaymentListViewController: BaseViewController {
     private func bind() {
         let input = PaymemtListViewModel.Input()
         let output = viewModel.transform(input: input)
-                
+        
         output.list
             .bind(with: self) { owner, value in
                 owner.section.accept([
@@ -59,16 +59,15 @@ class PaymentListViewController: BaseViewController {
     }
     
     override func configureLayout() {
+        title = Literal.ViewTitle.paymentList
+        view.addSubview(tableView)
         tableView.backgroundColor = .systemGroupedBackground
         tableView.separatorStyle = .none
-        title = Literal.ViewTitle.paymentList
         tableView.register(PaymentListTableViewCell.self, forCellReuseIdentifier: PaymentListTableViewCell.identifier)
-        view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     
-
 }
