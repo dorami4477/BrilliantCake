@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class StoreMapInfoViewController: BaseViewController {
+final class StoreMapInfoViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     
     private let storeNameLabel: UILabel = {
@@ -26,7 +26,7 @@ class StoreMapInfoViewController: BaseViewController {
     
     private let exploreStoreButton: UIButton = {
         let button = UIButton()
-        button.setTitle("스토어 구경가기", for: .normal)
+        button.setTitle(Literal.ButtonName.moveToStore, for: .normal)
         button.backgroundColor = .main
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = AppFont.size16Bold

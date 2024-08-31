@@ -32,7 +32,7 @@ final class LodPOIViewModel: BaseViewModel {
             case .success(let result):
                 postList.onNext(result.data)
             case .failure(let error):
-                print("postdata", error)
+                print("mapData", error)
                 if error == .expiredToken {
                     isTokenVaild.onNext(false)
                 }

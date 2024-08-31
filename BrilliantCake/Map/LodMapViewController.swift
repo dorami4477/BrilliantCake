@@ -1,9 +1,8 @@
 //
-//  LodPOISample.swift
-//  KakaoMapOpenApi-Sample
+//  LodMapViewController.swift
+//  BrilliantCake
 //
-//  Created by chase on 2020/06/05.
-//  Copyright © 2020 kakao. All rights reserved.
+//  Created by 박다현 on 8/31/24.
 //
 
 import UIKit
@@ -11,15 +10,16 @@ import RxSwift
 import KakaoMapsSDK
 
 
-class LodPOIViewController: MapViewController {
+final class LodMapViewController: MapViewController {
     private let lodViewModel: LodPOIViewModel
     var _radius: Float = 20.0
     let _layerNames: [String] = ["korea", "seoul", "busan"]
     let lodDisposeBag = DisposeBag()
     
     
-    init(lodViewModel: LodPOIViewModel) {
+    init(lodViewModel: LodPOIViewModel, mapViewModel: MapViewModel) {
         self.lodViewModel = lodViewModel
+        super.init(viewModel: mapViewModel)
     }
     
     override func addViews() {
@@ -90,7 +90,7 @@ class LodPOIViewController: MapViewController {
                 let lodPois = layer?.addLodPois(options: options, at: points)
                 lodPois?.enumerated().forEach{ index, poi in
                     poi.userObject = storeMapData(id: storeDatas[index].id, title: storeDatas[index].title, address: storeDatas[index].content4 ?? "")
-                    let _ = poi.addPoiTappedEventHandler(target: self, handler: LodPOIViewController.poiTappedHandler)
+                    let _ = poi.addPoiTappedEventHandler(target: self, handler: LodMapViewController.poiTappedHandler)
                 }
                 layer?.showAllLodPois()
             }
@@ -98,7 +98,7 @@ class LodPOIViewController: MapViewController {
     }
     
 
-    func poiTappedHandler(_ param: PoiInteractionEventParam) {
+    private func poiTappedHandler(_ param: PoiInteractionEventParam) {
         guard let userObject = param.poiItem.userObject, let data = userObject as? storeMapData else { return }
         let vc = StoreMapInfoViewController()
         vc.configureData(id: data.id, title: data.title, address: data.address)
@@ -117,7 +117,7 @@ class LodPOIViewController: MapViewController {
         
     }
     
-    func storeDatas(layerIndex: Int, completion: @escaping ([PostData], [PoiOptions], [MapPoint]) -> Void) {
+    private func storeDatas(layerIndex: Int, completion: @escaping ([PostData], [PoiOptions], [MapPoint]) -> Void) {
         let input = LodPOIViewModel.Input()
         let output = lodViewModel.transform(input: input)
         
@@ -151,12 +151,10 @@ class LodPOIViewController: MapViewController {
         let mapView: KakaoMap? = mapController?.getView("mapview") as? KakaoMap
         mapView?.viewRect = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: size)
     }
-    
-    
 
 }
 
-class storeMapData {
+final class storeMapData {
     let id: String
     let title: String
     let address: String
@@ -167,6 +165,3 @@ class storeMapData {
         self.address = address
     }
 }
-
-
-

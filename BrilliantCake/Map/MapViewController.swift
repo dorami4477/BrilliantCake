@@ -18,10 +18,15 @@ class MapViewController: BaseViewController, MapControllerDelegate {
     var _auth: Bool = false
     var _appear: Bool = false
     
-    let viewModel = MapViewModel()
-    let disposeBag = DisposeBag()
-    let locationManager = CLLocationManager()
+    private let viewModel:MapViewModel
+    private let disposeBag = DisposeBag()
+    private let locationManager = CLLocationManager()
     var didRequestLocationPermission = false
+    
+    init(viewModel: MapViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     deinit {
         mapController?.pauseEngine()
@@ -55,7 +60,7 @@ class MapViewController: BaseViewController, MapControllerDelegate {
             .disposed(by: disposeBag)
     }
     
-    func configureKaKaoMap() {
+    private func configureKaKaoMap() {
         let containerView = KMViewContainer(frame: self.view.frame)
         self.view.addSubview(containerView)
         self.view.addSubview(currentLocationButton)
@@ -85,15 +90,14 @@ class MapViewController: BaseViewController, MapControllerDelegate {
         
     override func viewWillDisappear(_ animated: Bool) {
         _appear = false
-        mapController?.pauseEngine()  //렌더링 중지.
+        mapController?.pauseEngine()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         removeObservers()
-        mapController?.resetEngine() //엔진 정지. 추가되었던 ViewBase들이 삭제된다.
+        mapController?.resetEngine()
     }
     
-    // 인증 성공시 delegate 호출.
     func authenticationSucceeded() {
 
         if _auth == false {
@@ -106,7 +110,6 @@ class MapViewController: BaseViewController, MapControllerDelegate {
 
     }
     
-    // 인증 실패시 호출.
     func authenticationFailed(_ errorCode: Int, desc: String) {
         print("error code: \(errorCode)")
         print("desc: \(desc)")
@@ -152,22 +155,19 @@ class MapViewController: BaseViewController, MapControllerDelegate {
         print("OK")
     }
     
-    //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         let view = mapController?.getView("mapview") as! KakaoMap
-        view.viewRect = mapContainer!.bounds    //뷰 add 도중에 resize 이벤트가 발생한 경우 이벤트를 받지 못했을 수 있음. 원하는 뷰 사이즈로 재조정.
+        view.viewRect = mapContainer!.bounds
         viewInit(viewName: viewName)
     }
     
-    //addView 실패 이벤트 delegate. 실패에 대한 오류 처리를 진행한다.
     func addViewFailed(_ viewName: String, viewInfoName: String) {
         print("Failed")
     }
     
-    //Container 뷰가 리사이즈 되었을때 호출된다. 변경된 크기에 맞게 ViewBase들의 크기를 조절할 필요가 있는 경우 여기에서 수행한다.
     func containerDidResized(_ size: CGSize) {
         let mapView: KakaoMap? = mapController?.getView("mapview") as? KakaoMap
-        mapView?.viewRect = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: size)   //지도뷰의 크기를 리사이즈된 크기로 지정한다.
+        mapView?.viewRect = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: size)
     }
        
     func addObservers(){
@@ -185,11 +185,11 @@ class MapViewController: BaseViewController, MapControllerDelegate {
     }
 
     @objc func willResignActive(){
-        mapController?.pauseEngine()  //뷰가 inactive 상태로 전환되는 경우 렌더링 중인 경우 렌더링을 중단.
+        mapController?.pauseEngine()
     }
 
     @objc func didBecomeActive(){
-        mapController?.activateEngine() //뷰가 active 상태가 되면 렌더링 시작. 엔진은 미리 시작된 상태여야 함.
+        mapController?.activateEngine()
     }
     
 }
@@ -207,7 +207,7 @@ extension MapViewController: CLLocationManagerDelegate {
             }
 
         }
-        locationManager.stopUpdatingLocation() // 위치 업데이트 중지
+        locationManager.stopUpdatingLocation()
     }
 
     
@@ -216,7 +216,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     private func checkDeviceLocationAuthorization(){
-        //아이폰 위치 서비스 켜졌는지 확인
+
         if didRequestLocationPermission {
             DispatchQueue.global().async {
                 if CLLocationManager.locationServicesEnabled(){
@@ -241,15 +241,19 @@ extension MapViewController: CLLocationManagerDelegate {
         case .notDetermined:
             print(status)
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.requestWhenInUseAuthorization() // 권한 설정 메시지 띄우기
+            locationManager.requestWhenInUseAuthorization()
+            
         case .denied:
             print(status)
-            showLocationAlert() // iOS 설정 창으로 이동하라는 얼럿을 띄워주기
+            showLocationAlert()
+            
         case .authorizedWhenInUse:
             print(status)
-            locationManager.startUpdatingLocation() // 현재 위치 업데이트 시작
+            locationManager.startUpdatingLocation()
+            
         case .restricted:
             print("Restricted location access")
+            
         default:
             print(status)
         }
@@ -257,14 +261,14 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     private func showLocationAlert() {
-        let alertController = UIAlertController(title: "위치 권한 필요", message: "현재 위치를 확인하려면 위치 권한이 필요합니다.", preferredStyle: .alert)
-        let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+        let alertController = UIAlertController(title: Literal.GuideMessage.locationTitle, message: Literal.GuideMessage.location, preferredStyle: .alert)
+        let settingsAction = UIAlertAction(title: Literal.ButtonName.moveToConfigure, style: .default) { _ in
             guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(settingsURL) {
                 UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
             }
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: Literal.ButtonName.cancel, style: .cancel, handler: nil)
         alertController.addAction(settingsAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)

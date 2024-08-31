@@ -27,7 +27,7 @@ final class TabBarController: UITabBarController {
             let image2 = view.resizeImage(image: UIImage(named: ImageName.store)!, targetSize: CGSize(width: 30, height: 30))
             nav2.tabBarItem = UITabBarItem(title: nil, image: image2, tag: 1)
             
-            let mapVC = LodPOIViewController(lodViewModel: LodPOIViewModel())
+            let mapVC = LodMapViewController(lodViewModel: LodPOIViewModel(), mapViewModel: MapViewModel())
             let nav3 = UINavigationController(rootViewController: mapVC)
             let image3 = view.resizeImage(image: UIImage(named: ImageName.map)!, targetSize: CGSize(width: 30, height: 30))
             nav3.tabBarItem = UITabBarItem(title: nil, image: image3, tag: 2)

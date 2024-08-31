@@ -101,7 +101,7 @@ final class StoreViewController: BaseViewController {
         Observable
             .zip(output.mapCoord, output.storeData)
             .bind(with: self) { owner, value in
-                let mapVC = StoreMapMarkerViewController()
+                let mapVC = StoreMapMarkerViewController(viewModel: MapViewModel())
                 mapVC.coord = value.0
                 guard let address = value.1.content4 else { return }
                 mapVC.storeInfo = (value.1.title, address)

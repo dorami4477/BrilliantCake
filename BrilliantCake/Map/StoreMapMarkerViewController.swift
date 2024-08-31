@@ -26,14 +26,14 @@ final class StoreMapMarkerViewController: MapViewController {
         createPois()
     }
 
-    func createLabelLayer() {
+    private func createLabelLayer() {
         let view = mapController?.getView("mapview") as! KakaoMap
         let manager = view.getLabelManager()
         let layerOption = LabelLayerOptions(layerID: "PoiLayer", competitionType: .none, competitionUnit: .poi, orderType: .rank, zOrder: 10001)
         let _ = manager.addLabelLayer(option: layerOption)
     }
     
-    func createPoiStyle() {
+    private func createPoiStyle() {
         let view = mapController?.getView("mapview") as! KakaoMap
         let manager = view.getLabelManager()
         let resizedImage = resizeImage(image: UIImage(named: ImageName.mapPointer)!, targetSize: CGSize(width: 45, height: 45))
@@ -43,8 +43,7 @@ final class StoreMapMarkerViewController: MapViewController {
         manager.addPoiStyle(poiStyle)
     }
     
-    // POI를 생성한다.
-    func createPois() {
+    private func createPois() {
         let view = mapController?.getView("mapview") as! KakaoMap
         let manager = view.getLabelManager()
         let layer = manager.getLabelLayer(layerID: "PoiLayer")
@@ -58,15 +57,13 @@ final class StoreMapMarkerViewController: MapViewController {
         poi1?.show()
     }
     
-    //마커 탭 이벤트
-    func poiTappedHandler(_ param: PoiInteractionEventParam) {
-        //param.poiItem.hide()
+
+    private func poiTappedHandler(_ param: PoiInteractionEventParam) {
         showPointInfo(title: storeInfo.0, subtitle: storeInfo.1)
     }
+     
     
- 
-    
-    func showPointInfo(title: String, subtitle: String) {
+    private func showPointInfo(title: String, subtitle: String) {
         let infoView = StoreMapInfoView(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-300, width: 300, height: 130), title: title, address: subtitle)
         self.view.addSubview(infoView)
     }

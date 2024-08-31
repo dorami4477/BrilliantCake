@@ -10,13 +10,13 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class ProfileViewController: BaseViewController {
+final class ProfileViewController: BaseViewController {
     private let mainView = ProfileView()
     private let disposeBag = DisposeBag()
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionOfBasicData<String>>! = nil
     private lazy var sections = BehaviorRelay(value: sectionData)
     private let sectionData = [
-        SectionOfBasicData(header: "1", items: ["프로필 수정", "구매 리스트", "내가 작성한 글", "좋아요 한 케이크샵"])
+        SectionOfBasicData(header: "1", items: ["구매 리스트", "내가 작성한 글", "좋아요 한 케이크샵"])
     ]
     private let viewModel: ProfileViewModel
     
@@ -52,14 +52,16 @@ class ProfileViewController: BaseViewController {
         
         mainView.tableView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
-                if indexPath.row == 1 {
+                if indexPath.row == 0 {
                     let paymentVC = PaymentListViewController(viewModel: PaymemtListViewModel())
                     owner.navigationController?.pushViewController(paymentVC, animated: true)
-                } else if indexPath.row == 2 {
+                    
+                } else if indexPath.row == 1 {
                     let browseVC = BrowseViewController(viewModel: BrowseViewModel())
                     browseVC.viewModel.isMyPage.onNext(true)
                     owner.navigationController?.pushViewController(browseVC, animated: true)
-                } else if indexPath.row == 3 {
+                    
+                } else if indexPath.row == 2 {
                     let storeListVC = StoreListViewController(viewModel: StoreListViewModel())
                     storeListVC.viewModel.isLikePage.onNext(true)
                     owner.navigationController?.pushViewController(storeListVC, animated: true)
@@ -78,7 +80,6 @@ class ProfileViewController: BaseViewController {
                 cell.selectionStyle = .none
                 return cell
             })
-        
     }
     
     override func configureLayout() {
