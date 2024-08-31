@@ -9,7 +9,6 @@ import UIKit
 import KakaoMapsSDK
 
 final class StoreMapMarkerViewController: MapViewController {
-    
     var coord = [0.0, 0.0]
     var storeInfo:(String, String) = ("", "")
     

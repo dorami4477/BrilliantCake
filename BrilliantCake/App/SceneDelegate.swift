@@ -16,11 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        let rootViewController = UINavigationController(rootViewController: LoginViewController())
-        //let rootViewController = TabBarController()
-        
-        window?.rootViewController = rootViewController
-        window?.makeKeyAndVisible()
+        if UserDefaultsManager.token != "" {
+            let rootViewController = TabBarController()
+            window?.rootViewController = rootViewController
+            window?.makeKeyAndVisible()
+            
+        } else {
+            let rootViewController = UINavigationController(rootViewController: LoginViewController())
+            window?.rootViewController = rootViewController
+            window?.makeKeyAndVisible()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

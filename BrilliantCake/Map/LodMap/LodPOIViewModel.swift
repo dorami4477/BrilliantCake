@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 final class LodPOIViewModel: BaseViewModel {
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     struct Input {
         
