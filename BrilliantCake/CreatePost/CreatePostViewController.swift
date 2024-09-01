@@ -142,7 +142,7 @@ extension CreatePostViewController:PHPickerViewControllerDelegate{
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self else { return }
             self.mainView.addNewImages(images: selectedImages)
-            self.mainView.photoCountLabel.text = "\(selectedImages.count) / 3"
+            self.mainView.photoCountLabel.text = "\(selectedImages.count) / 4"
             self.viewModel.imageData.onNext(selectedImageDatas)
         }
     }

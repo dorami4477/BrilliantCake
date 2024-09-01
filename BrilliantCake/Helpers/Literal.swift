@@ -10,7 +10,7 @@ import Foundation
 enum Literal {
     enum GuideMessage {
         static let nickName = "닉네임을 입력하세요"
-        static let search = "케이크를 검색해보세요."
+        static let search = "해쉬태크를 검색해보세요."
         static let email = "이메일을 입력하세요."
         static let password = "비밀번호를 입력하세요."
         static let welcome = "환영합니다."
