@@ -39,6 +39,8 @@ final class DetailPostingViewController: BaseViewController {
         output.postData
             .bind(with: self) { owner, value in
                 guard let value else { return }
+                owner.mainView.bullet.numberOfPages = value.files.count
+                owner.mainView.collectionView.delegate = self
                 owner.mainView.nickNameLabel.text = value.creator.nick
                 owner.mainView.dateLabel.text = value.createdAt.convertToDateTime
                 owner.mainView.titleLabel.text = value.title
@@ -111,4 +113,13 @@ final class DetailPostingViewController: BaseViewController {
         navigationController?.view.backgroundColor = UIColor.clear
     }
     
+}
+
+extension DetailPostingViewController: UIScrollViewDelegate, UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        mainView.bullet.currentPage = Int(
+            (mainView.collectionView.contentOffset.x / mainView.collectionView.frame.width)
+                    .rounded(.toNearestOrAwayFromZero)
+                )
+    }
 }

@@ -40,6 +40,13 @@ final class DetailPostingView: BaseView {
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
+    let bullet = {
+       let control = UIPageControl()
+        control.pageIndicatorTintColor = .backgroundGray
+        control.currentPageIndicatorTintColor = .main
+        return control
+    }()
+    
     let profileImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: ImageName.missingImage)
@@ -135,6 +142,7 @@ final class DetailPostingView: BaseView {
         scrollView.addSubview(contentView1)
         scrollView.addSubview(contentView2)
         contentView1.addSubview(collectionView)
+        contentView1.addSubview(bullet)
         contentView1.addSubview(profileImageView)
         contentView1.addSubview(nickNameLabel)
         contentView1.addSubview(dateLabel)
@@ -170,6 +178,11 @@ final class DetailPostingView: BaseView {
             make.top.equalToSuperview()
             make.horizontalEdges.equalTo(contentView1)
             make.height.equalTo(collectionView.snp.width).multipliedBy(0.9)
+        }
+        
+        bullet.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(collectionView.snp.bottom).inset(20)
         }
         
         profileImageView.snp.makeConstraints { make in
@@ -299,7 +312,7 @@ final class DetailPostingView: BaseView {
         
         storeButton.configuration = configuration
         storeButton.titleLabel?.font = AppFont.size18Bold
-        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
     }
 }
 
