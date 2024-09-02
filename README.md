@@ -17,6 +17,11 @@ Kingfisher, Alamofire, KakaoMap, Snapkit, IQKeyboardManagerSwift, iamport-ios
 - **결제 시스템** : 앱 내에서 원하는 상점의 케이크를 구매 가능합니다.
 
 ## 3.  어플 핵심 화면
+|탐색&검색 화면|글 등록 화면|지도 화면|
+|:---:|:---:|:---:|
+|![SHANA KakaoTalk_20240902_215425355](https://github.com/user-attachments/assets/0ad5072c-8f86-4f15-96fd-ec61c77c248d)|![SHANA KakaoTalk_20240902_215424158](https://github.com/user-attachments/assets/d0a44fe6-cefa-4775-89ee-0e6fefc57e56)|![SHANA KakaoTalk_20240902_215424452](https://github.com/user-attachments/assets/2acd81f2-469a-4396-9329-1a5f82f4c005)|
+|결제 화면|스토어 화면|마이페이지|
+|![SHANA KakaoTalk_20240902_215819437](https://github.com/user-attachments/assets/5a852923-3b88-438e-a849-fecd0c8d911f)|![SHANA KakaoTalk_20240902_215423408](https://github.com/user-attachments/assets/17b2ceb7-cd35-4a62-8d26-0f495d2eba6d)|![SHANA KakaoTalk_20240902_215423731](https://github.com/user-attachments/assets/49681995-ff47-40c1-a268-acbb75e4a2ab)|
 ## 4.  트러블 슈팅
 ### 4-1. 페이지네이션 문제
 #### 문제
@@ -27,9 +32,8 @@ Kingfisher, Alamofire, KakaoMap, Snapkit, IQKeyboardManagerSwift, iamport-ios
 - 마이페이지 게시물과 마이페이지의 페이지네이션
 
 #### 원인
-1. **`nextCursor`가 제대로 초기화되지 않음**: 게시글을 검색하거나 불러온 후 `nextCursor`가 리셋되지 않아 동일한 데이터를 반복해서 불러왔습니다.
-2. **`firstLoad` 로직 오류**: 검색 모드와 일반 모드 간 전환 시 `firstLoad` 플래그가 제대로 동작하지 않아 데이터 병합 또는 교체에 오류가 발생했습니다.
-3. **검색 모드와 커서 처리 문제**: `isSearchMode`가 적절히 전환되지 않아 검색 모드와 일반 모드에서 데이터 스트림이 혼재되어 잘못된 데이터를 보여주었습니다.
+1. **`firstLoad` 로직 오류**: 검색 모드와 일반 모드 간 전환 시 `firstLoad` 플래그가 제대로 동작하지 않아 데이터 병합 또는 교체에 오류가 발생했습니다.
+2. **검색 모드와 커서 처리 문제**: `isSearchMode`가 적절히 전환되지 않아 검색 모드와 일반 모드에서 데이터 스트림이 혼재되어 잘못된 데이터를 보여주었습니다.
 
 #### 해결방법
 1. **스트림 분리 및 병합**:
@@ -51,18 +55,17 @@ Kingfisher, Alamofire, KakaoMap, Snapkit, IQKeyboardManagerSwift, iamport-ios
 ```Swift
 let postList = PublishSubject<[PostData]>()
 let isTokenVaild = BehaviorSubject(value: true)
-  //스트림 1
+          //스트림 1
             let normalPostStream = Observable.combineLatest(isMyPage, nextCursor, isSearchMode)
-                .filter { !$0.2 } // isSearchMode가 false일 때만
+                .filter { !$0.2 }
                 .flatMapLatest { isMyPage, cursor, _ -> Single<Result<PostModel, PostNetworkError>> in
                     if isMyPage {
                         return PostNetworkManager.shared.fetchUserPost(id: UserDefaultsManager.userID, next: cursor)
-                        
                     } else {
                         return PostNetworkManager.shared.fetchPost(next: cursor, limit: "15", productId: ProductId.allBCake.rawValue)
                     }
                 }
-  //스트림 2
+          //스트림 2
             let searchStream = input.searchButtonTap
                 .debounce(.seconds(1), scheduler: MainScheduler.instance)
                 .withLatestFrom(input.textField)
@@ -72,14 +75,14 @@ let isTokenVaild = BehaviorSubject(value: true)
                     let query = SearchQuery(next: "", limit: "13", product_id: ProductId.allBCake.rawValue, hashTag: value)
                     return PostNetworkManager.shared.searchWithHashTag(query: query)
                 }
-  //스트림 3
+          //스트림 3
             let searchMoreStream = Observable.combineLatest(isSearchMode.asObservable(), nextCursor, input.textField)
-                .filter { $0.0 && $0.1 != "" } // isSearchMode가 true이고 cursor가 비어있지 않을 때
+                .filter { $0.0 && $0.1 != "" }
                 .flatMap { _, cursor, inputText -> Single<Result<PostModel, PostNetworkError>> in
                     let query = SearchQuery(next: cursor, limit: "13", product_id: ProductId.allBCake.rawValue, hashTag: inputText)
                     return PostNetworkManager.shared.searchWithHashTag(query: query)
                 }
-  //스트림 병합
+          //스트림 병합
             Observable.merge(normalPostStream, searchStream, searchMoreStream)
                 .subscribe(with: self, onNext: { owner, result in
                     switch result {
@@ -160,12 +163,7 @@ enum NetworkManager {
                         completion(.failure(.expiredToken))
                     case NetworkError.headerError.statusCode:
                         completion(.failure(.headerError))
-                    case NetworkError.exceededRequest.statusCode:
-                        completion(.failure(.exceededRequest))
-                    case NetworkError.invaildURL.statusCode:
-                        completion(.failure(.invaildURL))
-                    case NetworkError.serverError.statusCode:
-                        completion(.failure(.serverError))
+                    ...
                     default:
                         completion(.failure(.unknownError(statusCode: response.statusCode)))
                     }
@@ -187,15 +185,7 @@ enum PaymentNetworkError: Error, Equatable {
     case commonError(error: NetworkError)
     
     var statusCode: Int {
-        switch self {
-        case .invalid: return 400
-        case .unknownAccessToken: return 401
-        case .forbidden: return 403
-        case .alreadyDone: return 409
-        case .expiredToken: return 418
-        case .commonError: return 000
-        }
-    }
+    ...
 }
 
 final class PaymentNetworkManager {
@@ -219,21 +209,7 @@ final class PaymentNetworkManager {
                         case .unknownError(statusCode: PaymentNetworkError.unknownAccessToken.statusCode):
                             observer(.success(.failure(.unknownAccessToken)))
                         case .unknownError(statusCode: PaymentNetworkError.forbidden.statusCode):
-                            observer(.success(.failure(.forbidden)))
-                        case .unknownError(statusCode: PaymentNetworkError.alreadyDone.statusCode):
-                            observer(.success(.failure(.alreadyDone)))
-                        case .expiredToken:
-                            observer(.success(.failure(.expiredToken)))
-                        default:
-                            observer(.success(.failure(.commonError(error: error))))
-                        }
-                    }
-                }
-            } catch {
-                print(error)
-            }
-            return Disposables.create()
-        }
-    }
-}
+
+                        ...
+
 ```
