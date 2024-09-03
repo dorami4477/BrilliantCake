@@ -7,8 +7,7 @@
 
 ### 1-2. 기술스택
 UIKit, RXSwift, MVVM Pattern, Input-Output Pattern, Router Pattern, RxDataSource, 
-Kingfisher, Alamofire, KakaoMap, Snapkit, IQKeyboardManagerSwift, iamport-ios
-
+Kingfisher, Alamofire, KakaoMap, Snapkit, IQKeyboardManagerSwift, CoreLocation
 ### 1-3. 핵심적인 기능 
 - **브라우징 및 검색** : 다양한 케이크 후기를 탐색하고, 댓글 작성 및 해쉬태그 검색 기능을 통해 원하는 케이크 게시글을 찾아 볼 수 있습니다.
 - **나의 게시글 관리** : 내가 작성한 후기글을 한 곳에서 모아보고 관리 할 수 있습니다.
