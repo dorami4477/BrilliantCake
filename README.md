@@ -57,6 +57,7 @@ Pattern: MVVM Pattern, Input-Output Pattern, Router Pattern
     - API의 Router에 URLRequestConvertible의 TargetType을 적용하여 네트워크 요청 구성을 일관되게 유지하고 유지보수를 용이성을 높임
     - 페이지네이션으로 성능 최적화 및 네트워크 비용 절감
     - 서버의 영수증 검증 로직 구현으로 이니시스 PG와 결제 연동
+    - 불필요한 네트워크 통신을 막기 위해 디바운싱 기법 사용
  
 ## 3. 트러블 슈팅
 
@@ -67,10 +68,14 @@ Pattern: MVVM Pattern, Input-Output Pattern, Router Pattern
 **해결 방법**
 
 1. **각 분야별 라우터 및 네트워크 매니저 분리**:
-    
+   
     각 기능별로 통신 로직을 분리하고 모듈화하여 하여 기능별로 독립적으로 관리되도록 하였습니다.
+    ```swift
+    //기능별 파일명 
+    PaymentRouter, PaymentNetworkManger, PostRouter, PostNetworkManager, UserRouter, UserNetworkManager
+    ```
     
-2. **공통 네트워크 관리 싱글톤 생성**:
+3. **공통 네트워크 관리 싱글톤 생성**:
    
     재네릭를 사용하여 핵심 서버 통신 매니저를 생성하고, 그 안에서 공통된 토큰 확인 및 에러처리를 함으로써 코드의 재사용성과 확장성을 높이고 관리를 용이하게 변경하였습니다. 
         
@@ -96,7 +101,7 @@ Pattern: MVVM Pattern, Input-Output Pattern, Router Pattern
     공통 에러(`NetworkError`)와 세부 에러(`PaymentNetworkError`)를 나누어 사용하여, 코드의 재사용성을 높이고 적절한 에러 처리가 가능하도록 변경하였습니다.
         
    ```swift
-    enum NetworkError: Error, Equatable {
+    enum NetworkError: Error, Equatable { //공통에러
         case invaildURL
         case expiredToken
         case unknownError(statusCode: Int)
@@ -108,14 +113,14 @@ Pattern: MVVM Pattern, Input-Output Pattern, Router Pattern
             switch self {
             case .invaildURL: return 444
             case .expiredToken: return 418
-            case .unknownError(let statusCode): return statusCode
+            case .unknownError(let statusCode): return statusCode //세부 에러 처리
             case .serverError: return 500
             case .headerError: return 420
             case .exceededRequest: return 429
             }
         }
         
-     enum PaymentNetworkError: Error, Equatable {
+     enum PaymentNetworkError: Error, Equatable { //세부에러
         case invalid
         case unknownAccessToken
         case forbidden
@@ -127,3 +132,89 @@ Pattern: MVVM Pattern, Input-Output Pattern, Router Pattern
         ...
     }
    ```
+### 💥3-2. 페이지네이션 및 통신 데이터 혼선 이슈
+
+**문제**
+
+페이지네이션 기능으로 인해 여러 상황별 통신을 한 화면에서 보여주면서, 데이터가 섞이거나 제대로 나오지 않는 현상이 발생했습니다.
+- 네트워크 통신이 필요한 케이스:
+    - case1. 일반 게시글
+    - case2. 일반 게시글의 페이지네이션
+    - case3. 마이페이지 게시물
+    - case4. 마이페이지의 페이지네이션
+    - case5. 검색 결과
+    - case6. 검색의 페이지네이션
+
+**해결방법**
+1. **플래그 선언과 스트림 분리/병합:**
+   
+   스트림은 3가지로 나누어, 변수를 통해 스트림 내에 분기 처리하고, 네트워크 통신 후 스트림을 병합하여 하나의 일관된 결과물을 보여주도록 했습니다.
+   
+    - **스트림 normalPostStream**: 일반 게시물과 마이페이지 게시물. `isMyPage` 플래그를 사용해 구분합니다.
+    - **스트림 searchStream**: 검색 스트림. 검색 버튼을 클릭 시 `isSearchMode`를 활성화하여 검색을 수행합니다.
+    - **스트림 searchMoreStream**: 검색 페이지네이션. 검색 모드(`isSearchMode`)가 활성화되고, `nextCursor` 값이 변화할 때 실행됩니다.
+    
+    이 3개의 스트림을 병합하여 하나의 일관된 결과물을 보여주도록 했습니다.
+
+    ```swift
+    let isMyPage = BehaviorSubject(value: false)
+    let isSearchMode = BehaviorRelay(value: false)
+    var firstLoad = true
+    
+    //스트림 1
+    let normalPostStream = Observable.combineLatest(isMyPage, nextCursor, isSearchMode)
+        .filter { !$0.2 } //🍄검색화면 분기처리
+        .flatMapLatest { isMyPage, cursor, _ in
+            if isMyPage {  //🍄마이페이지 분기처리
+                return PostNetworkManager.shared.fetchUserPost(...)
+                
+            } else {
+                return PostNetworkManager.shared.fetchPost(...)
+            }
+        }
+    
+    //스트림 2
+    let searchStream = input.searchButtonTap
+        ...
+        .do(onNext: { [weak self] _ in self?.isSearchMode.accept(true) }) //🍄검색모드로 전환
+        .flatMap { value in
+            self.firstLoad = true //🍄페이지네이션 분기처리
+            ...
+            return PostNetworkManager.shared.searchWithHashTag(query: query)
+        }
+    
+    //스트림 3
+    let searchMoreStream = Observable.combineLatest(isSearchMode.asObservable(), nextCursor, input.textField)
+        .filter { $0.0 && $0.1 != "" } //🍄검색모드이고, 페이지네이션 로드일 때 
+        .flatMap { _, cursor, inputText in
+            ...
+            return PostNetworkManager.shared.searchWithHashTag(query: query)
+        }
+    
+    //스트림 병합
+    Observable.merge(normalPostStream, searchStream, searchMoreStream)
+        .subscribe(with: self, onNext: { owner, result in
+            switch result {
+            case .success(let value):
+                owner.data1 = value
+                if owner.firstLoad { //🍄페이지네이션 분기처리
+                    owner.data = value.data
+                    owner.firstLoad = false
+                    
+                } else {
+                    owner.data.append(contentsOf: value.data)
+                }
+                
+                postList.onNext(owner.data)
+            case .failure(let error):
+                print(error)
+                if error == .expiredToken {
+                    isTokenVaild.onNext(false)
+                }
+            }
+        })
+        .disposed(by: disposeBag)
+    ```
+## 4. 회고
+
+1. 서버 통신을 관리하는 API의 수가 증가하면서 단순히 앱 기능을 구현하는 것을 넘어, 반복되는 코드를 어떻게 효율적으로 줄이고 유지보수를 용이하게 할 것인가를 많이 고민해 보았던 프로젝트였습니다. API외에 다른 부분도 코드의 재사용성을 높이고 가독성을 개선할 수 있는 방향으로 코드를 리팩토링 해보고 싶습니다.
